@@ -1,0 +1,133 @@
+#
+# system.prop for CDMA Shadow
+#
+# rild.libpath=/system/lib/libril-moto-umts-1.so
+rild.libpath=/system/lib/libmoto_ril.so
+rild.libargs=-d /dev/ttyS0
+ro.sf.lcd_density=240
+ro.default_usb_mode=0
+# BEGIN Motorola, a18772, 05/19/2010, IKSHADOW-5584
+# Add 411 to DAN List for VZW.
+ro.mot.ril.danlist=611,*611,#611,411
+# END IKSHADOW-5584
+persist.ril.ecclist=911,*911,#911
+persist.ril.modem.mode =1
+# This defines the max event window manager can
+# handle in 1 s. We may adjust this # for performance
+# reason later
+windowsmgr.max_events_per_sec=55
+# This defines the min duration between two pointer event
+ro.min_pointer_dur=10
+
+# USB modes allowed for UI and switching
+ro.ngp_available=1
+ro.modem_available=0
+
+# Default network type.
+# 4 => CDMA / EVDO.
+ro.telephony.default_network=4
+ro.com.google.clientid=android-motorola
+ro.url.legal=http://www.google.com/intl/%s/mobile/android/basic/phone-legal.html
+ro.url.legal.android_privacy=http://www.google.com/intl/%s/mobile/android/basic/privacy.html
+ro.cdma.home.operator.numeric=310004
+ro.cdma.home.operator.alpha=Verizon
+ro.config.vc_call_vol_steps=7
+
+# wlan interface
+wifi.interface = tiwlan0
+
+# Time between scans in seconds. Keep it high to minimize battery drain.
+# This only affects the case in which there are remembered access points,
+# but none are in range.
+wifi.supplicant_scan_interval = 90
+
+# Indicate carrier OTA SP number schema
+# refer to frameworks/base/telephony/java/com/android/
+# internal/telephony/cdma/CDMAPhone.java for the schema:
+ro.cdma.otaspnumschema=SELC,1,80,99
+
+# The OpenGL ES API level that is natively supported by this device.
+# This is a 16.16 fixed point number
+ro.opengles.version = 131072
+
+# This is a high density device with more memory, so larger vm heaps for it.
+dalvik.vm.heapsize=30m
+# The URL for safety information
+ro.url.safetylegal=http://www.motorola.com/staticfiles/Support/legal
+
+# our HTML browser (not WAP browser ) does not need to specify UAProf URL
+ro.mot.hw.uaprof=
+
+# Enable HAC to also display Call Setting Menu Option.
+ro.mot.hw.HAC=1
+# Motorola, a19622, 12/28/2009, IKSHADOW-204 / Location Settings for android
+# Property to set enabling state of the location privacy setting feature.
+# Motorola, a19622, 03/16/2010, IKSHADOW-2141 / Disable feature 33067
+#ro.mot.settings.locprivacy=1
+# ERI feature
+# 0 OFF
+# 1 ON
+ro.mot.eri=1
+
+# Motorola, a22976, 13/5/2010, IKSHADOW-5203
+# Delay for Loss Of Service alert
+ro.mot.eri.losalert.delay=2000
+# If time from last RoamInd change to SID change less than below, not play alert
+ro.mot.eri.sidalert.delay=1000
+# END IKSHADOW-5203
+
+# Motorol,a6889c,02/Feb/2010,IKSHADOW-619
+# Proximity Sensor feature
+# 0 disable
+# 1 enable
+persist.mot.proximity.touch=1
+# End IKSHADOW-619
+
+# BEGIN Motorola, a22976, 25-Feb-2010, IKSHADOW-702, FID 31841
+# VZW Requirement Specifications: NETWORK BASED PLUS CODE DIALING
+# 0 disable
+# 1 enable
+ro.cdma.nbpcd=1
+# END IKSHADOW-702
+
+# BEGIN Motorola, a22976, 12-Mar-2010, IKSHADOW-1784, Power Up Tone
+# Motorola, a22976, 12-Apr-2010, IKSHADOW-3298, Remove temporary power up tone
+# BEGIN Motorola, wbdq68, 21-May-2010, IKSHADOW-3372, Turn ON Power Up Tone
+# Motorola, a22976, 26-May-2010, IKSHADOW-6164, Remove power up tone to keep the same as Droid
+#persist.mot.powerup.tone=/system/media/bootup.ogg
+# END IKSHADOW-3372
+# END IKSHADOW-1784
+
+# BEGIN Motorola, a22417, 22-Mar-2010, IKSHADOW-2345,default data roaming is on
+ro.com.android.dataroaming=true
+# END Motorola, a22417, 22-Mar-2010, IKSHADOW-2345,default data roaming is on
+persist.mot.a2dp.direct = 0
+
+# System property for SMC
+ro.service.start.smc=1
+# BEGIN Motorola, a21951, 17-Apr-2010, IKSHADOW-3602
+# 0 disable
+# 1 enable
+persist.mot.usb.mediasync = 1
+# END Motorola, a21951, 17-Apr-2010, IKSHADOW-3602
+
+
+# BEGIN Motorola, pkd348, 26-Apr-2010,	ISHADOW-4035
+# true	Horizontal BUA is preloaded, not allow to install standalone version of BuA from Android Market
+# false Horizontal BUA is not preloaded
+ro.HorizontalBUA=true
+#Proximity sensor debounce time
+mot.proximity.delay=450
+mot.proximity.distance=60
+
+# BEGIN Motorola, pkd348, 26-Apr-2010,	ISHADOW-4035
+# true	Horizontal VVM is preloaded, not allow to install standalone version of VVM from Android Market
+# false Horizontal VVM is not preloaded
+ro.HorizontalVVM=true
+
+# BEGIN Motorola, a22976, 21-May-2010, IKSHADOW-5385
+# For Shadow only, NOT applied to Droid2 as requirement different
+ro.mot.buttonlight.timeout=1
+# END Motorola IKSHADOW-5385
+
+ro.mot.master_clear.shredsd=false

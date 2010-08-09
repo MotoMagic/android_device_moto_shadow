@@ -1,0 +1,5 @@
+/system/lib/libaudiopolicy.so
+/system/lib/libaudio.so
+/system/lib/libcamera.so
+/system/lib/libnmea.so
+/system/lib/libril_rds.so
