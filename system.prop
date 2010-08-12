@@ -39,7 +39,7 @@ wifi.interface = tiwlan0
 # Time between scans in seconds. Keep it high to minimize battery drain.
 # This only affects the case in which there are remembered access points,
 # but none are in range.
-wifi.supplicant_scan_interval = 90
+wifi.supplicant_scan_interval = 45
 
 # Indicate carrier OTA SP number schema
 # refer to frameworks/base/telephony/java/com/android/
@@ -111,6 +111,11 @@ ro.service.start.smc=1
 persist.mot.usb.mediasync = 1
 # END Motorola, a21951, 17-Apr-2010, IKSHADOW-3602
 
+#Proximity sensor debounce time
+mot.proximity.delay=450
+# disable touch below 60 pixels
+mot.proximity.distance=60
+
 
 # BEGIN Motorola, pkd348, 26-Apr-2010,	ISHADOW-4035
 # true	Horizontal BUA is preloaded, not allow to install standalone version of BuA from Android Market
@@ -131,3 +136,9 @@ ro.mot.buttonlight.timeout=1
 # END Motorola IKSHADOW-5385
 
 ro.mot.master_clear.shredsd=false
+
+
+# BEGIN Motorola, pkd348, 09-July-2010, IKSTABLEONE-1236
+# true  enable the feature of In case of Emergency, default is false
+# false disable the ICE feature
+ro.mot.fid.29967.ice=true

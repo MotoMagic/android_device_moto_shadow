@@ -11,7 +11,8 @@ TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a8
 
 TARGET_NO_BOOTLOADER := false
 
-#HARDWARE_OMX := true
+HARDWARE_OMX := true
+OMX_TI_OMAP_TIER_LEVEL := 10
 
 # Wifi related defines
 BOARD_WPA_SUPPLICANT_DRIVER := CUSTOM
@@ -23,18 +24,22 @@ WIFI_DRIVER_MODULE_PATH   := "/system/lib/modules/tiwlan_drv.ko"
 WIFI_DRIVER_MODULE_ARG    := ""
 WIFI_DRIVER_MODULE_NAME   := "tiwlan_drv"
 WIFI_FIRMWARE_LOADER      := "wlan_loader"
+WIFI_DRIVER_FW_STA_PATH   := "/system/etc/wifi/fw_wlan1271.bin"
+WIFI_DRIVER_FW_AP_PATH    := "/system/etc/wifi/fw_tiwlan_ap.bin"
 
 TARGET_BOOTLOADER_BOARD_NAME := shadow
 
-BOARD_KERNEL_CMDLINE := console=ttyS2,115200n8 rw mem=496M@0x80C00000 init=/init ip=off motobldlabel=none mtdparts=omap2-nand.0:128k(mbr),128k(mbmloader),256k(unused0),512k(mbm),512k(mbmbackup),512k(ebr),512k(bploader),512k(cdt),4m(pds),512k(lbl),512k(lbl_backup),1m(logo),2m(sp),512k(devtree),512k(devtree_backup),4m(bpsw),4m(boot),5m(recovery),12m(cdrom),512k(misc),512k(cid),4m(kpanic),286336k(system),384k(unused1),190m(cache),256m(preinstall),256m(userdata)
+BOARD_KERNEL_CMDLINE := console=ttyS2,115200n8 rw mem=498M@0x80C00000 init=/init ip=off motobldlabel=none mmcparts=mmcblk1:p1(mbmloader),p2(mbm),p3(mbmbackup),p4(ebr),p5(bploader),p6(cdt.bin),p7(pds),p8(lbl),p9(lbl_backup),p10(logo.bin),p11(sp),p12(devtree),p13(devtree_backup),p14(bpsw),p15(boot),p16(recovery),p17(cdrom),p18(misc),p19(cid),p20(kpanic),p21(system),p22(cache),p23(preinstall),p24(userdata)
 
-#BOARD_HAVE_BLUETOOTH := true
+BOARD_HAVE_BLUETOOTH := true
 
-#BOARD_GL_TEX_POW2_DIMENSION_REQUIRED := true
+BOARD_GL_TEX_POW2_DIMENSION_REQUIRED := true
 
 #TARGET_HARDWARE_3D := false
 
-#BOARD_GPS_LIBRARIES := libmoto_gps
+BOARD_GPS_LIBRARIES := libgps_rds
+
+BOARD_USES_QCOM_HARDWARE := true
 
 USE_PV_WINDOWS_MEDIA := false
 

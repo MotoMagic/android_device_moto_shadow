@@ -16,6 +16,7 @@
 -->
 
 <!-- Note that IconMode can be only 0, ON or 1, FLASHING
+
      The icon is turned OFF if then IconIndex = 1 -->
 
 <EriFile VersionNumber="1357"
@@ -60,84 +61,84 @@
                   AlertId="0"/>
 
          <EriInfo RoamingIndicator="65"
-                  IconIndex="65"
+                  IconIndex="3"
                   IconMode="0"
                   EriText="Network Extender"
                   CallPromptId="0"
-                  AlertId="0"/>
+                  AlertId="1"/>
 
          <EriInfo RoamingIndicator="66"
                   IconIndex="1"
                   IconMode="0"
                   EriText="Extended Network"
                   CallPromptId="0"
-                  AlertId="0"/>
+                  AlertId="4"/>
 
          <EriInfo RoamingIndicator="67"
-                  IconIndex="67"
+                  IconIndex="0"
                   IconMode="0"
                   EriText="Extended Network"
                   CallPromptId="0"
-                  AlertId="0"/>
+                  AlertId="4"/>
 
          <EriInfo RoamingIndicator="68"
-                  IconIndex="68"
+                  IconIndex="0"
                   IconMode="0"
                   EriText="Roaming"
                   CallPromptId="0"
-                  AlertId="0"/>
+                  AlertId="5"/>
 
          <EriInfo RoamingIndicator="69"
                   IconIndex="2"
-                  IconMode="1"
+                  IconMode="0"
                   EriText="Extended Network"
                   CallPromptId="0"
-                  AlertId="0"/>
+                  AlertId="4"/>
 
          <EriInfo RoamingIndicator="70"
                   IconIndex="2"
-                  IconMode="1"
+                  IconMode="0"
                   EriText="Roaming"
                   CallPromptId="0"
-                  AlertId="0"/>
+                  AlertId="5"/>
 
          <EriInfo RoamingIndicator="71"
                   IconIndex="1"
                   IconMode="0"
                   EriText="Extended Network"
                   CallPromptId="0"
-                  AlertId="0"/>
+                  AlertId="4"/>
 
          <EriInfo RoamingIndicator="72"
-                  IconIndex="72"
+                  IconIndex="0"
                   IconMode="0"
                   EriText="Extended Network"
                   CallPromptId="0"
-                  AlertId="0"/>
+                  AlertId="4"/>
 
          <EriInfo RoamingIndicator="73"
-                  IconIndex="73"
+                  IconIndex="0"
                   IconMode="0"
                   EriText="Roaming"
                   CallPromptId="0"
-                  AlertId="0"/>
+                  AlertId="5"/>
 
          <EriInfo RoamingIndicator="74"
                   IconIndex="2"
-                  IconMode="1"
+                  IconMode="0"
                   EriText="Extended Network"
                   CallPromptId="0"
-                  AlertId="0"/>
+                  AlertId="4"/>
 
          <EriInfo RoamingIndicator="75"
                   IconIndex="2"
-                  IconMode="1"
+                  IconMode="0"
                   EriText="Roaming"
                   CallPromptId="0"
-                  AlertId="0"/>
+                  AlertId="5"/>
 
          <EriInfo RoamingIndicator="76"
-                  IconIndex="76"
+                  IconIndex="0"
                   IconMode="0"
                   EriText="Verizon Wireless"
                   CallPromptId="0"
@@ -145,7 +146,7 @@
 
          <EriInfo RoamingIndicator="77"
                   IconIndex="2"
-                  IconMode="1"
+                  IconMode="0"
                   EriText="Verizon Wireless"
                   CallPromptId="0"
                   AlertId="0"/>
@@ -155,13 +156,13 @@
                   IconMode="0"
                   EriText="Network Extender"
                   CallPromptId="0"
-                  AlertId="0"/>
+                  AlertId="1"/>
 
          <EriInfo RoamingIndicator="79"
-                  IconIndex="2"
+                  IconIndex="3"
                   IconMode="1"
                   EriText="Network Extender"
                   CallPromptId="0"
-                  AlertId="0"/>
+                  AlertId="1"/>
 
 </EriFile>
