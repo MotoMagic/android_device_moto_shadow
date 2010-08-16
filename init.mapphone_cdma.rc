@@ -159,6 +159,7 @@ on early-boot
     setprop ro.HIDDEN_APP_MEM 10752
     setprop ro.CONTENT_PROVIDER_MEM 12288
     setprop ro.EMPTY_APP_MEM 12288
+    setprop ro.MAX_HIDDEN_APPS 300
 
     class_start media_early_init
 
@@ -336,7 +337,7 @@ service napics /system/bin/sh /system/bin/napics.sh
     disabled
     oneshot
 
-service btdhcpd /system/bin/dnsmasq -C /etc/btpan.conf
+service btdhcpd /system/bin/dnsmasq -C /system/etc/btpan.conf
     class post-zygote_services
     user root
     disabled

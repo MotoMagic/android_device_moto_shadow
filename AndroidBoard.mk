@@ -30,11 +30,6 @@ ALL_PREBUILT += $(file)
 $(file) : $(LOCAL_PATH)/init_prep_keypad.sh | $(ACP)
 	$(transform-prebuilt-to-target)
 
-file := $(TARGET_ROOT_OUT)/logging.sh
-ALL_PREBUILT += $(file)
-$(file) : $(LOCAL_PATH)/logging.sh | $(ACP)
-	$(transform-prebuilt-to-target)
-
 include $(CLEAR_VARS)
 LOCAL_MODULE := libaudio.so
 LOCAL_MODULE_CLASS := SHARED_LIBRARIES
