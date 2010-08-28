@@ -275,12 +275,6 @@
 /system/lib/libwbxmlparser.so
 /system/lib/ulogd_BASE.so
 /system/lib/ulogd_SQLITE3.so
-/system/media/audio/alert/alert_2.wav
-/system/media/audio/eri/ExtendedNetwork.wav
-/system/media/audio/eri/LossofService.wav
-/system/media/audio/eri/NetworkExtender.wav
-/system/media/audio/eri/Roaming.wav
-/system/media/audio/eri/VerizonWireless.wav
 /system/tts/lang_pico/en-US_lh0_sg.bin
 /system/tts/lang_pico/en-US_ta.bin
 /system/tts/lang_pico/es-ES_ta.bin
