@@ -55,7 +55,7 @@ USE_CAMERA_STUB := false
 BOARD_EGL_CFG := device/motorola/shadow/egl.cfg
 
 TARGET_OTA_SCRIPT_MODE := edify
+TARGET_NO_BOOT := true
 TARGET_NO_RECOVERY := true
-TARGET_NO_KERNEL := true
 
 ALLOW_LGPL := true
