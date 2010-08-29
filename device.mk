@@ -72,6 +72,11 @@ PRODUCT_COPY_FILES += \
 	frameworks/base/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
 	packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:system/etc/permissions/android.software.live_wallpaper.xml
 
+# copy some blank framework files to satisfy the bootclasspath of the locked kernel
+PRODUCT_COPY_FILES += \
+	device/motorola/shadow/com.motorola.android.frameworks.jar:system/framework/com.motorola.android.frameworks.jar \
+	device/motorola/shadow/com.motorola.android.widget.jar:system/framework/com.motorola.android.widget.jar
+
 # include proprietaries
 ifneq ($(USE_PROPRIETARIES),)
 # if we aren't including google, we need to include some basic files
