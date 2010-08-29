@@ -58,4 +58,7 @@ TARGET_OTA_SCRIPT_MODE := edify
 TARGET_NO_BOOT := true
 TARGET_NO_RECOVERY := true
 
+BOARD_HIJACK_BOOT_PATH := /preinstall/boot
+BOARD_HIJACK_RECOVERY_PATH := /preinstall/recovery
+
 ALLOW_LGPL := true
