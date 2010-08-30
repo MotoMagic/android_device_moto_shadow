@@ -115,50 +115,59 @@ $(file) : $(TARGET_OUT)/usr/keylayout/cdma_shadow-keypad.kl
 # symlink some motobox stuff
 file := $(TARGET_OUT)/system/bin/[
 ALL_PREBUILT += $(file)
-$(file) : $(TARGET_OUT)/system/bin/[
+$(file) : $(TARGET_OUT)/system/bin/motobox
 	@echo "Symlink: $@ -> motobox"
 	@mkdir -p $(dir $@)
 	@rm -rf $@
 	$(hide) ln -sf motobox $@
 file := $(TARGET_OUT)/system/bin/cp
 ALL_PREBUILT += $(file)
-$(file) : $(TARGET_OUT)/system/bin/cp
+$(file) : $(TARGET_OUT)/system/bin/motobox
 	@echo "Symlink: $@ -> motobox"
 	@mkdir -p $(dir $@)
 	@rm -rf $@
 	$(hide) ln -sf motobox $@
 file := $(TARGET_OUT)/system/bin/format
 ALL_PREBUILT += $(file)
-$(file) : $(TARGET_OUT)/system/bin/format
+$(file) : $(TARGET_OUT)/system/bin/motobox
 	@echo "Symlink: $@ -> motobox"
 	@mkdir -p $(dir $@)
 	@rm -rf $@
 	$(hide) ln -sf motobox $@
 file := $(TARGET_OUT)/system/bin/masterclear
 ALL_PREBUILT += $(file)
-$(file) : $(TARGET_OUT)/system/bin/masterclear
+$(file) : $(TARGET_OUT)/system/bin/motobox
 	@echo "Symlink: $@ -> motobox"
 	@mkdir -p $(dir $@)
 	@rm -rf $@
 	$(hide) ln -sf motobox $@
 file := $(TARGET_OUT)/system/bin/md5sum
 ALL_PREBUILT += $(file)
-$(file) : $(TARGET_OUT)/system/bin/md5sum
+$(file) : $(TARGET_OUT)/system/bin/motobox
 	@echo "Symlink: $@ -> motobox"
 	@mkdir -p $(dir $@)
 	@rm -rf $@
 	$(hide) ln -sf motobox $@
 file := $(TARGET_OUT)/system/bin/ptf
 ALL_PREBUILT += $(file)
-$(file) : $(TARGET_OUT)/system/bin/ptf
+$(file) : $(TARGET_OUT)/system/bin/motobox
 	@echo "Symlink: $@ -> motobox"
 	@mkdir -p $(dir $@)
 	@rm -rf $@
 	$(hide) ln -sf motobox $@
 file := $(TARGET_OUT)/system/bin/test
 ALL_PREBUILT += $(file)
-$(file) : $(TARGET_OUT)/system/bin/test
+$(file) : $(TARGET_OUT)/system/bin/motobox
 	@echo "Symlink: $@ -> motobox"
 	@mkdir -p $(dir $@)
 	@rm -rf $@
 	$(hide) ln -sf motobox $@
+
+# link to hijack!
+file := $(TARGET_OUT)/system/bin/logwrapper
+ALL_PREBUILT += $(file)
+$(file) : $(TARGET_OUT)/system/bin/hijack
+	@echo "Symlink: $@ -> hijack"
+	@mkdir - $(dir $@)
+	@rm -rf $@
+	$(hide) ln -sf hijack $@
