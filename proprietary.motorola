@@ -32,7 +32,6 @@
 /system/bin/mdm_panicd
 /system/bin/modemlog
 /system/bin/mot_boot_mode
-/system/bin/motobox
 /system/bin/mount_ext3.sh
 /system/bin/napics.sh
 /system/bin/pppd-ril
