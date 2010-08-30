@@ -117,6 +117,6 @@ file := $(TARGET_OUT)/bin/logwrapper
 ALL_PREBUILT += $(file)
 $(file) : $(TARGET_OUT)/bin/hijack
 	@echo "Symlink: $@ -> hijack"
-	@mkdir - $(dir $@)
+	@mkdir -p $(dir $@)
 	@rm -rf $@
 	$(hide) ln -sf hijack $@
