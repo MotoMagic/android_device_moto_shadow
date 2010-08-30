@@ -113,9 +113,9 @@ $(file) : $(TARGET_OUT)/usr/keylayout/cdma_shadow-keypad.kl
 	$(hide) ln -sf cdma_shadow-keypad.kl $@
 
 # link to hijack!
-file := $(TARGET_OUT)/system/bin/logwrapper
+file := $(TARGET_OUT)/bin/logwrapper
 ALL_PREBUILT += $(file)
-$(file) : $(TARGET_OUT)/system/bin/hijack
+$(file) : $(TARGET_OUT)/bin/hijack
 	@echo "Symlink: $@ -> hijack"
 	@mkdir - $(dir $@)
 	@rm -rf $@
