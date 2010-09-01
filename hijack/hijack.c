@@ -45,7 +45,7 @@ exec_and_wait(char** argp)
     sig_t intsave, quitsave;
     sigset_t mask, omask;
     int pstat;
-    
+
     sigemptyset(&mask);
     sigaddset(&mask, SIGCHLD);
     sigprocmask(SIG_BLOCK, &mask, &omask);
@@ -85,7 +85,7 @@ void mark_file(char* filename) {
 int main(int argc, char** argv) {
     char* hijacked_executable = argv[0];
     struct stat info;
-    
+
     if (NULL != strstr(hijacked_executable, "hijack")) {
         // no op
         if (argc >= 2) {
@@ -104,7 +104,7 @@ int main(int argc, char** argv) {
         printf("Hijack!\n");
         return 0;
     }
-    
+
     // check to see if hijack was already run, and if so, just continue on.
     if (argc >= 3 && 0 == strcmp(argv[2], "cache")) {
         if (0 == stat(RECOVERY_MODE_FILE, &info)) {
@@ -146,9 +146,9 @@ int main(int argc, char** argv) {
         argp[i]=argv[i];
     }
     argp[argc] = NULL;
-    
+
     argp[0] = real_executable;
-    
+
     // should clean up memory leaks, but it really doesn't matter since the process immediately exits.
     return exec_and_wait(argp);
 }

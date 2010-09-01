@@ -5,7 +5,7 @@
 rild.libpath=/system/lib/libmoto_ril.so
 rild.libargs=-d /dev/ttyS0
 ro.sf.lcd_density=240
-ro.default_usb_mode=0
+ro.default_usb_mode=2
 # BEGIN Motorola, a18772, 05/19/2010, IKSHADOW-5584
 # Add 411 to DAN List for VZW.
 ro.mot.ril.danlist=611,*611,#611,411
@@ -142,3 +142,11 @@ ro.mot.master_clear.shredsd=false
 # true  enable the feature of In case of Emergency, default is false
 # false disable the ICE feature
 ro.mot.fid.29967.ice=true
+
+# BEGIN MOTOROLA, vfhk68,24-July-2010, IKSTABLEONE-2469
+# true  enable the feature of 33531
+# false disable the feature
+ro.mot.fid.33531.keylock_ecm=true
+#END
+
+

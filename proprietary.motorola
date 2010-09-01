@@ -24,8 +24,6 @@
 /system/bin/fdisk
 /system/bin/firewall.sh
 /system/bin/fmradioserver
-/system/bin/forward_start.sh
-/system/bin/forward_stop.sh
 /system/bin/ftmipcd
 /system/bin/gkilogd
 /system/bin/loadpreinstalls.sh
