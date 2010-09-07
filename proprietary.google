@@ -8,7 +8,6 @@
 /system/app/GoogleContactsSyncAdapter.apk
 /system/app/GoogleFeedback.apk
 /system/app/GooglePartnerSetup.apk
-/system/app/GoogleQuickSearchBox.apk
 /system/app/GoogleServicesFramework.apk
 /system/app/kickback.apk
 /system/app/LatinImeGoogle.apk
@@ -23,7 +22,6 @@
 /system/app/Talk.apk
 /system/app/talkback.apk
 /system/app/Vending.apk
-/system/app/VoiceSearch.apk
 /system/app/YouTube.apk
 /system/etc/permissions/com.google.android.maps.xml
 /system/etc/permissions/features.xml
