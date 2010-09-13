@@ -61,7 +61,8 @@ TARGET_NO_RECOVERY := true
 TARGET_NO_PREINSTALL := false
 
 BOARD_HIJACK_EXECUTABLES := logwrapper
-BOARD_HIJACK_BOOT_PATH := /preinstall/boot
-BOARD_HIJACK_RECOVERY_PATH := /preinstall/recovery
+BOARD_HIJACK_UPDATE_BINARY := /preinstall/obsidian/update-binary
+BOARD_HIJACK_BOOT_UPDATE_ZIP := /preinstall/obsidian/update-boot.zip
+BOARD_HIJACK_RECOVERY_UPDATE_ZIP := /preinstall/obsidian/update-recovery.zip
 
 ALLOW_LGPL := true

@@ -35,8 +35,17 @@
 
 #define RECOVERY_MODE_FILE "/data/.recovery_mode"
 
-#define UPDATE_BINARY BOARD_HIJACK_RECOVERY_PATH"/update-binary"
-#define UPDATE_PACKAGE BOARD_HIJACK_RECOVERY_PATH"/recovery.zip"
+#ifndef BOARD_HIJACK_UPDATE_BINARY
+#define BOARD_HIJACK_UPDATE_BINARY "/preinstall/update-binary"
+#endif
+
+#ifndef BOARD_HIJACK_BOOT_UPDATE_ZIP
+#define BOARD_HIJACK_BOOT_UPDATE_ZIP "/preinstall/update-boot.zip"
+#endif
+
+#ifndef BOARD_HIJACK_RECOVERY_UPDATE_ZIP
+#define BOARD_HIJACK_RECOVERY_UPDATE_ZIP "/preinstall/update-recovery.zip"
+#endif
 
 int
 exec_and_wait(char** argp)
@@ -100,6 +109,10 @@ int main(int argc, char** argv) {
                 printf("umount!\n");
                 return umount_main(argc - 1, argv + 1);
             }
+            if (strcmp("chroot", argv[1]) == 0) {
+                printf("chroot!\n");
+                return chroot_main(argc - 1, argv + 1);
+            }
         }
         printf("Hijack!\n");
         return 0;
@@ -130,8 +143,49 @@ int main(int argc, char** argv) {
             char* umount_args[] = { "/system/bin/hijack", "umount", "-l", "/system", NULL };
             exec_and_wait(umount_args);
 
-            char* updater_args[] = { UPDATE_BINARY, "2", "0", UPDATE_PACKAGE, NULL };
+            char* updater_args[] = { BOARD_HIJACK_UPDATE_BINARY, "2", "0", BOARD_HIJACK_RECOVERY_UPDATE_ZIP, NULL };
             return exec_and_wait(updater_args);
+        } else {
+            remount_root();
+
+            mkdir("/preinstall", S_IRWXU);
+            mkdir("/newboot", S_IRWXU);
+            rename("/sbin/adbd", "/sbin/adbd.old");
+            property_set("ctl.stop", "runtime");
+            property_set("ctl.stop", "zygote");
+            property_set("persist.service.adb.enable", "1");
+
+            // get access to our preinstall
+            char* mount_preinstall_args[] = { "/system/bin/hijack", "mount", "/dev/block/preinstall", "/preinstall", NULL };
+            exec_and_wait(mount_preinstall_args);
+
+            // mount tmpfs on /newboot
+            char* mount_newboot_args[] = { "/system/bin/hijack", "mount", "-t", "tmpfs", "none", "/newboot", NULL };
+            exec_and_wait(mount_newboot_args);
+
+            // have updater unpack our boot partition (will create /newboot/sbin/hijack)
+            char* updater_args[] = { BOARD_HIJACK_UPDATE_BINARY, "2", "0", BOARD_HIJACK_BOOT_UPDATE_ZIP, NULL };
+            exec_and_wait(updater_args);
+
+            // now we're done with /preinstall
+            char* umount_preinstall_args[] = { "/newboot/sbin/hijack", "umount", "-l", "/preinstall", NULL };
+            exec_and_wait(updater_args);
+
+            // since we have /newboot/sbin/hijack, we no longer need /system
+            char* umount_system_args[] = { "/system/sbin/hijack", "umount", "-l", "/system", NULL };
+            exec_and_wait(umount_system_args);
+
+            // now we mount some needed directories
+            char* mount_proc_args[] = { "/newboot/sbin/hijack", "mount", "-t", "proc", "proc", "/newboot/proc", NULL };
+            exec_and_wait(mount_proc_args);
+            char* mount_sys_args[] = { "/newboot/sbin/hijack", "mount", "-t", "sysfs", "none", "/newboot/sys", NULL };
+            exec_and_wait(mount_sys_args);
+            char* mount_dev_args[] = { "/newboot/sbin/hijack", "mount", "-o", "bind", "/dev", "/newboot/dev", NULL };
+            exec_and_wait(mount_dev_args);
+
+            // now we chroot and re-run init
+            char* chroot_args[] = { "/newboot/sbin/hijack", "chroot", "/newboot", "/init", NULL };
+            return exec_and_wait(chroot_args);
         }
 
         // mark it in case we don't boot
