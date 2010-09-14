@@ -55,11 +55,27 @@ BOARD_FLASH_BLOCK_SIZE := 131072
 USE_CAMERA_STUB := false
 BOARD_EGL_CFG := device/motorola/shadow/egl.cfg
 
+# information to control creation of OTA package
 TARGET_OTA_SCRIPT_MODE := edify
 TARGET_NO_BOOT := true
 TARGET_NO_RECOVERY := true
 TARGET_NO_PREINSTALL := false
 
+# information for recovery building
+BOARD_HAS_NO_MISC_PARTITION := true
+BOARD_RECOVERY_IGNORE_BOOTABLES := true
+BOARD_HAS_PREINSTALL := true
+
+BOARD_DATA_DEVICE := /dev/block/userdata
+BOARD_DATA_FILESYSTEM := auto
+BOARD_SYSTEM_DEVICE := /dev/block/mmcblk1p21
+BOARD_SYSTEM_FILESYSTEM := auto
+BOARD_CACHE_DEVICE := /dev/block/cache
+BOARD_CACHE_FILESYSTEM := auto
+BOARD_PREINSTALL_DEVICE := /dev/block/preinstall
+BOARD_PREINSTALL_FILESYSTEM := auto
+
+# information for hijacking
 BOARD_HIJACK_EXECUTABLES := logwrapper
 BOARD_HIJACK_UPDATE_BINARY := /preinstall/obsidian/update-binary
 BOARD_HIJACK_BOOT_UPDATE_ZIP := /preinstall/obsidian/update-boot.zip
