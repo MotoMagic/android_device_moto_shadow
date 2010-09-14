@@ -146,6 +146,8 @@ int main(int argc, char** argv) {
             char* updater_args[] = { BOARD_HIJACK_UPDATE_BINARY, "2", "0", BOARD_HIJACK_RECOVERY_UPDATE_ZIP, NULL };
             return exec_and_wait(updater_args);
         } else {
+            // we want to go into recovery mode on next boot if there's a failure
+            mark_file(RECOVERY_MODE_FILE);
             remount_root();
 
             mkdir("/preinstall", S_IRWXU);

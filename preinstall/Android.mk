@@ -15,7 +15,7 @@ $(file) : $(LOCAL_PATH)/update-recovery.zip | $(ACP)
 # update-binary!
 file := $(TARGET_PREINSTALL_OUT)/obsidian/update-binary
 ALL_PREBUILT += $(file)
-$(file) : $(TARGET_OUT)/bin/updater | $(ACP)
+$(file) : $(LOCAL_PATH)/update-binary | $(ACP)
         $(transform-prebuilt-to-target)
 
 endif
