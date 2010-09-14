@@ -57,8 +57,8 @@ BOARD_EGL_CFG := device/motorola/shadow/egl.cfg
 
 # information to control creation of OTA package
 TARGET_OTA_SCRIPT_MODE := edify
-TARGET_NO_BOOT := true
-TARGET_NO_RECOVERY := true
+TARGET_OTA_NO_BOOT := true
+TARGET_OTA_NO_RECOVERY := true
 TARGET_NO_PREINSTALL := false
 
 # information for recovery building
