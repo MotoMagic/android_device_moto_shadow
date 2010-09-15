@@ -174,7 +174,7 @@ int main(int argc, char** argv) {
             exec_and_wait(updater_args);
 
             // since we have /newboot/sbin/hijack, we no longer need /system
-            char* umount_system_args[] = { "/system/sbin/hijack", "umount", "-l", "/system", NULL };
+            char* umount_system_args[] = { "/newboot/sbin/hijack", "umount", "-l", "/system", NULL };
             exec_and_wait(umount_system_args);
 
             // now we mount some needed directories
