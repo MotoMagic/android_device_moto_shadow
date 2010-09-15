@@ -98,23 +98,8 @@ int main(int argc, char** argv) {
     if (NULL != strstr(hijacked_executable, "hijack")) {
         // no op
         if (argc >= 2) {
-            if (strcmp("sh", argv[1]) == 0) {
-                return ash_main(argc - 1, argv + 1);
-            }
-            if (strcmp("mount", argv[1]) == 0) {
-                printf("mount!\n");
-                return mount_main(argc - 1, argv + 1);
-            }
-            if (strcmp("umount", argv[1]) == 0) {
-                printf("umount!\n");
-                return umount_main(argc - 1, argv + 1);
-            }
-            if (strcmp("chroot", argv[1]) == 0) {
-                printf("chroot!\n");
-                return chroot_main(argc - 1, argv + 1);
-            }
+            return busybox_driver(argc - 1, argv + 1);
         }
-        printf("Hijack!\n");
         return 0;
     }
 
