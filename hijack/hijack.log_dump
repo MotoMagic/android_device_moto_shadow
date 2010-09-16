@@ -1,8 +1,46 @@
-#!/system/bin/sh
+#!/system/xbin/bash
 
-export PATH="/system/bin:${PATH}"
+# we put xbin first, so we get busybox instead of toolbox
+export PATH="/system/bin:/system/xbin:${PATH}"
 
-dmesg > "$1.dmesg"
-cat /proc/mounts > "$1.mounts"
-cat /proc/cmdline > "$1.cmdline"
-cat /proc/partitions > "$1.partitions"
+num=0
+
+while busybox [ -d "$1.$num" ] ; do
+	num=$(busybox expr $num + 1)
+done
+
+busybox echo "      running $0 and outputting to $1.$num/" >> "$1"
+busybox echo "      - making dump directory $1.$num/ ..." >> "$1"
+busybox mkdir -p "$1.$num"
+
+busybox echo "      - dumping dmesg output to $1.$num/dmesg" >> "$1"
+busybox dmesg > "$1.$num/dmesg"
+
+busybox echo "      - dumping /proc/mounts to $1.$num/mounts" >> "$1"
+busybox cat /proc/mounts > "$1.$num/mounts"
+
+busybox echo "      - dumping /proc/cmdline to $1.$num/cmdline" >> "$1"
+busybox cat /proc/cmdline > "$1.$num/cmdline"
+
+busybox echo "      - dumping /proc/partitions to $1.$num/partitions" >> "$1"
+buxybox cat /proc/partitions > "$1.$num/partitions"
+
+busybox echo "      - dumping toolbox ps output to $1.$num/ps_toolbox" >> "$1"
+toolbox ps > "$1.$num/ps_toolbox"
+
+busybox echo "      - dumping busybox ps output to $1.$num/ps_busybox" >> "$1"
+busybox ps w > "$1.$num/ps_busybox"
+
+busybox echo "      - dumping rootdir data to $1.$num/ls_root" >> "$1"
+busybox ls -la / > "$1.$num/ls_root"
+
+busybox echo "      - dumping newroot data to $1.$num/ls_newroot" >> "$1"
+busybox ls -la /newroot > "$1.$num/ls_newroot"
+
+busybox echo "      - dumping full newroot data to $1.$num/ls_newroot_all" >> "$1"
+busybox ls -la /newroot/* > "$1.$num/ls_newroot_all"
+
+busybox echo "      - dumping diskfree data to $1.$num/df" >> "$1"
+busybox df -h > "$1.$num/df"
+
+busybox echo "      system inventory complete" >> "$1"
