@@ -229,7 +229,7 @@ hijack_log("    exec(\"%s %s %s %s\") executing...", UPDATE_BINARY, "2", "0", RE
             result = exec_and_wait(updater_args);
 hijack_log("      returned: %d", result);
             return result;
-        } else if (0 == stat(BOOT_MODE_FILE, &info)) {
+        } else if (0 != stat(BOOT_MODE_FILE, &info)) {
 
 hijack_log("  Boot mode detected!");
 
