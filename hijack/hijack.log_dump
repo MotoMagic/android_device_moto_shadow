@@ -3,4 +3,6 @@
 export PATH="/system/bin:${PATH}"
 
 dmesg > "$1.dmesg"
-logcat -d > "$1.logcat"
+cat /proc/mounts > "$1.mounts"
+cat /proc/cmdline > "$1.cmdline"
+cat /proc/partitions > "$1.partitions"

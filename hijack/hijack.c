@@ -1,74 +1,4 @@
-#include <ctype.h>
-#include <errno.h>
-#include <fcntl.h>
-#include <getopt.h>
-#include <limits.h>
-#include <linux/input.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/reboot.h>
-#include <sys/types.h>
-#include <time.h>
-#include <unistd.h>
-
-#include <sys/wait.h>
-#include <sys/limits.h>
-#include <dirent.h>
-#include <sys/stat.h>
-
-#include <signal.h>
-#include <sys/wait.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <stdio.h>
-#include <stdarg.h>
-#include <errno.h>
-#include <stdlib.h>
-#include <sys/mount.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <unistd.h>
-
-#include <limits.h>
-
-#include <cutils/properties.h>
-
-#define BOOT_MODE_FILE "/data/.boot_mode"
-#define RECOVERY_MODE_FILE "/data/.recovery_mode"
-
-// if we enable logging...
-#ifdef LOG_ENABLE
-// log device
-#ifndef LOG_DEVICE
-#define LOG_DEVICE "/dev/block/mmcblk0p1" // default to SD card
-#endif
-// log mount point
-#ifndef LOG_MOUNT
-#define LOG_MOUNT "/sdlog" // default to SD logging
-#endif
-// log file name (will be placed under SDLOG_MOUNT)
-#ifndef LOG_FILE
-#define LOG_FILE "hijack.log" // this works
-#endif
-// script that dumps dmesg/logcat/etc
-#ifndef LOG_DUMP_BINARY
-#define LOG_DUMP_BINARY "/system/bin/hijack.log_dump"
-#endif
-#define LOG_PATH LOG_MOUNT"/"LOG_FILE
-#endif
-
-#ifndef BOARD_HIJACK_UPDATE_BINARY
-#define BOARD_HIJACK_UPDATE_BINARY "/preinstall/update-binary"
-#endif
-
-#ifndef BOARD_HIJACK_BOOT_UPDATE_ZIP
-#define BOARD_HIJACK_BOOT_UPDATE_ZIP "/preinstall/update-boot.zip"
-#endif
-
-#ifndef BOARD_HIJACK_RECOVERY_UPDATE_ZIP
-#define BOARD_HIJACK_RECOVERY_UPDATE_ZIP "/preinstall/update-recovery.zip"
-#endif
+#include "hijack.h"
 
 int exec_and_wait(char** argp)
 {
@@ -137,15 +67,31 @@ void hijack_log(char * format, ...) {
 #ifdef LOG_ENABLE
     FILE * log = fopen(LOG_PATH, "a");
     if (log != NULL) {
-        char buffer[PATH_MAX];
-        char newformat[PATH_MAX];
+        // start our va list
         va_list args;
         va_start(args, format);
-        sprintf(newformat, "hijack: %s\n", format);
-        vsprintf(buffer, newformat, args);
-        fputs(buffer, log);
+
+        // some buffers :D
+        char * new_format = (char *)malloc(sizeof(char) * PATH_MAX);
+        char * time_buffer = (char *)malloc(sizeof(char) * PATH_MAX);
+        char * out_buffer = (char *)malloc(sizeof(char) * PATH_MAX);
+
+        // get the time
+        time_t * ts = (time_t *)malloc(sizeof(time_t));
+        time(ts);
+        struct tm * t = localtime(ts);
+        free(ts);
+        strftime(time_buffer, PATH_MAX, "%Y-%m-%d %H:%M:%S", t);
+
+        sprintf(new_format, "hijack [%s]: %s\n", time_buffer, format);
+        vsprintf(out_buffer, new_format, args);
+        fputs(out_buffer, log);
         va_end(args);
         fclose(log);
+
+        free(new_format);
+        free(time_buffer);
+        free(out_buffer);
     }
 #endif
 }
@@ -264,10 +210,10 @@ hijack_log("hijack_umount(%s, %s) executing...", "/system/bin/hijack", "/system"
             logr = hijack_umount("/system/bin/hijack", "/system");
 hijack_log("hijack_umount(%s, %s) returned: %d", "/system/bin/hijack", "/system", logr);
 
-            char* updater_args[] = { BOARD_HIJACK_UPDATE_BINARY, "2", "0", BOARD_HIJACK_RECOVERY_UPDATE_ZIP, NULL };
-hijack_log("exec(\"%s %s %s %s\") executing...", BOARD_HIJACK_UPDATE_BINARY, "2", "0", BOARD_HIJACK_RECOVERY_UPDATE_ZIP);
+            char* updater_args[] = { UPDATE_BINARY, "2", "0", RECOVERY_UPDATE_ZIP, NULL };
+hijack_log("exec(\"%s %s %s %s\") executing...", UPDATE_BINARY, "2", "0", RECOVERY_UPDATE_ZIP);
             result = exec_and_wait(updater_args);
-hijack_log("exec(\"%s %s %s %s\") returned: %d", BOARD_HIJACK_UPDATE_BINARY, "2", "0", BOARD_HIJACK_RECOVERY_UPDATE_ZIP, result);
+hijack_log("exec(\"%s %s %s %s\") returned: %d", UPDATE_BINARY, "2", "0", RECOVERY_UPDATE_ZIP, result);
             goto done;
         } else if (0 == stat(BOOT_MODE_FILE, &info)) {
             // we want to go into recovery mode on next boot if there's a failure
@@ -290,7 +236,7 @@ hijack_log("exec(\"%s %s %s %s\") returned: %d", BOARD_HIJACK_UPDATE_BINARY, "2"
             exec_and_wait(mount_newboot_args);
 
             // have updater unpack our boot partition (will create /newboot/sbin/hijack)
-            char* updater_args[] = { BOARD_HIJACK_UPDATE_BINARY, "2", "0", BOARD_HIJACK_BOOT_UPDATE_ZIP, NULL };
+            char* updater_args[] = { UPDATE_BINARY, "2", "0", BOOT_UPDATE_ZIP, NULL };
             exec_and_wait(updater_args);
 
             // now we're done with /preinstall
@@ -321,7 +267,7 @@ hijack_log("exec(\"%s %s %s %s\") returned: %d", BOARD_HIJACK_UPDATE_BINARY, "2"
 
     char real_executable[PATH_MAX];
     sprintf(real_executable, "%s.bin", hijacked_executable);
-    string* argp = (string*)malloc(sizeof(string) * (argc + 1));
+    char ** argp = (char **)malloc(sizeof(char *) * (argc + 1));
     for (i = 0; i < argc; i++) {
         argp[i]=argv[i];
     }

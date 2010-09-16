@@ -17,7 +17,6 @@
 /system/bin/dbvc_atvc_property_set
 /system/bin/dlnasrv
 /system/bin/dmt
-/system/bin/dumpe2fs
 /system/bin/dund
 /system/bin/ecckeyd
 /system/bin/factory_reset
