@@ -22,6 +22,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <stdio.h>
+#include <stdarg.h>
 #include <errno.h>
 #include <stdlib.h>
 #include <sys/mount.h>
@@ -33,7 +34,29 @@
 
 #include <cutils/properties.h>
 
+#define BOOT_MODE_FILE "/data/.boot_mode"
 #define RECOVERY_MODE_FILE "/data/.recovery_mode"
+
+// if we enable logging...
+#ifdef LOG_ENABLE
+// log device
+#ifndef LOG_DEVICE
+#define LOG_DEVICE "/dev/block/mmcblk0p1" // default to SD card
+#endif
+// log mount point
+#ifndef LOG_MOUNT
+#define LOG_MOUNT "/sdlog" // default to SD logging
+#endif
+// log file name (will be placed under SDLOG_MOUNT)
+#ifndef LOG_FILE
+#define LOG_FILE "hijack.log" // this works
+#endif
+// script that dumps dmesg/logcat/etc
+#ifndef LOG_DUMP_BINARY
+#define LOG_DUMP_BINARY "/system/bin/hijack.log_dump"
+#endif
+#define LOG_PATH LOG_MOUNT"/"LOG_FILE
+#endif
 
 #ifndef BOARD_HIJACK_UPDATE_BINARY
 #define BOARD_HIJACK_UPDATE_BINARY "/preinstall/update-binary"
@@ -47,8 +70,7 @@
 #define BOARD_HIJACK_RECOVERY_UPDATE_ZIP "/preinstall/update-recovery.zip"
 #endif
 
-int
-exec_and_wait(char** argp)
+int exec_and_wait(char** argp)
 {
     pid_t pid;
     sig_t intsave, quitsave;
@@ -77,9 +99,55 @@ exec_and_wait(char** argp)
     return (pid == -1 ? -1 : pstat);
 }
 
-void remount_root() {
-    char* remount_root_args[] = { "/system/bin/hijack", "mount", "-orw,remount", "/", NULL };
-    exec_and_wait(remount_root_args);
+int remount_root(const char * hijack_exec, int rw) {
+    char* remount_root_args[5];
+    remount_root_args[0] = strdup(hijack_exec);
+    remount_root_args[1] = strdup("mount");
+    if (rw > 0) {
+        remount_root_args[2] = strdup("-orw,remount");
+    } else {
+        remount_root_args[2] = strdup("-oro,remount");
+    }
+    remount_root_args[3] = strdup("/");
+    remount_root_args[4] = NULL;
+    return exec_and_wait(remount_root_args);
+}
+
+int hijack_mount(const char * hijack_exec, const char * dev, const char * mount_point) {
+    char* mount_args[5];
+    mount_args[0] = strdup(hijack_exec);
+    mount_args[1] = strdup("mount");
+    mount_args[2] = strdup(dev);
+    mount_args[3] = strdup(mount_point);
+    mount_args[4] = NULL;
+    return exec_and_wait(mount_args);
+}
+
+int hijack_umount(const char * hijack_exec, const char * mount_point) {
+    char* umount_args[5];
+    umount_args[0] = strdup(hijack_exec);
+    umount_args[1] = strdup("umount");
+    umount_args[2] = strdup("-l");
+    umount_args[3] = strdup(mount_point);
+    umount_args[4] = NULL;
+    return exec_and_wait(umount_args);
+}
+
+void hijack_log(char * format, ...) {
+#ifdef LOG_ENABLE
+    FILE * log = fopen(LOG_PATH, "a");
+    if (log != NULL) {
+        char buffer[PATH_MAX];
+        char newformat[PATH_MAX];
+        va_list args;
+        va_start(args, format);
+        sprintf(newformat, "hijack: %s\n", format);
+        vsprintf(buffer, newformat, args);
+        fputs(buffer, log);
+        va_end(args);
+        fclose(log);
+    }
+#endif
 }
 
 typedef char* string;
@@ -94,6 +162,9 @@ void mark_file(char* filename) {
 int main(int argc, char** argv) {
     char* hijacked_executable = argv[0];
     struct stat info;
+    int result = 0;
+    int logr;
+    int i;
 
     if (NULL != strstr(hijacked_executable, "hijack")) {
         // no op
@@ -103,37 +174,105 @@ int main(int argc, char** argv) {
         return 0;
     }
 
+#ifdef LOG_ENABLE
+    // SCREW THE RULES, IF WE GET HERE WE'RE HIJACKING, AND FROM HERE ON OUT
+    // WE'RE FUCKING WITH ROOT (/) NO MATTER WHAT AT THIS POINT
+    remount_root("/system/bin/hijack", 1);
+
+    // OH FUCK YEAH MOUNT
+    mkdir(LOG_MOUNT, S_IRWXU);
+    hijack_mount("/system/bin/hijack", LOG_DEVICE, LOG_MOUNT);
+
+    // time to create our log file and jam our header into it!
+hijack_log("Hijack called with the following arguments:");
+    for (i = 0; i < argc; i++) {
+hijack_log("    argv[%d] = \"%s\"", i, argv[i]);
+    }
+
+hijack_log("Executing log dumper script:");
+    char* log_dump_args[] = { LOG_DUMP_BINARY, LOG_PATH, NULL };
+hijack_log("exec(\"%s %s\") executing...", LOG_DUMP_BINARY, LOG_PATH);
+    logr = exec_and_wait(log_dump_args);
+hijack_log("exec(\"%s %s\") returned: %d", LOG_DUMP_BINARY, LOG_PATH, logr);
+
+#endif
+
     // check to see if hijack was already run, and if so, just continue on.
     if (argc >= 3 && 0 == strcmp(argv[2], "cache")) {
+
+hijack_log("Entering testing for hijacking!");
+
         if (0 == stat(RECOVERY_MODE_FILE, &info)) {
+
+hijack_log("Recovery mode detected");
+
             // don't boot into recovery again
-            remove(RECOVERY_MODE_FILE);
-            remount_root();
+hijack_log("remove(%s) executing...", RECOVERY_MODE_FILE);
+            logr = remove(RECOVERY_MODE_FILE);
+hijack_log("remove(%s) returned: %d", RECOVERY_MODE_FILE, logr);
 
-            mkdir("/preinstall", S_IRWXU);
-            mkdir("/tmp", S_IRWXU);
-            mkdir("/res", S_IRWXU);
-            mkdir("/res/images", S_IRWXU);
-            remove("/etc");
-            mkdir("/etc", S_IRWXU);
-            rename("/sbin/adbd", "/sbin/adbd.old");
-            property_set("ctl.stop", "runtime");
-            property_set("ctl.stop", "zygote");
-            property_set("persist.service.adb.enable", "1");
+hijack_log("remount_root(%s, %d) executing...", "/system/bin/hijack", 1);
+            logr = remount_root("/system/bin/hijack", 1);
+hijack_log("remount_root(%s, %d) returned: %d", "/system/bin/hijack", 1, logr);
 
-            char* mount_preinstall_args[] = { "/system/bin/hijack", "mount", "/dev/block/preinstall", "/preinstall", NULL };
-            exec_and_wait(mount_preinstall_args);
+hijack_log("mkdir(%s, %d) executing...", "/preinstall", S_IRWXU);
+            logr = mkdir("/preinstall", S_IRWXU);
+hijack_log("mkdir(%s, %d) returned: %d", "/preinstall", S_IRWXU, logr);
+
+hijack_log("mkdir(%s, %d) executing...", "/tmp", S_IRWXU);
+            logr = mkdir("/tmp", S_IRWXU);
+hijack_log("mkdir(%s, %d) returned: %d", "/tmp", S_IRWXU, logr);
+
+hijack_log("mkdir(%s, %d) executing...", "/res", S_IRWXU);
+            logr = mkdir("/res", S_IRWXU);
+hijack_log("mkdir(%s, %d) returned: %d", "/res", S_IRWXU, logr);
+
+hijack_log("mkdir(%s, %d) executing...", "/res/images", S_IRWXU);
+            logr = mkdir("/res/images", S_IRWXU);
+hijack_log("mkdir(%s, %d) returned: %d", "/res/images", S_IRWXU, logr);
+
+hijack_log("remove(%s) executing...", "/etc");
+            logr = remove("/etc");
+hijack_log("remove(%s) returned: %d", "/etc", logr);
+
+hijack_log("mkdir(%s, %d) executing...", "/etc", S_IRWXU);
+            logr = mkdir("/etc", S_IRWXU);
+hijack_log("mkdir(%s, %d) returned: %d", "/etc", S_IRWXU, logr);
+
+hijack_log("rename(%s, %s) executing...", "/sbin/adbd", "/sbin/adbd.old");
+            logr = rename("/sbin/adbd", "/sbin/adbd.old");
+hijack_log("rename(%s, %s) returned: %d", "/sbin/adbd", "/sbin/adbd.old", logr);
+
+hijack_log("property_set(%s, %s) executing...", "ctl.stop", "runtime");
+            logr = property_set("ctl.stop", "runtime");
+hijack_log("property_set(%s, %s) returned: %d", "ctl.stop", "runtime", logr);
+
+hijack_log("property_set(%s, %s) executing...", "ctl.stop", "zygote");
+            logr = property_set("ctl.stop", "zygote");
+hijack_log("property_set(%s, %s) returned: %d", "ctl.stop", "zygote", logr);
+
+hijack_log("property_set(%s, %s) executing...", "persist.service.adb.enable", "1");
+            logr = property_set("persist.service.adb.enable", "1");
+hijack_log("property_set(%s, %s) returned: %d", "persist.service.adb.enable", "1", logr);
+
+hijack_log("hijack_mount(%s, %s, %s) returned %d", "/system/bin/hijack", "/dev/block/preinstall", "/preinstall");
+            logr = hijack_mount("/system/bin/hijack", "/dev/block/preinstall", "/preinstall");
+hijack_log("hijack_mount(%s, %s, %s) returned %d", "/system/bin/hijack", "/dev/block/preinstall", "/preinstall", logr);
 
             // this will prevent hijack from being called again
-            char* umount_args[] = { "/system/bin/hijack", "umount", "-l", "/system", NULL };
-            exec_and_wait(umount_args);
+hijack_log("hijack_umount(%s, %s) executing...", "/system/bin/hijack", "/system");
+            logr = hijack_umount("/system/bin/hijack", "/system");
+hijack_log("hijack_umount(%s, %s) returned: %d", "/system/bin/hijack", "/system", logr);
 
             char* updater_args[] = { BOARD_HIJACK_UPDATE_BINARY, "2", "0", BOARD_HIJACK_RECOVERY_UPDATE_ZIP, NULL };
-            return exec_and_wait(updater_args);
-        } else {
+hijack_log("exec(\"%s %s %s %s\") executing...", BOARD_HIJACK_UPDATE_BINARY, "2", "0", BOARD_HIJACK_RECOVERY_UPDATE_ZIP);
+            result = exec_and_wait(updater_args);
+hijack_log("exec(\"%s %s %s %s\") returned: %d", BOARD_HIJACK_UPDATE_BINARY, "2", "0", BOARD_HIJACK_RECOVERY_UPDATE_ZIP, result);
+            goto done;
+        } else if (0 == stat(BOOT_MODE_FILE, &info)) {
             // we want to go into recovery mode on next boot if there's a failure
             mark_file(RECOVERY_MODE_FILE);
-            remount_root();
+            remount_root("/system/bin/hijack", 1);
 
             mkdir("/preinstall", S_IRWXU);
             mkdir("/newboot", S_IRWXU);
@@ -172,7 +311,8 @@ int main(int argc, char** argv) {
 
             // now we chroot and re-run init
             char* chroot_args[] = { "/newboot/sbin/hijack", "chroot", "/newboot", "/init", NULL };
-            return exec_and_wait(chroot_args);
+            result = exec_and_wait(chroot_args);
+            goto done;
         }
 
         // mark it in case we don't boot
@@ -182,7 +322,6 @@ int main(int argc, char** argv) {
     char real_executable[PATH_MAX];
     sprintf(real_executable, "%s.bin", hijacked_executable);
     string* argp = (string*)malloc(sizeof(string) * (argc + 1));
-    int i;
     for (i = 0; i < argc; i++) {
         argp[i]=argv[i];
     }
@@ -190,6 +329,15 @@ int main(int argc, char** argv) {
 
     argp[0] = real_executable;
 
+hijack_log("Executing real program: %s", real_executable);
+    for (i = 0; i < argc; i++) {
+hijack_log("    argp[%d] = \"%s\"", i, argp[i]);
+    }
+
     // should clean up memory leaks, but it really doesn't matter since the process immediately exits.
-    return exec_and_wait(argp);
+    result = exec_and_wait(argp);
+hijack_log("Result: %d", result);
+
+done:
+    return result;
 }

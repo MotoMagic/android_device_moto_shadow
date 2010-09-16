@@ -77,6 +77,7 @@ BOARD_PREINSTALL_FILESYSTEM := auto
 
 # information for hijacking
 BOARD_HIJACK_EXECUTABLES := logwrapper
+BOARD_HIJACK_LOG_ENABLE := true
 BOARD_HIJACK_UPDATE_BINARY := /preinstall/obsidian/update-binary
 BOARD_HIJACK_BOOT_UPDATE_ZIP := /preinstall/obsidian/update-boot.zip
 BOARD_HIJACK_RECOVERY_UPDATE_ZIP := /preinstall/obsidian/update-recovery.zip
