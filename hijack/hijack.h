@@ -24,14 +24,19 @@
 #include <sys/mount.h>
 #include <cutils/properties.h>
 
-// file that throws us into boot mode
-#ifndef BOOT_MODE_FILE
-#define BOOT_MODE_FILE "/data/.boot_mode"
+// file that bypasses all hijacking
+#ifndef HIJACK_BYPASS_FILE
+#define HIJACK_BYPASS_FILE "/data/.hijack_bypass"
 #endif
 
 // file that throws us into recovery mode
 #ifndef RECOVERY_MODE_FILE
 #define RECOVERY_MODE_FILE "/data/.recovery_mode"
+#endif
+
+// file that throws us into charging mode
+#ifndef CHARGING_MODE_FILE
+#define CHARGING_MODE_FILE "/data/.charging_mode"
 #endif
 
 // if we enable logging...

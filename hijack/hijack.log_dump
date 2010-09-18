@@ -23,7 +23,7 @@ busybox echo "      - dumping /proc/cmdline to $1.$num/cmdline" >> "$1"
 busybox cat /proc/cmdline > "$1.$num/cmdline"
 
 busybox echo "      - dumping /proc/partitions to $1.$num/partitions" >> "$1"
-buxybox cat /proc/partitions > "$1.$num/partitions"
+busybox cat /proc/partitions > "$1.$num/partitions"
 
 busybox echo "      - dumping toolbox ps output to $1.$num/ps_toolbox" >> "$1"
 toolbox ps > "$1.$num/ps_toolbox"
@@ -33,12 +33,6 @@ busybox ps w > "$1.$num/ps_busybox"
 
 busybox echo "      - dumping rootdir data to $1.$num/ls_root" >> "$1"
 busybox ls -la / > "$1.$num/ls_root"
-
-busybox echo "      - dumping newroot data to $1.$num/ls_newroot" >> "$1"
-busybox ls -la /newroot > "$1.$num/ls_newroot"
-
-busybox echo "      - dumping full newroot data to $1.$num/ls_newroot_all" >> "$1"
-busybox ls -la /newroot/* > "$1.$num/ls_newroot_all"
 
 busybox echo "      - dumping diskfree data to $1.$num/df" >> "$1"
 busybox df -h > "$1.$num/df"
