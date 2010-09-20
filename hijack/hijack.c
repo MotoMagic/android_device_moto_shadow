@@ -269,11 +269,6 @@ hijack_log("      returned: %d", result);
 
 hijack_log("  Boot mode detected!");
 
-                // we want to go into recovery mode on next boot if there's a failure
-hijack_log("    mark_file(%s) executing...", RECOVERY_MODE_FILE);
-                result = mark_file(RECOVERY_MODE_FILE);
-hijack_log("      returned: %d", result);
-
 hijack_log("    remount_root(%s, %d) executing...", "/system/bin/hijack", 1);
                 result = remount_root("/system/bin/hijack", 1);
 hijack_log("      returned: %d", result);
@@ -338,10 +333,20 @@ hijack_log("    exec(\"%s %s\") executing...", "/sbin/hijack.log_dump", LOG_PATH
 hijack_log("      returned: %d", result);
 #endif
 
-                // now we re-run init
+                // now we re-run init (this should never exit)
+#ifdef LOG_ENABLE
+		char * init_args[] = { "/init.new", LOG_PATH, NULL };
+hijack_log("    exec(\"%s %s\") executing...", "/init.new", LOG_PATH);
+#else
                 char * init_args[] = { "/init.new", NULL };
 hijack_log("    exec(\"%s\") executing...", "/init.new");
+#endif
                 result = exec_and_wait(init_args);
+hijack_log("      returned: %d", result);
+
+                // we want to go into recovery mode on next boot if there's a failure
+hijack_log("    mark_file(%s) executing...", RECOVERY_MODE_FILE);
+                result = mark_file(RECOVERY_MODE_FILE);
 hijack_log("      returned: %d", result);
 
                 return result;
