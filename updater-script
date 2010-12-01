@@ -1,0 +1,167 @@
+set_progress(1.000000);
+ui_print("Obsidian 1.1.5 Installer");
+ui_print("  by CVPCS");
+
+ui_print("Beginning installation...");
+
+ui_print("Step 0: Ensuring prerequisites");
+ui_print("  [extracting utilities]");
+package_extract_dir("utils", "/tmp");
+ui_print("  [setting permissions]");
+set_perm(0, 0, 0755, "/tmp/mke2fs");
+set_perm(0, 0, 0755, "/tmp/tune2fs");
+show_progress(0.100000, 0);
+
+ui_print("Step 1: Formatting System");
+ui_print("  [ensuring /system is unmounted]");
+unmount("/system");
+ui_print("  [formatting system]");
+run_program("/tmp/mke2fs", "-g", "8184", "-m", "0", "-O", "none,has_journal,filetype", "-L", "system", "-U", "66c79d5f-31a2-42c6-86d9-9fe0d2ec3fe5", "/dev/block/mmcblk1p21");
+ui_print("  [disabling fs checking]");
+run_program("/tmp/tune2fs", "-c", "0", "-i", "0", "/dev/block/mmcblk1p21");
+show_progress(0.200000, 0);
+
+ui_print("Step 2: Installing System");
+ui_print("  [mounting /system]");
+mount("ext3", "/dev/block/mmcblk1p21", "/system");
+ui_print("  [extracting files]");
+package_extract_dir("system", "/system");
+show_progress(0.300000, 0);
+
+ui_print("Step 3: Installing Preinstall");
+ui_print("  [mounting /preinstall]");
+mount("ext3", "/dev/block/mmcblk1p23", "/preinstall");
+ui_print("  [deleting existing files]");
+delete_recursive("/preinstall/obsidian");
+ui_print("  [extracting files]");
+package_extract_dir("preinstall", "/preinstall");
+show_progress(0.100000, 0);
+
+ui_print("Step 4: Creating Symlinks");
+ui_print("  [symlinking busybox]");
+symlink("busybox", "/system/xbin/[", "/system/xbin/[[",
+        "/system/xbin/arp", "/system/xbin/ash", "/system/xbin/awk",
+        "/system/xbin/basename", "/system/xbin/bbconfig", "/system/xbin/brctl",
+        "/system/xbin/bunzip2", "/system/xbin/bzcat", "/system/xbin/bzip2",
+        "/system/xbin/cal", "/system/xbin/cat", "/system/xbin/catv",
+        "/system/xbin/chgrp", "/system/xbin/chmod", "/system/xbin/chown",
+        "/system/xbin/chroot", "/system/xbin/cksum", "/system/xbin/clear",
+        "/system/xbin/cmp", "/system/xbin/cp", "/system/xbin/cpio",
+        "/system/xbin/cut", "/system/xbin/date", "/system/xbin/dc",
+        "/system/xbin/dd", "/system/xbin/depmod", "/system/xbin/devmem",
+        "/system/xbin/df", "/system/xbin/diff", "/system/xbin/dirname",
+        "/system/xbin/dmesg", "/system/xbin/dnsd", "/system/xbin/dos2unix",
+        "/system/xbin/du", "/system/xbin/echo", "/system/xbin/ed",
+        "/system/xbin/egrep", "/system/xbin/env", "/system/xbin/expr",
+        "/system/xbin/false", "/system/xbin/fdisk", "/system/xbin/fgrep",
+        "/system/xbin/find", "/system/xbin/fold", "/system/xbin/free",
+        "/system/xbin/freeramdisk", "/system/xbin/fuser", "/system/xbin/getopt",
+        "/system/xbin/grep", "/system/xbin/gunzip", "/system/xbin/gzip",
+        "/system/xbin/head", "/system/xbin/hexdump", "/system/xbin/id",
+        "/system/xbin/ifconfig", "/system/xbin/insmod", "/system/xbin/install",
+        "/system/xbin/ip", "/system/xbin/kill", "/system/xbin/killall",
+        "/system/xbin/killall5", "/system/xbin/length", "/system/xbin/less",
+        "/system/xbin/ln", "/system/xbin/losetup", "/system/xbin/ls",
+        "/system/xbin/lsmod", "/system/xbin/lspci", "/system/xbin/lsusb",
+        "/system/xbin/lzop", "/system/xbin/lzopcat", "/system/xbin/md5sum",
+        "/system/xbin/mkdir", "/system/xbin/mke2fs", "/system/xbin/mkfifo",
+        "/system/xbin/mkfs.ext2", "/system/xbin/mknod", "/system/xbin/mkswap",
+        "/system/xbin/mktemp", "/system/xbin/modprobe", "/system/xbin/more",
+        "/system/xbin/mount", "/system/xbin/mountpoint", "/system/xbin/mv",
+        "/system/xbin/netstat", "/system/xbin/nice", "/system/xbin/nohup",
+        "/system/xbin/nslookup", "/system/xbin/ntpd", "/system/xbin/od",
+        "/system/xbin/patch", "/system/xbin/pgrep", "/system/xbin/pidof",
+        "/system/xbin/ping", "/system/xbin/pkill", "/system/xbin/printenv",
+        "/system/xbin/printf", "/system/xbin/ps", "/system/xbin/pwd",
+        "/system/xbin/rdev", "/system/xbin/readlink", "/system/xbin/realpath",
+        "/system/xbin/renice", "/system/xbin/reset", "/system/xbin/rm",
+        "/system/xbin/rmdir", "/system/xbin/rmmod", "/system/xbin/route",
+        "/system/xbin/run-parts", "/system/xbin/sed", "/system/xbin/seq",
+        "/system/xbin/setsid", "/system/xbin/sh", "/system/xbin/sha1sum",
+        "/system/xbin/sha256sum", "/system/xbin/sha512sum",
+        "/system/xbin/sleep", "/system/xbin/sort", "/system/xbin/split",
+        "/system/xbin/stat", "/system/xbin/strings", "/system/xbin/stty",
+        "/system/xbin/swapoff", "/system/xbin/swapon", "/system/xbin/sync",
+        "/system/xbin/sysctl", "/system/xbin/tac", "/system/xbin/tail",
+        "/system/xbin/tar", "/system/xbin/tee", "/system/xbin/telnet",
+        "/system/xbin/test", "/system/xbin/tftp", "/system/xbin/time",
+        "/system/xbin/top", "/system/xbin/touch", "/system/xbin/tr",
+        "/system/xbin/traceroute", "/system/xbin/true", "/system/xbin/tty",
+        "/system/xbin/tune2fs", "/system/xbin/umount", "/system/xbin/uname",
+        "/system/xbin/uniq", "/system/xbin/unix2dos", "/system/xbin/unlzop",
+        "/system/xbin/unzip", "/system/xbin/uptime", "/system/xbin/usleep",
+        "/system/xbin/uudecode", "/system/xbin/uuencode", "/system/xbin/vi",
+        "/system/xbin/watch", "/system/xbin/wc", "/system/xbin/wget",
+        "/system/xbin/which", "/system/xbin/whoami", "/system/xbin/xargs",
+        "/system/xbin/yes",
+        "/system/xbin/zcat");
+ui_print("  [symlinking keypad files]");
+symlink("cdma_shadow-keypad.kcm.bin", "/system/usr/keychars/sholes-keypad.kcm.bin");
+symlink("cdma_shadow-keypad.kl", "/system/usr/keylayout/sholes-keypad.kl");
+ui_print("  [symlinking hijack]");
+symlink("hijack", "/system/bin/logwrapper");
+ui_print("  [symlinking scriptybox]");
+symlink("scriptybox", "/system/xbin/adblock", "/system/xbin/camsounds",
+        "/system/xbin/compcache", "/system/xbin/cpuinfo",
+        "/system/xbin/freemem", "/system/xbin/halt", "/system/xbin/meminfo",
+        "/system/xbin/mtdinfo", "/system/xbin/rmapk", "/system/xbin/swapinfo",
+        "/system/xbin/switchapk", "/system/xbin/sysro", "/system/xbin/sysrw",
+        "/system/xbin/zipalign_apks");
+ui_print("  [symlinking toolbox]");
+symlink("toolbox", "/system/bin/cat", "/system/bin/chmod",
+        "/system/bin/chown", "/system/bin/cmp", "/system/bin/date",
+        "/system/bin/dd", "/system/bin/df", "/system/bin/dmesg",
+        "/system/bin/getevent", "/system/bin/getprop", "/system/bin/hd",
+        "/system/bin/id", "/system/bin/ifconfig", "/system/bin/iftop",
+        "/system/bin/insmod", "/system/bin/ioctl", "/system/bin/ionice",
+        "/system/bin/kill", "/system/bin/ln", "/system/bin/log",
+        "/system/bin/ls", "/system/bin/lsmod", "/system/bin/mkdir",
+        "/system/bin/mount", "/system/bin/mv", "/system/bin/nandread",
+        "/system/bin/netstat", "/system/bin/newfs_msdos", "/system/bin/notify",
+        "/system/bin/printenv", "/system/bin/ps", "/system/bin/reboot",
+        "/system/bin/renice", "/system/bin/rm", "/system/bin/rmdir",
+        "/system/bin/rmmod", "/system/bin/route", "/system/bin/schedtop",
+        "/system/bin/sendevent", "/system/bin/setconsole",
+        "/system/bin/setprop", "/system/bin/sleep", "/system/bin/smd",
+        "/system/bin/start", "/system/bin/stop", "/system/bin/sync",
+        "/system/bin/top", "/system/bin/umount", "/system/bin/vmstat",
+        "/system/bin/watchprops",
+        "/system/bin/wipe");
+show_progress(0.100000, 0);
+
+ui_print("Step 5: Setting permissions");
+ui_print("  [setting system permissions]");
+set_perm_recursive(0, 0, 0755, 0644, "/system");
+set_perm_recursive(0, 2000, 0755, 0755, "/system/bin");
+set_perm(0, 3003, 02750, "/system/bin/netcfg");
+set_perm(0, 3004, 02755, "/system/bin/ping");
+set_perm(0, 1001, 04770, "/system/bin/pppd-ril");
+set_perm(0, 2000, 06750, "/system/bin/run-as");
+set_perm_recursive(1002, 1002, 0755, 0440, "/system/etc/bluetooth");
+set_perm(0, 0, 0755, "/system/etc/bluetooth");
+set_perm(1000, 1000, 0640, "/system/etc/bluetooth/auto_pairing.conf");
+set_perm(3002, 3002, 0444, "/system/etc/bluetooth/blacklist.conf");
+set_perm(1002, 1002, 0440, "/system/etc/dbus.conf");
+set_perm(1014, 2000, 0550, "/system/etc/dhcpcd/dhcpcd-run-hooks");
+set_perm(0, 2000, 0550, "/system/etc/init.goldfish.sh");
+set_perm_recursive(0, 0, 0755, 0555, "/system/etc/init.d");
+set_perm_recursive(0, 0, 0755, 0555, "/system/etc/ppp");
+set_perm_recursive(0, 2000, 0755, 0755, "/system/xbin");
+set_perm(0, 0, 06755, "/system/xbin/librank");
+set_perm(0, 0, 06755, "/system/xbin/procmem");
+set_perm(0, 0, 06755, "/system/xbin/procrank");
+set_perm(0, 0, 06755, "/system/xbin/su");
+set_perm(0, 0, 06755, "/system/xbin/tcpdump");
+ui_print("  [setting preinstall permissions]");
+set_perm_recursive(0, 0, 0777, 0755, "/preinstall/obsidian");
+show_progress(0.100000, 0);
+
+ui_print("Step 6: Unmounting filesystems");
+ui_print("  [unmounting /system]");
+unmount("/system");
+ui_print("  [unmounting /preinstall]");
+unmount("/preinstall");
+show_progress(0.100000, 0);
+
+ui_print("HOLY CRAP INSTALL COMPLETED!");
+ui_print("Thank you for choosing obsidian!");
