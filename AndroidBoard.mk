@@ -123,3 +123,9 @@ $(file) : $(TARGET_OUT)/bin/hijack
 	@mkdir -p $(dir $@)
 	@rm -rf $@
 	$(hide) ln -sf hijack $@
+
+# add custom mount_ext3.sh
+file := $(TARGET_OUT)/bin/mount_ext3.sh
+ALL_PREBUILT += $(file)
+$(file) : $(LOCAL_PATH)/mount_ext3.sh | $(ACP)
+	$(transform-prebuilt-to-target)
