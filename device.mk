@@ -24,7 +24,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	ro.product.max_num_touch=2 \
 	ro.telephony.sms_segment_size=160 \
 	ro.setupwizard.mode=OPTIONAL \
-	ro.com.google.gmsversion=2.2_r5 \
+	ro.com.google.gmsversion=2.2_r7 \
 	ro.telephony.call_ring.multiple=false \
 	ro.telephony.call_ring.delay=1000 \
 	ro.url.safetylegal=http://www.motorola.com/staticfiles/Support/legal/?model=A855 \
@@ -52,9 +52,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	ro.media.camera.distortion=0.0,0.0,0.0,0.0,0.0 \
 	ro.media.camera.calresolution=3264,2448 \
 	ro.mot.hw.uaprof=http://uaprof.motorola.com/phoneconfig/MotoMB200/profile/MotoMB200.rdf \
-	ro.build.version.full=Blur_Version.2.2.3.MB810.Verizon.en.US \
+	ro.build.version.full=Blur_Version.2.3.340.MB810.Verizon.en.US \
 	ro.build.config.version=GAS_NA_GCXSHAD00VZW_P022 \
-	ro.build.config.date=Tue_Aug_10_21:58:11_-0500_2010
+	ro.build.config.date=Sun_Nov_07_23:40:30_-0600_2010
 #############################################################
 #	debug.mot.extwmlog=1 \
 #	debug.mot.extamlog=1 \
