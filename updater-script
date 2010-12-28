@@ -1,5 +1,5 @@
 set_progress(1.000000);
-ui_print("Obsidian 1.1.7 Installer");
+ui_print("Obsidian 2.0.0 Installer");
 ui_print("  by CVPCS");
 
 ui_print("Beginning installation...");
@@ -162,6 +162,3 @@ unmount("/system");
 ui_print("  [unmounting /preinstall]");
 unmount("/preinstall");
 show_progress(0.100000, 0);
-
-ui_print("HOLY CRAP INSTALL COMPLETED!");
-ui_print("Thank you for choosing obsidian!");
