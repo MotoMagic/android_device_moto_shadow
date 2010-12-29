@@ -134,5 +134,4 @@ $(file) : $(LOCAL_PATH)/mount_ext3.sh | $(ACP)
 file := $(TARGET_OUT)/etc/obsidian-boot.zip
 ALL_PREBUILT += $(file)
 $(file) : $(LOCAL_PATH)/obsidian-boot.zip | $(ACP)
-        $(transform-prebuilt-to-target)
-
+	$(transform-prebuilt-to-target)
