@@ -78,7 +78,7 @@ BOARD_CACHE_FILESYSTEM := auto
 BOARD_HIJACK_EXECUTABLES := logwrapper
 #BOARD_HIJACK_LOG_ENABLE := true
 BOARD_HIJACK_UPDATE_BINARY := /system/bin/updater
-BOARD_HIJACK_BOOT_UPDATE_ZIP := /system/obsidian/update-boot.zip
+BOARD_HIJACK_BOOT_UPDATE_ZIP := /system/etc/obsidian-boot.zip
 BOARD_HIJACK_RECOVERY_UPDATE_ZIP := /preinstall/recovery/recovery.zip
 
 ALLOW_LGPL := true

@@ -131,8 +131,8 @@ $(file) : $(LOCAL_PATH)/mount_ext3.sh | $(ACP)
 	$(transform-prebuilt-to-target)
 
 # add boot updater
-file := $(TARGET_OUT)/obsidian/update-boot.zip
+file := $(TARGET_OUT)/etc/obsidian-boot.zip
 ALL_PREBUILT += $(file)
-$(file) : $(LOCAL_PATH)/update-boot.zip | $(ACP)
+$(file) : $(LOCAL_PATH)/obsidian-boot.zip | $(ACP)
         $(transform-prebuilt-to-target)
 
