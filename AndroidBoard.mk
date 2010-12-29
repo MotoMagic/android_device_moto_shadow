@@ -135,3 +135,9 @@ file := $(TARGET_OUT)/etc/obsidian-boot.zip
 ALL_PREBUILT += $(file)
 $(file) : $(LOCAL_PATH)/obsidian-boot.zip | $(ACP)
 	$(transform-prebuilt-to-target)
+
+# add droidxbootstrap configuration file
+file := $(TARGET_OUT)/etc/DroidXBootstrap.cfg
+ALL_PREBUILT += $(file)
+$(file) : $(LOCAL_PATH)/DroidXBootstrap.cfg | $(ACP)
+	$(transform-prebuilt-to-target)
