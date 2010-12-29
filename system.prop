@@ -104,7 +104,7 @@ ro.com.android.dataroaming=true
 persist.mot.a2dp.direct = 0
 
 # System property for SMC
-ro.service.start.smc=1
+ro.service.start.smcd=1
 # BEGIN Motorola, a21951, 17-Apr-2010, IKSHADOW-3602
 # 0 disable
 # 1 enable
