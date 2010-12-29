@@ -57,8 +57,7 @@ BOARD_EGL_CFG := device/motorola/shadow/egl.cfg
 # information to control creation of OTA package
 TARGET_OTA_SCRIPT_MODE := edify
 TARGET_OTA_NO_BOOT := true
-TARGET_OTA_NO_RECOVERY := true
-#TARGET_NO_PREINSTALL := false
+TARGET_NO_RECOVERY := true
 
 # information for recovery building
 BOARD_HAS_NO_MISC_PARTITION := true
@@ -71,8 +70,6 @@ BOARD_SYSTEM_DEVICE := /dev/block/mmcblk1p21
 BOARD_SYSTEM_FILESYSTEM := auto
 BOARD_CACHE_DEVICE := /dev/block/cache
 BOARD_CACHE_FILESYSTEM := auto
-#BOARD_PREINSTALL_DEVICE := /dev/block/preinstall
-#BOARD_PREINSTALL_FILESYSTEM := auto
 
 # information for hijacking
 BOARD_HIJACK_EXECUTABLES := logwrapper
