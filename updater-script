@@ -28,16 +28,7 @@ ui_print("  [extracting files]");
 package_extract_dir("system", "/system");
 show_progress(0.300000, 0);
 
-ui_print("Step 3: Installing Preinstall");
-ui_print("  [mounting /preinstall]");
-mount("ext3", "/dev/block/mmcblk1p23", "/preinstall");
-ui_print("  [deleting existing files]");
-delete_recursive("/preinstall/obsidian");
-ui_print("  [extracting files]");
-package_extract_dir("preinstall", "/preinstall");
-show_progress(0.100000, 0);
-
-ui_print("Step 4: Creating Symlinks");
+ui_print("Step 3: Creating Symlinks");
 ui_print("  [symlinking busybox]");
 symlink("busybox", "/system/xbin/[", "/system/xbin/[[",
         "/system/xbin/arp", "/system/xbin/ash", "/system/xbin/awk",
@@ -129,7 +120,7 @@ symlink("toolbox", "/system/bin/cat", "/system/bin/chmod",
         "/system/bin/wipe");
 show_progress(0.100000, 0);
 
-ui_print("Step 5: Setting permissions");
+ui_print("Step 4: Setting permissions");
 ui_print("  [setting system permissions]");
 set_perm_recursive(0, 0, 0755, 0644, "/system");
 set_perm_recursive(0, 2000, 0755, 0755, "/system/bin");
@@ -152,13 +143,9 @@ set_perm(0, 0, 06755, "/system/xbin/procmem");
 set_perm(0, 0, 06755, "/system/xbin/procrank");
 set_perm(0, 0, 06755, "/system/xbin/su");
 set_perm(0, 0, 06755, "/system/xbin/tcpdump");
-ui_print("  [setting preinstall permissions]");
-set_perm_recursive(0, 0, 0777, 0755, "/preinstall/obsidian");
 show_progress(0.100000, 0);
 
-ui_print("Step 6: Unmounting filesystems");
+ui_print("Step 5: Unmounting filesystems");
 ui_print("  [unmounting /system]");
 unmount("/system");
-ui_print("  [unmounting /preinstall]");
-unmount("/preinstall");
 show_progress(0.100000, 0);

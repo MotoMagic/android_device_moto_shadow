@@ -45,7 +45,7 @@ USE_PV_WINDOWS_MEDIA := false
 BOARD_BOOTIMAGE_MAX_SIZE := $(call image-size-from-data-size,0x003FFFFF)
 BOARD_RECOVERYIMAGE_MAX_SIZE := $(call image-size-from-data-size,0x004FFFFF)
 BOARD_SYSTEMIMAGE_MAX_SIZE := $(call image-size-from-data-size,0x0BDFFFFF)
-BOARD_PREINSTALLIMAGE_MAX_SIZE := $(call image-size-from-data-size,0x)
+#BOARD_PREINSTALLIMAGE_MAX_SIZE := $(call image-size-from-data-size,0x)
 BOARD_USERDATAIMAGE_MAX_SIZE := $(call image-size-from-data-size,0x)
 # The size of a block that can be marked bad.
 BOARD_FLASH_BLOCK_SIZE := 131072
@@ -58,12 +58,12 @@ BOARD_EGL_CFG := device/motorola/shadow/egl.cfg
 TARGET_OTA_SCRIPT_MODE := edify
 TARGET_OTA_NO_BOOT := true
 TARGET_OTA_NO_RECOVERY := true
-TARGET_NO_PREINSTALL := false
+#TARGET_NO_PREINSTALL := false
 
 # information for recovery building
 BOARD_HAS_NO_MISC_PARTITION := true
 BOARD_RECOVERY_IGNORE_BOOTABLES := true
-#BOARD_HAS_PREINSTALL := true
+BOARD_HAS_PREINSTALL := true
 
 BOARD_DATA_DEVICE := /dev/block/userdata
 BOARD_DATA_FILESYSTEM := auto
