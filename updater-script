@@ -93,7 +93,7 @@ ui_print("  [symlinking hijack]");
 symlink("hijack", "/system/bin/logwrapper");
 ui_print("  [symlinking scriptybox]");
 symlink("scriptybox", "/system/xbin/adblock", "/system/xbin/camsounds",
-        "/system/xbin/compcache", "/system/xbin/cpuinfo",
+        "/system/xbin/compcache", "/system/xbin/cpuinfo", "/system/xbin/cwiid",
         "/system/xbin/freemem", "/system/xbin/halt", "/system/xbin/meminfo",
         "/system/xbin/mtdinfo", "/system/xbin/rmapk", "/system/xbin/swapinfo",
         "/system/xbin/switchapk", "/system/xbin/sysro", "/system/xbin/sysrw",
