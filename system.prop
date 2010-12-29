@@ -104,11 +104,11 @@ ro.com.android.dataroaming=true
 persist.mot.a2dp.direct = 0
 
 # System property for SMC
-ro.service.start.smcd=1
+ro.service.start.smc=0
 # BEGIN Motorola, a21951, 17-Apr-2010, IKSHADOW-3602
 # 0 disable
 # 1 enable
-persist.mot.usb.mediasync = 1
+persist.mot.usb.mediasync = 0
 # END Motorola, a21951, 17-Apr-2010, IKSHADOW-3602
 
 #Proximity sensor debounce time
