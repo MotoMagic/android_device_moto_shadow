@@ -39,7 +39,7 @@ wifi.interface = tiwlan0
 # Time between scans in seconds. Keep it high to minimize battery drain.
 # This only affects the case in which there are remembered access points,
 # but none are in range.
-wifi.supplicant_scan_interval = 45
+wifi.supplicant_scan_interval = 90
 
 # Indicate carrier OTA SP number schema
 # refer to frameworks/base/telephony/java/com/android/
