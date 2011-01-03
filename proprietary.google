@@ -1,8 +1,4 @@
-/system/app/CarHomeGoogle.apk
-/system/app/CarHomeLauncher.apk
-/system/app/com.amazon.mp3.apk
 /system/app/GenieWidget.apk
-/system/app/Gmail.apk
 /system/app/GoogleBackupTransport.apk
 /system/app/GoogleCalendarSyncAdapter.apk
 /system/app/GoogleContactsSyncAdapter.apk
@@ -18,11 +14,9 @@
 /system/app/OneTimeInitializer.apk
 /system/app/SetupWizard.apk
 /system/app/soundback.apk
-/system/app/Street.apk
 /system/app/Talk.apk
 /system/app/talkback.apk
 /system/app/Vending.apk
-/system/app/YouTube.apk
 /system/etc/permissions/com.google.android.maps.xml
 /system/etc/permissions/features.xml
 /system/etc/updatecmds/google_generic_update.txt
