@@ -111,6 +111,7 @@
 /system/lib/libFMRadio.so
 /system/lib/libHPImgApi.so
 /system/lib/libIMGegl.so
+/system/lib/libLCML.so
 /system/lib/libMynetNativeJni.so
 /system/lib/libOMX.TI.720P.Decoder.so
 /system/lib/libOMX.TI.720P.Encoder.so
