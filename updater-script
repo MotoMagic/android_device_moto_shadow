@@ -1,5 +1,5 @@
 set_progress(1.000000);
-ui_print("Obsidian 2.0.1 Installer");
+ui_print("Obsidian 2.0.2 Installer");
 ui_print("  by CVPCS");
 
 ui_print("Beginning installation...");
