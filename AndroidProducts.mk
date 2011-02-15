@@ -13,14 +13,9 @@
 # limitations under the License.
 
 #
-# AndroidBoard.mk is a legacy mechanism to deal with a few
-# edge-cases that can't be managed otherwise. No new rules
-# should be added to this file.
+# This file lists the product definition files that define
+# configurations which are actually buildable (e.g. through lunch)
 #
 
-LOCAL_PATH := $(call my-dir)
-
-include $(CLEAR_VARS)
-
-# include the non-open-source counterpart to this file
--include vendor/motorola/shadow/AndroidBoardVendor.mk
+PRODUCT_MAKEFILES := \
+    $(LOCAL_DIR)/shadow.mk

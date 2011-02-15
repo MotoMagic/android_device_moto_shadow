@@ -74,7 +74,6 @@ adb pull /system/etc/fm_rx_init_1273.2.bts ../../../vendor/motorola/$DEVICE/prop
 adb pull /system/etc/fm_rx_init_6450.2.bts ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/etc/fmc_init_1273.2.bts ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/etc/fmc_init_6450.2.bts ../../../vendor/motorola/$DEVICE/proprietary
-adb pull /system/etc/media_profiles.xml ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/etc/ppp/peers/pppd-ril.options ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/etc/priority_notifications_config.xml ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/etc/pvextensions.cfg ../../../vendor/motorola/$DEVICE/proprietary
@@ -87,7 +86,6 @@ adb pull /system/etc/smc_android_cfg_256.ini ../../../vendor/motorola/$DEVICE/pr
 adb pull /system/etc/smc_pa.ift ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/etc/smc_pa_pk_4_ipa.bin ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/etc/supportedlocales.conf ../../../vendor/motorola/$DEVICE/proprietary
-adb pull /system/etc/vold.fstab ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/etc/vzwpubagps.cer ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/etc/wifi/fw_tiwlan_ap.bin ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/etc/wifi/fw_wlan1271.bin ../../../vendor/motorola/$DEVICE/proprietary
@@ -125,8 +123,6 @@ adb pull /system/lib/egl/libgles1_texture_stream.so ../../../vendor/motorola/$DE
 adb pull /system/lib/egl/libgles2_texture_stream.so ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/lib/hw/gestures.shadow.so ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/lib/hw/gralloc.omap3.so ../../../vendor/motorola/$DEVICE/proprietary
-adb pull /system/lib/hw/lights.shadow.so ../../../vendor/motorola/$DEVICE/proprietary
-adb pull /system/lib/hw/sensors.shadow.so ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/lib/libFMRadio.so ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/lib/libHPImgApi.so ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/lib/libIMGegl.so ../../../vendor/motorola/$DEVICE/proprietary
@@ -229,7 +225,14 @@ adb pull /system/xbin/pppd ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/xbin/run_backup ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/xbin/run_restore ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/xbin/ssmgrd ../../../vendor/motorola/$DEVICE/proprietary
-
+adb pull /system/lib/libaudiopolicy.so ../../../vendor/motorola/$DEVICE/proprietary
+adb pull /system/lib/libaudio.so ../../../vendor/motorola/$DEVICE/proprietary
+adb pull /system/lib/libcamera.so ../../../vendor/motorola/$DEVICE/proprietary
+adb pull /system/lib/libnmea.so ../../../vendor/motorola/$DEVICE/proprietary
+adb pull /system/lib/libril_rds.so ../../../vendor/motorola/$DEVICE/proprietary
+adb pull /system/lib/libgps_rds.so ../../../vendor/motorola/$DEVICE/proprietary
+adb pull /system/lib/libsmiledetect.so ../../../vendor/motorola/$DEVICE/proprietary
+adb pull /system/lib/libarcsoft.so ../../../vendor/motorola/$DEVICE/proprietary
 
 (cat << EOF) | sed s/__DEVICE__/$DEVICE/g > ../../../vendor/motorola/$DEVICE/$DEVICE-vendor-blobs.mk
 # Copyright (C) 2010 The Android Open Source Project
@@ -250,24 +253,22 @@ adb pull /system/xbin/ssmgrd ../../../vendor/motorola/$DEVICE/proprietary
 
 # Prebuilt libraries that are needed to build open-source libraries
 PRODUCT_COPY_FILES := \\
-    vendor/motorola/__DEVICE__/proprietary/libmoto_gps.so:obj/lib/libmoto_gps.so \\
-    vendor/motorola/__DEVICE__/proprietary/libcamera.so:obj/lib/libcamera.so \\
-    vendor/motorola/__DEVICE__/proprietary/libaudio.so:obj/lib/libaudio.so \\
+    vendor/motorola/__DEVICE__/proprietary/libarcsoft.so:obj/lib/libarcsoft.so \\
     vendor/motorola/__DEVICE__/proprietary/libaudiopolicy.so:obj/lib/libaudiopolicy.so \\
-    vendor/motorola/__DEVICE__/proprietary/libril_rds.so:obj/lib/libril_rds.so \\
+    vendor/motorola/__DEVICE__/proprietary/libaudio.so:obj/lib/libaudio.so \\
+    vendor/motorola/__DEVICE__/proprietary/libcamera.so:obj/lib/libcamera.so \\
+    vendor/motorola/__DEVICE__/proprietary/libgps_rds.so:obj/lib/libgps_rds.so \\
     vendor/motorola/__DEVICE__/proprietary/libnmea.so:obj/lib/libnmea.so \\
-    vendor/motorola/__DEVICE__/proprietary/libsmiledetect.so \\
-    vendor/motorola/__DEVICE__/proprietary/libarcsoft.so \\
-    vendor/motorola/__DEVICE__/proprietary/gralloc.omap3.so:obj/lib/hw/gralloc.omap3.so \\
-    vendor/motorola/__DEVICE__/proprietary/lights.shadow.so:obj/lib/hw/lights.shadow.so \\
-    vendor/motorola/__DEVICE__/proprietary/sensors.shadow.so:obj/lib/hw/sensors.shadow.so
+    vendor/motorola/__DEVICE__/proprietary/libril_rds.so:obj/lib/libril_rds.so \\
+    vendor/motorola/__DEVICE__/proprietary/libsmiledetect.so:obj/lib/libsmiledetect.so \\
+    vendor/motorola/__DEVICE__/proprietary/gralloc.omap3.so:obj/lib/hw/gralloc.omap3.so
 
 PRODUCT_COPY_FILES += \\
-    vendor/motorola/__DEVICE__/proprietary/ProgramMenuSystem.apk:/system/app/ProgramMenuSystem.apk \\
+    vendor/motorola/__DEVICE__/proprietary/PhoneConfig.apk:/system/app/PhoneConfig.apk \\
     vendor/motorola/__DEVICE__/proprietary/ProgramMenu.apk:/system/app/ProgramMenu.apk \\
-    vendor/motorola/__DEVICE__/proprietary/PhoneConfig.apk:/system/app/PhoneConfig.apk
+    vendor/motorola/__DEVICE__/proprietary/ProgramMenuSystem.apk:/system/app/ProgramMenuSystem.apk
 
-# All the blobs necessary for passion
+# All the blobs necessary for shadow
 PRODUCT_COPY_FILES += \\
     vendor/motorola/__DEVICE__/proprietary/Hostapd:/system/bin/Hostapd \\
     vendor/motorola/__DEVICE__/proprietary/SaveBPVer:/system/bin/SaveBPVer \\
@@ -321,7 +322,6 @@ PRODUCT_COPY_FILES += \\
     vendor/motorola/__DEVICE__/proprietary/fm_rx_init_6450.2.bts:/system/etc/fm_rx_init_6450.2.bts \\
     vendor/motorola/__DEVICE__/proprietary/fmc_init_1273.2.bts:/system/etc/fmc_init_1273.2.bts \\
     vendor/motorola/__DEVICE__/proprietary/fmc_init_6450.2.bts:/system/etc/fmc_init_6450.2.bts \\
-    vendor/motorola/__DEVICE__/proprietary/media_profiles.xml:/system/etc/media_profiles.xml \\
     vendor/motorola/__DEVICE__/proprietary/pppd-ril.options:/system/etc/ppp/peers/pppd-ril.options \\
     vendor/motorola/__DEVICE__/proprietary/priority_notifications_config.xml:/system/etc/priority_notifications_config.xml \\
     vendor/motorola/__DEVICE__/proprietary/pvextensions.cfg:/system/etc/pvextensions.cfg \\
@@ -334,7 +334,6 @@ PRODUCT_COPY_FILES += \\
     vendor/motorola/__DEVICE__/proprietary/smc_pa.ift:/system/etc/smc_pa.ift \\
     vendor/motorola/__DEVICE__/proprietary/smc_pa_pk_4_ipa.bin:/system/etc/smc_pa_pk_4_ipa.bin \\
     vendor/motorola/__DEVICE__/proprietary/supportedlocales.conf:/system/etc/supportedlocales.conf \\
-    vendor/motorola/__DEVICE__/proprietary/vold.fstab:/system/etc/vold.fstab \\
     vendor/motorola/__DEVICE__/proprietary/vzwpubagps.cer:/system/etc/vzwpubagps.cer \\
     vendor/motorola/__DEVICE__/proprietary/fw_tiwlan_ap.bin:/system/etc/wifi/fw_tiwlan_ap.bin \\
     vendor/motorola/__DEVICE__/proprietary/fw_wlan1271.bin:/system/etc/wifi/fw_wlan1271.bin \\
@@ -372,8 +371,6 @@ PRODUCT_COPY_FILES += \\
     vendor/motorola/__DEVICE__/proprietary/libgles2_texture_stream.so:/system/lib/egl/libgles2_texture_stream.so \\
     vendor/motorola/__DEVICE__/proprietary/gestures.shadow.so:/system/lib/hw/gestures.shadow.so \\
     vendor/motorola/__DEVICE__/proprietary/gralloc.omap3.so:/system/lib/hw/gralloc.omap3.so \\
-    vendor/motorola/__DEVICE__/proprietary/lights.shadow.so:/system/lib/hw/lights.shadow.so \\
-    vendor/motorola/__DEVICE__/proprietary/sensors.shadow.so:/system/lib/hw/sensors.shadow.so \\
     vendor/motorola/__DEVICE__/proprietary/libFMRadio.so:/system/lib/libFMRadio.so \\
     vendor/motorola/__DEVICE__/proprietary/libHPImgApi.so:/system/lib/libHPImgApi.so \\
     vendor/motorola/__DEVICE__/proprietary/libIMGegl.so:/system/lib/libIMGegl.so \\
@@ -461,20 +458,12 @@ PRODUCT_COPY_FILES += \\
     vendor/motorola/__DEVICE__/proprietary/libvisualization_jni.so:/system/lib/libvisualization_jni.so \\
     vendor/motorola/__DEVICE__/proprietary/libvsuite_sharedlib.so:/system/lib/libvsuite_sharedlib.so \\
     vendor/motorola/__DEVICE__/proprietary/libwbxmlparser.so:/system/lib/libwbxmlparser.so \\
-    vendor/motorola/__DEVICE__/proprietary/:/system/lib/ulogd_BASE.so \\
-    vendor/motorola/__DEVICE__/proprietary/:/system/lib/ulogd_SQLITE3.so \\
-    vendor/motorola/__DEVICE__/proprietary/:/system/tts/lang_pico/en-US_lh0_sg.bin \\
-    vendor/motorola/__DEVICE__/proprietary/:/system/tts/lang_pico/en-US_ta.bin \\
-    vendor/motorola/__DEVICE__/proprietary/:/system/tts/lang_pico/es-ES_ta.bin \\
-    vendor/motorola/__DEVICE__/proprietary/:/system/tts/lang_pico/es-ES_zl0_sg.bin \\
-    vendor/motorola/__DEVICE__/proprietary/libaudiopolicy.so:/system/lib/libaudiopolicy.so \\
-    vendor/motorola/__DEVICE__/proprietary/libaudio.so:/system/lib/libaudio.so \\
-    vendor/motorola/__DEVICE__/proprietary/libcamera.so:/system/lib/libcamera.so \\
-    vendor/motorola/__DEVICE__/proprietary/libnmea.so:/system/lib/libnmea.so \\
-    vendor/motorola/__DEVICE__/proprietary/libril_rds.so:/system/lib/libril_rds.so \\
-    vendor/motorola/__DEVICE__/proprietary/libgps_rds.so:/system/lib/libgps_rds.so \\
-    vendor/motorola/__DEVICE__/proprietary/libsmiledetect.so:/system/lib/libsmiledetect.so \\
-    vendor/motorola/__DEVICE__/proprietary/libarcsoft.so:/system/lib/libarcsoft.so \\
+    vendor/motorola/__DEVICE__/proprietary/ulogd_BASE.so:/system/lib/ulogd_BASE.so \\
+    vendor/motorola/__DEVICE__/proprietary/ulogd_SQLITE3.so:/system/lib/ulogd_SQLITE3.so \\
+    vendor/motorola/__DEVICE__/proprietary/en-US_lh0_sg.bin:/system/tts/lang_pico/en-US_lh0_sg.bin \\
+    vendor/motorola/__DEVICE__/proprietary/en-US_ta.bin:/system/tts/lang_pico/en-US_ta.bin \\
+    vendor/motorola/__DEVICE__/proprietary/es-ES_ta.bin:/system/tts/lang_pico/es-ES_ta.bin \\
+    vendor/motorola/__DEVICE__/proprietary/es-ES_zl0_sg.bin:/system/tts/lang_pico/es-ES_zl0_sg.bin \\
     vendor/motorola/__DEVICE__/proprietary/cdma_shadow-keypad.kcm.bin:/system/usr/keychars/cdma_shadow-keypad.kcm.bin \\
     vendor/motorola/__DEVICE__/proprietary/cdma_shadow-keypad.kl:/system/usr/keylayout/cdma_shadow-keypad.kl \\
     vendor/motorola/__DEVICE__/proprietary/cpcap-key.kl:/system/usr/keylayout/cpcap-key.kl \\
@@ -483,8 +472,15 @@ PRODUCT_COPY_FILES += \\
     vendor/motorola/__DEVICE__/proprietary/pppd:/system/xbin/pppd \\
     vendor/motorola/__DEVICE__/proprietary/run_backup:/system/xbin/run_backup \\
     vendor/motorola/__DEVICE__/proprietary/run_restore:/system/xbin/run_restore \\
-    vendor/motorola/__DEVICE__/proprietary/ssmgrd:/system/xbin/ssmgrd
-
+    vendor/motorola/__DEVICE__/proprietary/ssmgrd:/system/xbin/ssmgrd \\
+    vendor/motorola/__DEVICE__/proprietary/libarcsoft.so:/system/lib/libarcsoft.so \\
+    vendor/motorola/__DEVICE__/proprietary/libaudiopolicy.so:/system/lib/libaudiopolicy.so \\
+    vendor/motorola/__DEVICE__/proprietary/libaudio.so:/system/lib/libaudio.so \\
+    vendor/motorola/__DEVICE__/proprietary/libcamera.so:/system/lib/libcamera.so \\
+    vendor/motorola/__DEVICE__/proprietary/libnmea.so:/system/lib/libnmea.so \\
+    vendor/motorola/__DEVICE__/proprietary/libril_rds.so:/system/lib/libril_rds.so \\
+    vendor/motorola/__DEVICE__/proprietary/libgps_rds.so:/system/lib/libgps_rds.so \\
+    vendor/motorola/__DEVICE__/proprietary/libsmiledetect.so:/system/lib/libsmiledetect.so
 
 EOF
 
