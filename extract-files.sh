@@ -20,7 +20,6 @@ mkdir -p ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/app/PhoneConfig.apk ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/app/ProgramMenu.apk ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/app/ProgramMenuSystem.apk ../../../vendor/motorola/$DEVICE/proprietary
-adb pull /system/app/QuickOffice.apk ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/app/UsbService.apk ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/bin/Hostapd ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/bin/SaveBPVer ../../../vendor/motorola/$DEVICE/proprietary
@@ -266,7 +265,8 @@ PRODUCT_COPY_FILES := \\
 PRODUCT_COPY_FILES += \\
     vendor/motorola/__DEVICE__/proprietary/PhoneConfig.apk:/system/app/PhoneConfig.apk \\
     vendor/motorola/__DEVICE__/proprietary/ProgramMenu.apk:/system/app/ProgramMenu.apk \\
-    vendor/motorola/__DEVICE__/proprietary/ProgramMenuSystem.apk:/system/app/ProgramMenuSystem.apk
+    vendor/motorola/__DEVICE__/proprietary/ProgramMenuSystem.apk:/system/app/ProgramMenuSystem.apk \\
+    vendor/motorola/__DEVICE__/proprietary/UsbService.apk:/system/app/UsbService.apk
 
 # All the blobs necessary for shadow
 PRODUCT_COPY_FILES += \\
@@ -363,11 +363,11 @@ PRODUCT_COPY_FILES += \\
     vendor/motorola/__DEVICE__/proprietary/wbamrenc_sn.dll64P:/system/lib/dsp/wbamrenc_sn.dll64P \\
     vendor/motorola/__DEVICE__/proprietary/wmadec_sn.dll64P:/system/lib/dsp/wmadec_sn.dll64P \\
     vendor/motorola/__DEVICE__/proprietary/wmv9dec_sn.dll64P:/system/lib/dsp/wmv9dec_sn.dll64P \\
-    vendor/motorola/__DEVICE__/proprietary/libEGL_POWEVR_SGX530_125.so:/system/lib/egl/libEGL_POWERVR_SGX530_125.so \\
+    vendor/motorola/__DEVICE__/proprietary/libEGL_POWERVR_SGX530_125.so:/system/lib/egl/libEGL_POWERVR_SGX530_125.so \\
     vendor/motorola/__DEVICE__/proprietary/libGLESv1_CM_POWERVR_SGX530_125.so:/system/lib/egl/libGLESv1_CM_POWERVR_SGX530_125.so \\
     vendor/motorola/__DEVICE__/proprietary/libGLESv2_POWERVR_SGX530_125.so:/system/lib/egl/libGLESv2_POWERVR_SGX530_125.so \\
     vendor/motorola/__DEVICE__/proprietary/libeglinfo.so:/system/lib/egl/libeglinfo.so \\
-    vendor/motorola/__DEVICE__/proprietary/libgles1_texture_stream:/system/lib/egl/libgles1_texture_stream.so \\
+    vendor/motorola/__DEVICE__/proprietary/libgles1_texture_stream.so:/system/lib/egl/libgles1_texture_stream.so \\
     vendor/motorola/__DEVICE__/proprietary/libgles2_texture_stream.so:/system/lib/egl/libgles2_texture_stream.so \\
     vendor/motorola/__DEVICE__/proprietary/gestures.shadow.so:/system/lib/hw/gestures.shadow.so \\
     vendor/motorola/__DEVICE__/proprietary/gralloc.omap3.so:/system/lib/hw/gralloc.omap3.so \\
@@ -378,7 +378,7 @@ PRODUCT_COPY_FILES += \\
     vendor/motorola/__DEVICE__/proprietary/libMynetNativeJni.so:/system/lib/libMynetNativeJni.so \\
     vendor/motorola/__DEVICE__/proprietary/libOMX.TI.720P.Decoder.so:/system/lib/libOMX.TI.720P.Decoder.so \\
     vendor/motorola/__DEVICE__/proprietary/libOMX.TI.720P.Encoder.so:/system/lib/libOMX.TI.720P.Encoder.so \\
-    vendor/motorola/__DEVICE__/proprietary/libOMG.TI.AAC.decode.so:/system/lib/libOMX.TI.AAC.decode.so \\
+    vendor/motorola/__DEVICE__/proprietary/libOMX.TI.AAC.decode.so:/system/lib/libOMX.TI.AAC.decode.so \\
     vendor/motorola/__DEVICE__/proprietary/libOMX.TI.AMR.decode.so:/system/lib/libOMX.TI.AMR.decode.so \\
     vendor/motorola/__DEVICE__/proprietary/libOMX.TI.MP3.decode.so:/system/lib/libOMX.TI.MP3.decode.so \\
     vendor/motorola/__DEVICE__/proprietary/libOMX.TI.WBAMR.decode.so:/system/lib/libOMX.TI.WBAMR.decode.so \\
@@ -473,14 +473,14 @@ PRODUCT_COPY_FILES += \\
     vendor/motorola/__DEVICE__/proprietary/run_backup:/system/xbin/run_backup \\
     vendor/motorola/__DEVICE__/proprietary/run_restore:/system/xbin/run_restore \\
     vendor/motorola/__DEVICE__/proprietary/ssmgrd:/system/xbin/ssmgrd \\
-    vendor/motorola/__DEVICE__/proprietary/libarcsoft.so:/system/lib/libarcsoft.so \\
     vendor/motorola/__DEVICE__/proprietary/libaudiopolicy.so:/system/lib/libaudiopolicy.so \\
     vendor/motorola/__DEVICE__/proprietary/libaudio.so:/system/lib/libaudio.so \\
     vendor/motorola/__DEVICE__/proprietary/libcamera.so:/system/lib/libcamera.so \\
     vendor/motorola/__DEVICE__/proprietary/libnmea.so:/system/lib/libnmea.so \\
     vendor/motorola/__DEVICE__/proprietary/libril_rds.so:/system/lib/libril_rds.so \\
     vendor/motorola/__DEVICE__/proprietary/libgps_rds.so:/system/lib/libgps_rds.so \\
-    vendor/motorola/__DEVICE__/proprietary/libsmiledetect.so:/system/lib/libsmiledetect.so
+    vendor/motorola/__DEVICE__/proprietary/libsmiledetect.so:/system/lib/libsmiledetect.so \\
+    vendor/motorola/__DEVICE__/proprietary/libarcsoft.so:/system/lib/libarcsoft.so
 
 EOF
 
