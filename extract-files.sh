@@ -125,7 +125,6 @@ adb pull /system/lib/hw/gralloc.omap3.so ../../../vendor/motorola/$DEVICE/propri
 adb pull /system/lib/libFMRadio.so ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/lib/libHPImgApi.so ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/lib/libIMGegl.so ../../../vendor/motorola/$DEVICE/proprietary
-adb pull /system/lib/libLCML.so ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/lib/libMynetNativeJni.so ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/lib/libOMX.TI.720P.Decoder.so ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/lib/libOMX.TI.720P.Encoder.so ../../../vendor/motorola/$DEVICE/proprietary
@@ -374,7 +373,6 @@ PRODUCT_COPY_FILES += \\
     vendor/motorola/__DEVICE__/proprietary/libFMRadio.so:/system/lib/libFMRadio.so \\
     vendor/motorola/__DEVICE__/proprietary/libHPImgApi.so:/system/lib/libHPImgApi.so \\
     vendor/motorola/__DEVICE__/proprietary/libIMGegl.so:/system/lib/libIMGegl.so \\
-    vendor/motorola/__DEVICE__/proprietary/libLCML.so:/system/lib/libLCML.so \\
     vendor/motorola/__DEVICE__/proprietary/libMynetNativeJni.so:/system/lib/libMynetNativeJni.so \\
     vendor/motorola/__DEVICE__/proprietary/libOMX.TI.720P.Decoder.so:/system/lib/libOMX.TI.720P.Decoder.so \\
     vendor/motorola/__DEVICE__/proprietary/libOMX.TI.720P.Encoder.so:/system/lib/libOMX.TI.720P.Encoder.so \\
