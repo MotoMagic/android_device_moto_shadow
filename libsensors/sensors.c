@@ -15,6 +15,7 @@
  */
 
 #include <hardware/sensors.h>
+#include <sys/limits.h>
 
 #include "nusensors.h"
 

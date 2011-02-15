@@ -33,7 +33,6 @@
 Kxtf9Sensor::Kxtf9Sensor()
 : SensorBase(KXTF9_DEVICE_NAME, "accelerometer"),
       mEnabled(0),
-      mHasPendingEvents(false),
       mInputReader(32)
 {
     mPendingEvent.version = sizeof(sensors_event_t);
@@ -98,10 +97,6 @@ int Kxtf9Sensor::enable(int32_t handle, int en)
         }
     }
     return err;
-}
-
-bool LightSensor::hasPendingEvents() const {
-    return mHasPendingEvent;
 }
 
 int Kxtf9Sensor::setDelay(int32_t handle, int64_t ns)
