@@ -44,6 +44,10 @@ TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a8
 TARGET_NO_BOOTLOADER := false
 TARGET_BOOTLOADER_BOARD_NAME := shadow
 
+TARGET_PROVIDES_RELEASETOOLS := true
+TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := device/motorola/shadow/releasetools/ota_from_target_files
+TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := device/motorola/shadow/releasetools/img_from_target_files
+
 # Wifi related defines
 BOARD_WPA_SUPPLICANT_DRIVER := CUSTOM
 BOARD_WPA_SUPPLICANT_PRIVATE_LIB := libCustomWifi
