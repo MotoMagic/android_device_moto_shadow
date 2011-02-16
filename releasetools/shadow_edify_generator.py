@@ -116,12 +116,13 @@ class EdifyGenerator(object):
     self.script.append('set_perm(0, 0, 0777, "/tmp/verify_cache_partition_size.sh");')
     self.script.append('run_program("/tmp/verify_cache_partition_size.sh");')
 
-  def RunFormatAndTuneSystem(self, device):
-    self.script.append('package_extract_file("utilities/mke2fs", "/tmp/mke2fs");')
+  def RunFormatAndTuneSystem(self):
+    mount_point = "/system"
+    self.script.append('package_extract_file("system/bin/mke2fs", "/tmp/mke2fs");')
     self.script.append('set_perm(0, 0, 0777, "/tmp/mke2fs");')
-    self.script.append('package_extract_file("utilities/tune2fs", "/tmp/tune2fs");')
+    self.script.append('package_extract_file("system/bin/tune2fs", "/tmp/tune2fs");')
     self.script.append('set_perm(0, 0, 0777, "/tmp/tune2fs");')
-    self.script.append('unmount("/system");')
+    self.script.append('unmount("%s");' % (mount_point))
     fstab = self.info.get("fstab", None)
     if fstab:
       p = fstab[mount_point]

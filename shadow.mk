@@ -153,6 +153,11 @@ PRODUCT_COPY_FILES += \
     device/motorola/shadow/kernel/tiwlan_drv.ko:system/lib/modules/tiwlan_drv.ko \
     device/motorola/shadow/kernel/wl127x_test.ko:system/lib/modules/wl127x_test.ko
 
+# these need to be here for the installer, just put them here for now
+PRODUCT_COPY_FILES += \
+    device/motorola/shadow/utilities/mke2fs:system/bin/mke2fs \
+    device/motorola/shadow/utilities/tune2fs:system/bin/tune2fs
+
 ifeq ($(TARGET_PREBUILT_KERNEL),)
 LOCAL_KERNEL := device/motorola/shadow/kernel/zImage
 else
