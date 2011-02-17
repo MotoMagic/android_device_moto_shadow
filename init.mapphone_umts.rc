@@ -54,7 +54,7 @@ on init
     # mount /pds as r/w
     # We chown/chmod /pds again so because mount is run as root + defaults
     mount yaffs2 mtd@pds /pds nosuid nodev no-checkpoint
-    exec /system/bin/logwrapper /system/bin/mount_ext3.sh pds /pds
+    mount ext3 mmc@pds /pds nosuid nodev noatime nodiratime
     chown system system /pds
     chmod 0775 /pds
     mkdir /pds/comm_drv 0770 radio radio
@@ -615,3 +615,9 @@ on property:tcmd.ctrl_adb=0
     setprop persist.factory.allow_adb  0
     stop usbd
     start usbd
+
+# originally in init.rc
+service map /system/bin/sdptool add --channel=20 MAP
+    user bluetooth
+    group bluetooth net_bt_admin
+    disabled
