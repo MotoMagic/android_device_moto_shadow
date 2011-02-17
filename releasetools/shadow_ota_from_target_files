@@ -346,8 +346,8 @@ def WriteFullOTAPackage(input_zip, output_zip):
 #    ts = GetBuildProp("ro.build.date.utc", input_zip)
 #    script.AssertOlderBuild(ts)
 
-  AppendAssertions(script, input_zip)
-  device_specific.FullOTA_Assertions()
+#  AppendAssertions(script, input_zip)
+#  device_specific.FullOTA_Assertions()
   if OPTIONS.backuptool:
     script.RunBackup("backup")
 
