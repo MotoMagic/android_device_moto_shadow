@@ -169,6 +169,14 @@ on init
     chown system system /cache/fota
     chmod 0770 /cache/fota
 
+on fs
+# mount mmc partitions
+    # Mount /system rw first to give the filesystem a chance to save a checkpoint
+    mount ext3 /dev/block/mmcblk1p21 /system
+    mount ext3 /dev/block/mmcblk1p21 /system ro remount
+    mount ext3 /dev/block/mmcblk1p24 /data nosuid nodev
+    mount ext3 /dev/block/mmcblk1p22 /cache nosuid nodev
+
 on early-boot
 
 # Adjust the out of memory thresholds to account for the larget

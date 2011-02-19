@@ -1,0 +1,9 @@
+#!/newboot/sbin/hijack sh
+
+# we put xbin first, so we get hijack instead of toolbox
+export PATH="/newboot/sbin:/sbin:${PATH}"
+
+while hijack true ; do
+	/newboot/sbin/hijack.log_dump $2.indef
+	hijack sleep $1
+done

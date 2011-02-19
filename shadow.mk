@@ -127,7 +127,6 @@ PRODUCT_TAGS += dalvik.gc.type-precise
 PRODUCT_LOCALES += hdpi
 
 PRODUCT_COPY_FILES += \
-    device/motorola/shadow/shadow-boot.zip:system/etc/shadow-boot.zip \
     device/motorola/shadow/DroidXBootstrap.cfg:system/etc/DroidXBootstrap.cfg \
     device/motorola/shadow/vold.fstab:system/etc/vold.fstab \
     device/motorola/shadow/apns-conf.xml:system/etc/apns-conf.xml \
