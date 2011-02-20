@@ -124,7 +124,6 @@ $(BUILT_SHADOW_BOOT_FILES_PACKAGE) : \
 		$(SHADOW_BOOT_PREREQS) \
 		$(INSTALLED_ANDROID_INFO_TXT_TARGET) \
 		$(built_ota_tools) \
-		$(APKCERTS_FILE) \
 		$(HOST_OUT_EXECUTABLES)/fs_config \
 		| $(ACP)
 	@echo "Package shadow-boot files: $@"
@@ -142,8 +141,6 @@ $(BUILT_SHADOW_BOOT_FILES_PACKAGE) : \
 	$(hide) $(ACP) $(PRIVATE_OTA_TOOLS) $(zip_root)/OTA/bin/
 	@# Files required to build an update.zip
 	$(hide) mkdir -p $(zip_root)/META
-	$(hide) $(ACP) $(APKCERTS_FILE) $(zip_root)/META/apkcerts.txt
-	$(hide) echo "$(PRODUCT_OTA_PUBLIC_KEYS)" > $(zip_root)/META/otakeys.txt
 	$(hide) echo "recovery_api_version=$(PRIVATE_RECOVERY_API_VERSION)" > $(zip_root)/META/misc_info.txt
 	@# Zip everything up, preserving symlinks
 	$(hide) (cd $(zip_root) && zip -qry ../$(notdir $@) .)

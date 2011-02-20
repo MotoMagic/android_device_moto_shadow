@@ -48,7 +48,7 @@ logcat -d > "$1.$num/logcat"
 
 if hijack [ -e /newboot/dev/log/main ] ; then
 	hijack echo "      - dumping logcat for newboot to $1.$num/logcat_newboot" >> "$1"
-	logcat -l /newboot/dev/log/main -d > "$1.$num/logcat_newboot"
+	logcat -b /newboot/dev/log/main -d > "$1.$num/logcat_newboot"
 fi
 
 hijack echo "      system inventory complete" >> "$1"

@@ -516,11 +516,22 @@ int main(int argc, char **argv)
             break;
 
             case 'b': {
-                char* buf = (char*) malloc(strlen(LOG_FILE_DIR) + strlen(optarg) + 1);
-                strcpy(buf, LOG_FILE_DIR);
-                strcat(buf, optarg);
+                char* buf;
+                char* name;
+                if(optarg[0] == '/') {
+                    buf = strdup(optarg);
+                    int len = strlen(optarg);
+                    char* tmp = optarg + len;
+                    while(*tmp != '/') { tmp--; }
+                    name = strdup(++tmp);
+                } else {
+                    buf = (char*) malloc(strlen(LOG_FILE_DIR) + strlen(optarg) + 1);
+                    strcpy(buf, LOG_FILE_DIR);
+                    strcat(buf, optarg);
+                    name = strdup(optarg);
+                }
 
-                bool binary = strcmp(optarg, "events") == 0;
+                bool binary = strcmp(name, "events") == 0;
                 if (binary) {
                     needBinary = true;
                 }
@@ -530,11 +541,13 @@ int main(int argc, char **argv)
                     while (dev->next) {
                         dev = dev->next;
                     }
-                    dev->next = new log_device_t(buf, binary, optarg[0]);
+                    dev->next = new log_device_t(buf, binary, name[0]);
                 } else {
-                    devices = new log_device_t(buf, binary, optarg[0]);
+                    devices = new log_device_t(buf, binary, name[0]);
                 }
                 android::g_devCount++;
+
+                free(name);
             }
             break;
 
@@ -550,8 +563,8 @@ int main(int argc, char **argv)
             break;
 
             case 'r':
-                if (optarg == NULL) {                
-                    android::g_logRotateSizeKBytes 
+                if (optarg == NULL) {
+                    android::g_logRotateSizeKBytes
                                 = DEFAULT_LOG_ROTATE_SIZE_KBYTES;
                 } else {
                     long logRotateSize;
