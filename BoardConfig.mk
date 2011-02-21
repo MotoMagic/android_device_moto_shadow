@@ -43,6 +43,7 @@ TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a8
 
 # this is so that we build the Shadow-specific hardware shit
 BOARD_GLOBAL_CFLAGS += -DSHADOW_HARDWARE
+SHADOW_HARDWARE := true
 
 TARGET_NO_BOOTLOADER := false
 TARGET_BOOTLOADER_BOARD_NAME := shadow
