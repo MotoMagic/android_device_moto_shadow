@@ -132,33 +132,19 @@ PRODUCT_COPY_FILES += \
     device/motorola/shadow/apns-conf.xml:system/etc/apns-conf.xml \
     device/motorola/shadow/mount_ext3.sh:system/bin/mount_ext3.sh
 
-PRODUCT_COPY_FILES += \
-    device/motorola/shadow/kernel/act_gact.ko:system/lib/modules/act_gact.ko \
-    device/motorola/shadow/kernel/act_mirred.ko:system/lib/modules/act_mirred.ko \
-    device/motorola/shadow/kernel/act_police.ko:system/lib/modules/act_police.ko \
-    device/motorola/shadow/kernel/cls_u32.ko:system/lib/modules/cls_u32.ko \
-    device/motorola/shadow/kernel/dummy.ko:system/lib/modules/dummy.ko \
-    device/motorola/shadow/kernel/em_u32.ko:system/lib/modules/em_u32.ko \
-    device/motorola/shadow/kernel/ifb.ko:system/lib/modules/ifb.ko \
-    device/motorola/shadow/kernel/modem_pm_driver.ko:system/lib/modules/modem_pm_driver.ko \
-    device/motorola/shadow/kernel/netmux.ko:system/lib/modules/netmux.ko \
-    device/motorola/shadow/kernel/netmux_linkdriver.ko:system/lib/modules/netmux_linkdriver.ko \
-    device/motorola/shadow/kernel/output.ko:system/lib/modules/output.ko \
-    device/motorola/shadow/kernel/pcbc.ko:system/lib/modules/pcbc.ko \
-    device/motorola/shadow/kernel/sch_htb.ko:system/lib/modules/sch_htb.ko \
-    device/motorola/shadow/kernel/sch_ingress.ko:system/lib/modules/sch_ingress.ko \
-    device/motorola/shadow/kernel/sec.ko:system/lib/modules/sec.ko \
-    device/motorola/shadow/kernel/tiap_drv.ko:system/lib/modules/tiap_drv.ko \
-    device/motorola/shadow/kernel/tiwlan_drv.ko:system/lib/modules/tiwlan_drv.ko \
-    device/motorola/shadow/kernel/wl127x_test.ko:system/lib/modules/wl127x_test.ko
-
 # these need to be here for the installer, just put them here for now
 PRODUCT_COPY_FILES += \
     device/motorola/shadow/utilities/mke2fs:system/bin/mke2fs \
     device/motorola/shadow/utilities/tune2fs:system/bin/tune2fs
 
+# copy all kernel modules under the "modules" directory to system/lib/modules
+PRODUCT_COPY_FILES += $(shell \
+    find device/motorola/shadow/modules -name '*.ko' \
+    | sed -r 's/^\/?(.*\/)([^/ ]+)$$/\1\2:system\/lib\/modules\/\2/' \
+    | tr '\n' ' ')
+
 ifeq ($(TARGET_PREBUILT_KERNEL),)
-LOCAL_KERNEL := device/motorola/shadow/kernel/zImage
+LOCAL_KERNEL := device/motorola/shadow/kernel
 else
 LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
 endif
