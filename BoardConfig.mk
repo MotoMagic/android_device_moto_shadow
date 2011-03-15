@@ -48,10 +48,6 @@ SHADOW_HARDWARE := true
 TARGET_NO_BOOTLOADER := false
 TARGET_BOOTLOADER_BOARD_NAME := shadow
 
-TARGET_PROVIDES_RELEASETOOLS := true
-TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := device/motorola/shadow/releasetools/shadow_ota_from_target_files
-TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := device/motorola/shadow/releasetools/shadow_img_from_target_files
-
 # Wifi related defines
 BOARD_WPA_SUPPLICANT_DRIVER := CUSTOM
 BOARD_WPA_SUPPLICANT_PRIVATE_LIB := libCustomWifi
@@ -87,13 +83,17 @@ BOARD_HAS_SMALL_RECOVERY := true
 
 #TARGET_RECOVERY_UPDATER_LIBS += librecovery_updater_generic
 
-TARGET_PREBUILT_KERNEL := device/motorola/shadow/kernel/zImage
+TARGET_PREBUILT_KERNEL := device/motorola/shadow/kernel
 
 #TARGET_NO_RECOVERY := true
-TARGET_PREBUILT_RECOVERY_KERNEL := device/motorola/shadow/kernel/zImage
+TARGET_PREBUILT_RECOVERY_KERNEL := device/motorola/shadow/kernel
 
 HARDWARE_OMX := true
 BOARD_USES_GPSSHIM := true
+
+TARGET_PROVIDES_RELEASETOOLS := true
+TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := device/motorola/shadow/releasetools/shadow_ota_from_target_files
+TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := device/motorola/shadow/releasetools/shadow_img_from_target_files
 
 BOARD_HIJACK_EXECUTABLES := logwrapper
 BOARD_HIJACK_LOG_ENABLE := true
