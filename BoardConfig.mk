@@ -91,6 +91,7 @@ TARGET_PREBUILT_RECOVERY_KERNEL := device/motorola/shadow/kernel
 HARDWARE_OMX := true
 BOARD_USES_GPSSHIM := true
 
+ifndef SHADOW_DEV_PHONE
 TARGET_PROVIDES_RELEASETOOLS := true
 TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := device/motorola/shadow/releasetools/shadow_ota_from_target_files
 TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := device/motorola/shadow/releasetools/shadow_img_from_target_files
@@ -100,3 +101,4 @@ BOARD_HIJACK_LOG_ENABLE := true
 BOARD_HIJACK_UPDATE_BINARY := /preinstall/recovery/update-binary
 BOARD_HIJACK_BOOT_UPDATE_ZIP := /system/etc/shadow-boot.zip
 BOARD_HIJACK_RECOVERY_UPDATE_ZIP := /preinstall/recovery/recovery.zip
+endif
