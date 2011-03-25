@@ -1,14 +1,12 @@
-on init
+on post-fs
 
-# prepare generic keypad name
-    exec /init_prep_keypad.sh
     mount yaffs2 mtd@system /system ro remount
-    mount ext3 /dev/block/mmcblk1p21 /system ro noatime nodiratime remount
+    mount ext3 mmc@system /system ro noatime nodiratime remount
 
     mount rootfs rootfs / rw remount
 
     mkdir /cdrom 0770 system system
-    mount yaffs2 mtd@cdrom /cdrom
+    mount yaffs2 mtd@cdrom /cdrom ro
 
     symlink /dev/ttyGS0 /dev/acm0
 
@@ -18,11 +16,16 @@ on init
     mount tmpfs tmpfs /tmp size=2m
 
 # Configure kernel options
+
     # Disable automatic power control for OHCI USB IPC Temporarily
     write /sys/devices/platform/ohci.0/usb1/1-3/power/level auto
 
     # Reset system time
     write /sys/class/rtc/rtc0/unsecured_rtc on
+
+    # Disable a system-wide task dump on OOM in default
+    write /proc/sys/vm/oom_dump_tasks 0
+    write /proc/sys/fs/suid_dumpable 2
 
     # Set core pattern
     write /proc/sys/kernel/core_pattern "|/system/bin/coredump %e %p %t"
@@ -38,27 +41,32 @@ on init
     write /sys/power/sr_vdd2_autocomp 1
     write /sys/power/enable_abb_mode 1
 
-# permission for linear vibrator
+# Change ownership for vibrators
     chown system system /sys/class/timed_output/lvibrator/enable
     chown system system /sys/class/timed_output/vibrator/enable
-    chmod 660 /sys/class/timed_output/vibrator/enable
     chown system system /sys/class/timed_output/vibrator/sweep
-    chmod 660 /sys/class/timed_output/vibrator/sweep
+
+# Change permission of vibrators
+    chmod 0660 /sys/class/timed_output/lvibrator/enable
+    chmod 0660 /sys/class/timed_output/vibrator/enable
+    chmod 0660 /sys/class/timed_output/vibrator/sweep
 
 # Mount mtd partitions
     # mount /pds as r/w
     # We chown/chmod /pds again so because mount is run as root + defaults
     mount yaffs2 mtd@pds /pds nosuid nodev no-checkpoint
-    mount ext3 /dev/block/mmcblk1p7 /pds nosuid nodev noatime nodiratime
+    #exec /system/bin/logwrapper /system/bin/mount_ext3.sh pds /pds
+    mount ext3 mmc@pds /pds nosuid nodev noatime nodiratime
     chown system system /pds
     chmod 0775 /pds
-    mkdir /pds/public
+    mkdir /pds/public 0775 system shell
     chown system shell /pds/public
     chmod 0775 /pds/public
 
 # Mount preinstall partition
     mkdir /preinstall 0771 system system
-    mount ext3 /dev/block/mmcblk1p23 /preinstall nosuid nodev noatime nodiratime
+    #exec /system/bin/logwrapper /system/bin/mount_ext3.sh preinstall /preinstall
+    mount ext3 mmc@preinstall /preinstall nosuid nodev noatime nodiratime
     chmod 0771 /preinstall
     chown system system /preinstall
 
@@ -79,7 +87,7 @@ on init
     # bluetooth power up/down interface
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
-    chmod 0660                /sys/class/rfkill/rfkill0/state
+    chmod 0660 /sys/class/rfkill/rfkill0/state
 
     # create logger folder
     mkdir /data/logger 0770 radio log
@@ -103,7 +111,7 @@ on init
     mkdir /data/anr
     chmod 0777 /data/anr
 
-# create the necessary dirs for tpapi with proper permission
+    # create the necessary dirs for tpapi with proper permission
     mkdir /pds/security
     mkdir /data/tpapi
     mkdir /data/tpapi/etc
@@ -120,115 +128,50 @@ on init
     chown system system /data/tpapi/etc/tpa
     chown system system /data/tpapi/etc/tpa/persistent
 
+    # directory for encryption management tool, enc_mgt_tool
+    mkdir /data/emt
+    chmod 0700 /data/emt
+
     # Create wmdrm directory
-    mkdir /pds/wmdrm 0775 system system
+    mkdir /pds/wmdrm 0775 mot_drm mot_drm
 
     # Temp workaround for HP library cleanup
     symlink /dev/hp3a-omap /dev/hp3A-omap
 
-# Permissions for video
-    chmod 0770 /dev/hp3a-omap
-    chmod 0770 /dev/hplens-omap
-    chmod 0770 /dev/video0
-    chmod 0770 /dev/video1
-    chmod 0770 /dev/video2
-    chown media camera /dev/hp3a-omap
-    chown media camera /dev/hplens-omap
-    chown media camera /dev/video0
-    chown media graphics /dev/video1
-    chown media graphics /dev/video2
     mount rootfs rootfs / ro remount
 
-# Permissions for cpcap
-    chmod 0660 /dev/cpcap
-    chmod 0660 /dev/cpcap_batt
-    chmod 0660 /dev/cpcap_mot_rtc
-    chmod 0660 /dev/cpcap_uc
-    chown root system /dev/cpcap
-    chown root system /dev/cpcap_batt
-    chown root system /dev/cpcap_mot_rtc
-    chown root system /dev/cpcap_uc
-
-# I2C Permissions
-    chmod 0660 /dev/i2c-1
-    chmod 0660 /dev/i2c-2
-    chmod 0660 /dev/i2c-3
-    chown root system /dev/i2c-1
-    chown root system /dev/i2c-2
-    chown system camera /dev/i2c-3
-
-# ttyGS0 (whatever that is)
-    chmod 0777 /dev/ttyGS0
-    chown root system /dev/ttyGS0
-
 # Install kernel modules
-
     insmod /system/lib/modules/sec.ko
+
+# Install product specific kernel modules
+    exec /system/bin/load_modules.sh
 
 # chown/chmod for FOTA
     chown system system /cache/fota
     chmod 0770 /cache/fota
 
-on fs
-# mount mmc partitions
-    # Mount /system rw first to give the filesystem a chance to save a checkpoint
-    mount ext3 /dev/block/mmcblk1p21 /system
-    mount ext3 /dev/block/mmcblk1p21 /system ro remount
-    mount ext3 /dev/block/mmcblk1p24 /data nosuid nodev
-    mount ext3 /dev/block/mmcblk1p22 /cache nosuid nodev
-
 on early-boot
-
 # Adjust the out of memory thresholds to account for the larget
-# space on sholes.  These numbers are in pages (4k).  Must be kept
-# in sync with init.rc.  This must be done before the regular init.rc
+# space on sholes. These numbers are in pages (4k). Must be kept
+# in sync with init.rc. This must be done before the regular init.rc
 # since these properies can't change once set.
-    setprop ro.FOREGROUND_APP_MEM 3072
-    setprop ro.VISIBLE_APP_MEM 4608
-    setprop ro.SECONDARY_SERVER_MEM 9216
-    setprop ro.BACKUP_APP_MEM 9216
-    setprop ro.HOME_APP_MEM 9216
-    setprop ro.HIDDEN_APP_MEM 10752
-    setprop ro.CONTENT_PROVIDER_MEM 12288
-    setprop ro.EMPTY_APP_MEM 12288
-    setprop ro.MAX_HIDDEN_APPS 300
+    setprop ro.FOREGROUND_APP_MEM 2464
+    setprop ro.VISIBLE_APP_MEM 3712
+    setprop ro.SECONDARY_SERVER_MEM 7392
+    setprop ro.BACKUP_APP_MEM 7392
+    setprop ro.HOME_APP_MEM 7392
+    setprop ro.HIDDEN_APP_MEM 8608
+    setprop ro.CONTENT_PROVIDER_MEM 9856
+    setprop ro.EMPTY_APP_MEM 9856
 
-# this should be set prior to attempting some media early init
-    chown audio graphics /dev/DspBridge
-    chmod 666 /dev/DspBridge
+# Define the BLAN interface
+    setprop ro.blan.interface usb0
 
     class_start media_early_init
 
 on boot
-
 # Overwrite what init.rc selected for the memory killer params to match above.
-    write /sys/module/lowmemorykiller/parameters/minfree 3072,4608,9216,10752,12288,12288
-
-# Compass ownership
-    chown compass compass /dev/kxtf9
-    chmod 660 /dev/kxtf9
-    chown compass compass /dev/sfh7743
-    chmod 660 /dev/sfh7743
-    chown compass compass /dev/akm8973_aot
-    chmod 660 /dev/akm8973_aot
-    chown compass compass /dev/akm8973_dev
-    chmod 660 /dev/akm8973_dev
-
-# Radio ownership
-    chown radio radio /dev/ttyUSB0
-    chmod 660 /dev/ttyUSB0
-    chown radio radio /dev/ttyUSB1
-    chmod 660 /dev/ttyUSB1
-    chown radio radio /dev/ttyUSB2
-    chmod 660 /dev/ttyUSB2
-    chown radio radio /dev/ttyUSB3
-    chmod 660 /dev/ttyUSB3
-    chown radio radio /dev/ttyS0
-    chmod 660 /dev/ttyS0
-
-# Bluetooth
-    chown bluetooth bluetooth /dev/ttyS1
-    chmod 0660 /dev/ttyS1
+    write /sys/module/lowmemorykiller/parameters/minfree 2464,3712,7392,8608,9856,9856
 
 # Define Motorola DBVC ATVC Property defaults (failsafe properties)
     setprop ro.sys.atvc_allow_netmon_usb 0
@@ -248,35 +191,31 @@ on boot
     chmod 0660 /sys/class/leds/lcd-backlight/brightness
     chown system system /sys/class/leds/keyboard-backlight/brightness
     chmod 0660 /sys/class/leds/keyboard-backlight/brightness
+    chown system system /sys/class/leds/keyboard1-backlight/brightness
+    chmod 0660 /sys/class/leds/keyboard1-backlight/brightness
+    chown system system /sys/class/leds/keyboard2-backlight/brightness
+    chmod 0660 /sys/class/leds/keyboard2-backlight/brightness
     chown system system /sys/class/leds/button-backlight/brightness
     chmod 0660 /sys/class/leds/button-backlight/brightness
     chown system system /sys/class/leds/red/blink
+    chmod 0660 /sys/class/leds/red/blink
     chown system system /sys/class/leds/red/brightness
     chmod 0660 /sys/class/leds/red/brightness
     chown system system /sys/class/leds/green/brightness
     chmod 0660 /sys/class/leds/green/brightness
+    chown system system /sys/class/leds/blue/brightness
+    chmod 0660 /sys/class/leds/blue/brightness
     chmod 0660 /sys/class/leds/torch-flash/camera_strobe
     chmod 0660 /sys/class/leds/torch-flash/flash_light
     chown system system /sys/class/leds/torch-flash/camera_strobe
     chown system system /sys/class/leds/torch-flash/flash_light
     chown system system /sys/class/leds/spotlight/brightness
-    chmod 0660 /sys/class/leds/blue/brightness
-
-# Camera related
-    chmod 0770 /dev/hp3a-omap
-    chmod 0770 /dev/hplens-omap
-    chmod 0770 /dev/video0
-    chmod 0770 /dev/video1
-    chmod 0770 /dev/video2
-    chown media camera /dev/hp3a-omap
-    chown media camera /dev/hplens-omap
-    chown media camera /dev/video0
-    chown media graphics /dev/video1
-    chown media graphics /dev/video2
-
-# 3D related
-    chown system graphics /dev/pvrsrvkm
-    chmod 0666 /dev/pvrsrvkm
+    chmod 0660 /sys/class/backlight/adp8870_bl/brightness
+    chown system system /sys/class/backlight/adp8870_bl/brightness
+    chmod 0660 /sys/class/leds/adp8870-led7/brightness
+    chown system system /sys/class/leds/adp8870-led7/brightness
+    chmod 0660 /sys/class/backlight/lm3532_bl/brightness
+    chown system system /sys/class/backlight/lm3532_bl/brightness
 
 # Enable panic on softlockup
     write /proc/sys/kernel/softlockup_panic 1
@@ -290,14 +229,17 @@ on boot
     insmod /system/lib/modules/sch_htb.ko
     insmod /system/lib/modules/em_u32.ko
 
+# Load Authentec VPN kernel module
+    insmod /system/lib/modules/vpnclient.ko
+
 # Set core max size (2G)
     setrlimit 4 2147483648 2147483648
 
 # The properties introduced by moto
-
 on property:sys.chargeonly.mode=1
     start battd
     start console
+    write /data/chargeonlymode charging
     exec /system/bin/charge_only_mode
 
 # Moto safe power down
@@ -313,21 +255,10 @@ on property:init.svc.wpa_supplicant=stopped
     stop dhcpcd
 
 # The following services are added by moto
-on property:tcmd.ctrl_adb=1
-    setprop persist.service.adb.enable 1
-    setprop persist.factory.allow_adb  1
-    stop usbd
-    start usbd
-
-on property:tcmd.ctrl_adb=0
-    setprop persist.service.adb.enable 0
-    setprop persist.factory.allow_adb  0
-    stop usbd
-    start usbd
-
 # Set property strings for ATVC logging
 # This conditionally sets :
 # ro.sys.atvc_allow_bp_log
+# ro.sys.atvc_allow_gki_log
 # ro.sys.atvc_allow_ap_mot_log
 # ro.sys.atvc_allow_all_core
 # ro.sys.atvc_allow_res_core
@@ -341,7 +272,7 @@ service atvc /system/bin/dbvc_atvc_property_set
     group system
     oneshot
 
-#service watchdogd  /system/bin/watchdogd
+#service watchdogd /system/bin/watchdogd
 
 service telnet /system/bin/telnetd
     oneshot
@@ -349,7 +280,6 @@ service telnet /system/bin/telnetd
 service usbd /system/bin/usbd
     user root
     group system
-    oneshot
 
 service battd /system/bin/battd
     socket battdsock stream 0660 root mount
@@ -361,13 +291,13 @@ service catcommands /system/bin/catcommands
     group radio
 
 service hciattach /system/bin/hciattach \
-    -n -t 10 /dev/ttyS1 texasalt 3000000 flow
+        -n -t 10 /dev/ttyS1 texasalt 3000000 flow
     user bluetooth
     group bluetooth net_bt_admin
     disabled
 
 service hciattach_rfmd /system/bin/hciattach \
-    -n -t 10 /dev/ttyS1 texasalt_rfmd 3000000 flow
+        -n -t 10 /dev/ttyS1 texasalt_rfmd 3000000 flow
     user bluetooth
     group bluetooth net_bt_admin
     disabled
@@ -401,18 +331,19 @@ service napics /system/bin/sh /system/bin/napics.sh
     disabled
     oneshot
 
-service btdhcpd /system/bin/dnsmasq -C /system/etc/btpan.conf
+service btdhcpd /system/bin/dnsmasq -C /etc/btpan.conf
     user root
     disabled
     oneshot
 
-# Ecompass daemon
-service akmd2 /system/bin/akmd2
-    user compass
-    group compass misc input
+service map /system/bin/sdptool add --channel=20 --network=2 MAP
+    user bluetooth
+    group bluetooth net_bt_admin
+    disabled
+    oneshot
 
 service tcmd /system/bin/tcmd
-    group radio input system log camera graphics sdcard_rw audio inet bluetooth wifi compass net_bt_admin mount
+    group radio input system log camera graphics sdcard_rw audio inet bluetooth wifi compass net_bt_admin mount net_raw net_admin
     socket local_tcmd stream 0660 system system
     socket batch_socket stream 0600 system system
     oneshot
@@ -422,24 +353,29 @@ service tcmdhelp /system/bin/tcmdhelp
     oneshot
     disabled
 
+# Ecompass daemon
+service akmd2 /system/bin/akmd2
+    user compass
+    group compass misc input
+
 service wlan_loader /system/bin/wlan_loader \
-    -f /system/etc/wifi/fw_wlan1271.bin -i /system/etc/wifi/tiwlan.ini \
-    -e /pds/wifi/nvs_map.bin
+        -f /system/etc/wifi/fw_wlan1271.bin -i /system/etc/wifi/tiwlan.ini \
+        -e /pds/wifi/nvs_map.bin
     disabled
     oneshot
 
 service wlan_loader_rfmd /system/bin/wlan_loader \
-    -f /system/etc/wifi/fw_wlan1271_rfmd.bin -i /system/etc/wifi/tiwlan_rfmd.ini \
-    -e /pds/wifi/nvs_map.bin
+        -f /system/etc/wifi/fw_wlan1271_rfmd.bin -i /system/etc/wifi/tiwlan_rfmd.ini \
+        -e /pds/wifi/nvs_map.bin
     disabled
     oneshot
 
 service wpa_supplicant /system/bin/wpa_supplicant \
-    -Dtiwlan0 -itiwlan0 -c/data/misc/wifi/wpa_supplicant.conf
-#   we will start as root and wpa_supplicant will switch to user wifi
-#   after setting up the capabilities required for WEXT
-#   user wifi
-#   group wifi inet keystore
+        -Dtiwlan0 -itiwlan0 -c/data/misc/wifi/wpa_supplicant.conf
+# we will start as root and wpa_supplicant will switch to user wifi
+# after setting up the capabilities required for WEXT
+# user wifi
+# group wifi inet keystore
     socket wpa_tiwlan0 dgram 660 wifi wifi
     disabled
     oneshot
@@ -462,24 +398,30 @@ service btautoip /system/bin/dhcpcd -BK bnep0
 
 service baseimage /system/bin/dspexec -v -T /system/lib/dsp/baseimage.dof
     class media_early_init
+    user media
+    group media graphics
     oneshot
 
 service pvrsrv /system/bin/pvrsrvinit
     user root
     oneshot
 
-# bugreport is triggered by the KEY_LEFTSHIFT and KEY_MENU keycodes
-service bugreport /system/bin/dumpstate -d -v -o /sdcard/bugreports/bugreport
+# bugtogo is triggered by the keycodes defined in vendor/moto/<product>/proprietary/<hw rev>/device_tree.xml
+# The keycodes option is listed below with dummy values, because the parser needs this.
+service bugtogo /system/bin/bugtogo.sh
     disabled
+    user root
     oneshot
-    keycodes 42 139
+    keycodes 0 1
 
-service pppd-ril /system/bin/pppd-ril /dev/ttyUSB0 call pppd-ril.options plugin /system/lib/libpppd_plugin-ril.so
+service pppd-ril /system/bin/pppd-ril /dev/ttyUSB0 \
+        call pppd-ril.options plugin /system/lib/libpppd_plugin-ril.so
     user root
     disabled
     oneshot
 
-service pppd /system/xbin/pppd silent ipparam dun plugin /system/lib/libpppd_plugin.so
+service pppd /system/bin/pppd silent ipparam dun plugin \
+        /system/lib/libpppd_plugin.so
     user root
     disabled
     oneshot
@@ -494,24 +436,17 @@ service firewall /system/bin/firewall.sh
     disabled
     oneshot
 
-service locDrv /system/usr/bin/brcm_guci_drv -config /system/etc/gpsconfig.xml
-    user radio
-    group radio inet sdcard_rw
-
-service setup_bt /system/bin/sh /system/usr/bin/setup_bt.sh
-    oneshot
-
-service opp /system/bin/sdptool add --channel=12 OPUSH
-    user bluetooth
-    group bluetooth net_bt_admin
-    disabled
-    oneshot
-
 service pm_init /system/bin/sh /system/usr/bin/pm_init.sh
     oneshot
 
 service modemlog /system/bin/modemlog
    oneshot
+
+# aplogd is controlled by the persist.service.aplogd.enable system property
+service aplogd /system/bin/aplogd
+    socket ap_aol_cmd stream 666 system system
+    group log system sdcard_rw
+    oneshot
 
 service fmradio /system/bin/fmradioserver
     disabled
@@ -527,8 +462,13 @@ service dlnasrv /system/bin/dlnasrv
     oneshot
 
 service dund_dialup /system/bin/dund --listen --channel=6 --nodetach --dialup
+    group net_bt net_bt_admin
     disabled
     oneshot
+
+on property:dev.bootcomplete=1
+    start savebpver
+    start loadpreinstalls
 
 service mdm_panicd /system/bin/mdm_panicd
     oneshot
@@ -537,35 +477,12 @@ service mdm_panicd /system/bin/mdm_panicd
 service savebpver /system/bin/SaveBPVer
     oneshot
 
-on property:dev.bootcomplete=1
-    start savebpver
-#    start loadpreinstalls
-
-#service smcdaemon /system/bin/startup_smc.sh
-#    disabled
-#    oneshot
-
-# ecckeyd daemon has dependency on SMC
-# It needs to be root because it needs to be able to read client's /proc/<pid>/status.
-# user/group as mot_tpapi/mot_tpapi does not give it enough permission
-#service ecckeydaemon /system/bin/ecckeyd
-#    socket ecckey_socket stream 660 system system
-#    group system
-#    oneshot
-
-service secclkd /system/bin/secclkd
-    socket secclk_socket stream 660 system system
-    user system
-    group system
+#start Authentec VPN service
+service vpnclientpm /system/bin/vpnclientpm
     oneshot
+    user root
 
 service loadpreinstalls /system/bin/logwrapper /system/bin/loadpreinstalls.sh
     disabled
     oneshot
 
-# originally in init.rc
-service map /system/bin/sdptool add --channel=20 MAP
-    user bluetooth
-    group bluetooth net_bt_admin
-    disabled
-    oneshot
