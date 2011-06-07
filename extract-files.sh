@@ -20,7 +20,6 @@ mkdir -p ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/app/PhoneConfig.apk ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/app/ProgramMenu.apk ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/app/ProgramMenuSystem.apk ../../../vendor/motorola/$DEVICE/proprietary
-adb pull /system/app/UsbService.apk ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/bin/Hostapd ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/bin/SaveBPVer ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/bin/akmd2 ../../../vendor/motorola/$DEVICE/proprietary
@@ -223,8 +222,6 @@ adb pull /system/xbin/pppd ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/xbin/run_backup ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/xbin/run_restore ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/xbin/ssmgrd ../../../vendor/motorola/$DEVICE/proprietary
-adb pull /system/lib/libaudiopolicy.so ../../../vendor/motorola/$DEVICE/proprietary
-adb pull /system/lib/libaudio.so ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/lib/libcamera.so ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/lib/libnmea.so ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/lib/libril_rds.so ../../../vendor/motorola/$DEVICE/proprietary
@@ -252,8 +249,6 @@ adb pull /system/lib/libarcsoft.so ../../../vendor/motorola/$DEVICE/proprietary
 # Prebuilt libraries that are needed to build open-source libraries
 PRODUCT_COPY_FILES := \\
     vendor/motorola/__DEVICE__/proprietary/libarcsoft.so:obj/lib/libarcsoft.so \\
-    vendor/motorola/__DEVICE__/proprietary/libaudiopolicy.so:obj/lib/libaudiopolicy.so \\
-    vendor/motorola/__DEVICE__/proprietary/libaudio.so:obj/lib/libaudio.so \\
     vendor/motorola/__DEVICE__/proprietary/libcamera.so:obj/lib/libcamera.so \\
     vendor/motorola/__DEVICE__/proprietary/libgps_rds.so:obj/lib/libgps_rds.so \\
     vendor/motorola/__DEVICE__/proprietary/libnmea.so:obj/lib/libnmea.so \\
@@ -265,7 +260,6 @@ PRODUCT_COPY_FILES += \\
     vendor/motorola/__DEVICE__/proprietary/PhoneConfig.apk:/system/app/PhoneConfig.apk \\
     vendor/motorola/__DEVICE__/proprietary/ProgramMenu.apk:/system/app/ProgramMenu.apk \\
     vendor/motorola/__DEVICE__/proprietary/ProgramMenuSystem.apk:/system/app/ProgramMenuSystem.apk \\
-    vendor/motorola/__DEVICE__/proprietary/UsbService.apk:/system/app/UsbService.apk
 
 # All the blobs necessary for shadow
 PRODUCT_COPY_FILES += \\
@@ -471,8 +465,6 @@ PRODUCT_COPY_FILES += \\
     vendor/motorola/__DEVICE__/proprietary/run_backup:/system/xbin/run_backup \\
     vendor/motorola/__DEVICE__/proprietary/run_restore:/system/xbin/run_restore \\
     vendor/motorola/__DEVICE__/proprietary/ssmgrd:/system/xbin/ssmgrd \\
-    vendor/motorola/__DEVICE__/proprietary/libaudiopolicy.so:/system/lib/libaudiopolicy.so \\
-    vendor/motorola/__DEVICE__/proprietary/libaudio.so:/system/lib/libaudio.so \\
     vendor/motorola/__DEVICE__/proprietary/libcamera.so:/system/lib/libcamera.so \\
     vendor/motorola/__DEVICE__/proprietary/libnmea.so:/system/lib/libnmea.so \\
     vendor/motorola/__DEVICE__/proprietary/libril_rds.so:/system/lib/libril_rds.so \\

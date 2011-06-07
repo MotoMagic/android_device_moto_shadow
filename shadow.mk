@@ -118,7 +118,9 @@ PRODUCT_PACKAGES += \
     libVendor_ti_omx \
     gps.shadow \
     sensors.shadow \
-    lights.shadow
+    lights.shadow \
+    libaudiopolicy \
+    libaudio
 
 # we have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
