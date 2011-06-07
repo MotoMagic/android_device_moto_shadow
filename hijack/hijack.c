@@ -273,6 +273,15 @@ hijack_log("    mkdir(%s, %d) executing...", "/newboot", S_IRWXU);
                 result = mkdir("/newboot", S_IRWXU);
 hijack_log("      returned: %d", result);
 
+hijack_log("    mkdir(%s, %d) executing...", "/preinstall", S_IRWXU);
+                result = mkdir("/preinstall", S_IRWXU);
+hijack_log("      returned: %d", result);
+
+                // get access to our preinstall
+hijack_log(" hijack_mount(%s, %s, %s) executing...", "/system/bin/hijack", "/dev/block/preinstall", "/preinstall");
+                result = hijack_mount("/system/bin/hijack", "/dev/block/preinstall", "/preinstall");
+hijack_log(" returned: %d", result);
+
                 // have updater unpack our boot partition (will create /newboot/sbin/hijack)
                 char * updater_args[] = { UPDATE_BINARY, "2", "0", BOOT_UPDATE_ZIP, NULL };
 hijack_log("    exec(\"%s %s %s %s\") executing...", UPDATE_BINARY, "2", "0", BOOT_UPDATE_ZIP);
@@ -294,6 +303,11 @@ hijack_log("      returned: %d", result);
                 // since we have /sbin/hijack, we no longer need /system
 hijack_log("    hijack_umount(%s, %s) executing...", "/sbin/hijack", "/system");
                 result = hijack_umount("/sbin/hijack", "/system");
+hijack_log("      returned: %d", result);
+
+                // now we're done with /preinstall
+hijack_log("    hijack_umount(%s, %s) executing...", "/sbin/hijack", "/preinstall");
+                result = hijack_umount("/sbin/hijack", "/preinstall");
 hijack_log("      returned: %d", result);
 
                 // now we will attempt to kill EVERYTHING
