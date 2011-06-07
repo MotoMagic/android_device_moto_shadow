@@ -120,7 +120,8 @@ PRODUCT_PACKAGES += \
     sensors.shadow \
     lights.shadow \
     libaudiopolicy \
-    libaudio
+    libaudio \
+    Usb
 
 # we have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
