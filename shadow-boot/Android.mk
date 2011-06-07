@@ -13,7 +13,7 @@
 # limitations under the License.
 
 # since we're creating our own boot package, make sure we're on shadow
-ifeq ($(TARGET_DEVICE),shadow)
+ifeq ($(TARGET_BOOTLOADER_BOARD_NAME),shadow)
 
 LOCAL_PATH:= $(call my-dir)
 
@@ -52,15 +52,6 @@ $(file) : device/motorola/shadow/shadow-boot/hijack.killall
 	@mkdir -p $(dir $@)
 	@rm -rf $@
 	$(hide) cp -a device/motorola/shadow/shadow-boot/hijack.killall $@
-SHADOW_BOOT_PREREQS += $(file)
-
-# copy hijack indefinite logging script
-file := $(SHADOW_BOOT_OUT)/sbin/hijack.log_dump.indefinite
-$(file) : device/motorola/shadow/shadow-boot/hijack.log_dump.indefinite
-	@echo "Copy hijack.log_dump.indefinite -> $@"
-	@mkdir -p $(dir $@)
-	@rm -rf $@
-	$(hide) cp -a device/motorola/shadow/shadow-boot/hijack.log_dump.indefinite $@
 SHADOW_BOOT_PREREQS += $(file)
 
 include $(CLEAR_VARS)

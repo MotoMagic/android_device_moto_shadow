@@ -24,14 +24,13 @@
 # variant, so that it gets overwritten by the parent (which goes
 # against the traditional rules of inheritance).
 USE_CAMERA_STUB := false
-BOARD_USE_FROYO_LIBCAMERA := true
 #BOARD_USE_YUV422I_DEFAULT_COLORFORMAT := true
 
 # inherit from the proprietary version
 -include vendor/motorola/shadow/BoardConfigVendor.mk
 
 # use pre-kernel.35 vold usb mounting
-BOARD_USE_USB_MASS_STORAGE_SWITCH := true
+#BOARD_USE_USB_MASS_STORAGE_SWITCH := true
 
 TARGET_BOARD_PLATFORM := omap3
 
