@@ -40,7 +40,4 @@ hijack df -h > "$1.$num/df"
 hijack echo "      - dumping getprop data to $1.$num/getprop" >> "$1"
 getprop > "$1.$num/getprop"
 
-hijack echo "      - dumping logcat data to $1.$num/logcat" >> "$1"
-logcat -d > "$1.$num/logcat"
-
 hijack echo "      system inventory complete" >> "$1"
