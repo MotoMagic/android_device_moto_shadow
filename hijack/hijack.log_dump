@@ -37,9 +37,6 @@ busybox ls -la / > "$1.$num/ls_root"
 busybox echo "      - dumping devdir data to $1.$num/ls_dev" >> "$1"
 busybox ls -la /dev/* > "$1.$num/ls_dev"
 
-busybox echo "      - dumping newbootdir data to $1.$num/ls_newboot" >> "$1"
-busybox ls -la /newboot/* > "$1.$num/ls_newboot"
-
 busybox echo "      - dumping diskfree data to $1.$num/df" >> "$1"
 busybox df -h > "$1.$num/df"
 

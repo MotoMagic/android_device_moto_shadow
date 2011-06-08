@@ -1,6 +1,6 @@
-#!/newboot/sbin/hijack sh
+#!/sbin/hijack sh
 
-export PATH="/newboot/sbin:/sbin:${PATH}"
+export PATH="/sbin:${PATH}"
 
 hijack sleep 5s
 

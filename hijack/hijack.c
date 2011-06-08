@@ -53,20 +53,6 @@ int hijack_mount(const char * hijack_exec, const char * dev, const char * mount_
     return exec_and_wait(mount_args);
 }
 
-int hijack_mount_ex(const char * hijack_exec, const char * type, const char * options, const char * dev, const char * mount_point) {
-    char * mount_args[9];
-    mount_args[0] = strdup(hijack_exec);
-    mount_args[1] = strdup("mount");
-    mount_args[2] = strdup("-t");
-    mount_args[3] = strdup(type);
-    mount_args[4] = strdup("-o");
-    mount_args[5] = strdup(options);
-    mount_args[6] = strdup(dev);
-    mount_args[7] = strdup(mount_point);
-    mount_args[8] = NULL;
-    return exec_and_wait(mount_args);
-}
-
 int hijack_umount(const char * hijack_exec, const char * mount_point) {
     char * umount_args[5];
     umount_args[0] = strdup(hijack_exec);
@@ -160,178 +146,176 @@ hijack_log("      returned: %d", result);
 #endif
 
     // check to see if hijack was already run, and if so, just continue on.
-    if (argc >= 3 && 0 == strcmp(argv[2], "cache")) {
+    if (argc >= 3 && 0 == strcmp(argv[2], "userdata")) {
 
 hijack_log("  Entering testing for hijacking!");
 
-        if (0 == stat(HIJACK_BYPASS_FILE, &info)) {
-hijack_log("  Bypassing hijacking");
-            // we basically do nothing here
-        } else {
+hijack_log("    hijack_mount(%s, %s, %s) executing...", "/system/bin/hijack", "/dev/block/userdata", "/data");
+            result = hijack_mount("/system/bin/hijack", "/dev/block/userdata", "/data");
+hijack_log("      returned: %d", result);
 
-            if (0 == stat(RECOVERY_MODE_FILE, &info)) {
+        if (0 == stat(RECOVERY_MODE_FILE, &info)) {
 
 hijack_log("  Recovery mode detected!");
 
-                // don't boot into recovery again
+            // don't boot into recovery again
 hijack_log("    remove(%s) executing...", RECOVERY_MODE_FILE);
-                result = remove(RECOVERY_MODE_FILE);
+            result = remove(RECOVERY_MODE_FILE);
 hijack_log("      returned: %d", result);
 
 hijack_log("    remount_root(%s, %d) executing...", "/system/bin/hijack", 1);
-                result = remount_root("/system/bin/hijack", 1);
+            result = remount_root("/system/bin/hijack", 1);
 hijack_log("      returned: %d", result);
 
 hijack_log("    mkdir(%s, %d) executing...", "/preinstall", S_IRWXU);
-                result = mkdir("/preinstall", S_IRWXU);
+            result = mkdir("/preinstall", S_IRWXU);
 hijack_log("      returned: %d", result);
 
 hijack_log("    mkdir(%s, %d) executing...", "/tmp", S_IRWXU);
-                result = mkdir("/tmp", S_IRWXU);
+            result = mkdir("/tmp", S_IRWXU);
 hijack_log("      returned: %d", result);
 
 hijack_log("    mkdir(%s, %d) executing...", "/res", S_IRWXU);
-                result = mkdir("/res", S_IRWXU);
+            result = mkdir("/res", S_IRWXU);
 hijack_log("      returned: %d", result);
 
 hijack_log("    mkdir(%s, %d) executing...", "/res/images", S_IRWXU);
-                result = mkdir("/res/images", S_IRWXU);
+            result = mkdir("/res/images", S_IRWXU);
 hijack_log("      returned: %d", result);
 
 hijack_log("    remove(%s) executing...", "/etc");
-                result = remove("/etc");
+            result = remove("/etc");
 hijack_log("      returned: %d", result);
 
 hijack_log("    mkdir(%s, %d) executing...", "/etc", S_IRWXU);
-                result = mkdir("/etc", S_IRWXU);
+            result = mkdir("/etc", S_IRWXU);
 hijack_log("      returned: %d", result);
 
 hijack_log("    rename(%s, %s) executing...", "/sbin/adbd", "/sbin/adbd.old");
-                result = rename("/sbin/adbd", "/sbin/adbd.old");
+            result = rename("/sbin/adbd", "/sbin/adbd.old");
 hijack_log("      returned: %d", result);
 
 hijack_log("    property_set(%s, %s) executing...", "ctl.stop", "runtime");
-                result = property_set("ctl.stop", "runtime");
+            result = property_set("ctl.stop", "runtime");
 hijack_log("      returned: %d", result);
 
 hijack_log("    property_set(%s, %s) executing...", "ctl.stop", "zygote");
-                result = property_set("ctl.stop", "zygote");
+            result = property_set("ctl.stop", "zygote");
 hijack_log("      returned: %d", result);
 
 hijack_log("    property_set(%s, %s) executing...", "persist.service.adb.enable", "1");
-                result = property_set("persist.service.adb.enable", "1");
+            result = property_set("persist.service.adb.enable", "1");
 hijack_log("      returned: %d", result);
 
 hijack_log("    hijack_mount(%s, %s, %s) executing...", "/system/bin/hijack", "/dev/block/preinstall", "/preinstall");
-                result = hijack_mount("/system/bin/hijack", "/dev/block/preinstall", "/preinstall");
+            result = hijack_mount("/system/bin/hijack", "/dev/block/preinstall", "/preinstall");
 hijack_log("      returned: %d", result);
 
-                // this will prevent hijack from being called again
+            // this will prevent hijack from being called again
 hijack_log("    hijack_umount(%s, %s) executing...", "/system/bin/hijack", "/system");
-                result = hijack_umount("/system/bin/hijack", "/system");
+            result = hijack_umount("/system/bin/hijack", "/system");
 hijack_log("      returned: %d", result);
 
-                char * updater_args[] = { UPDATE_BINARY, "2", "0", RECOVERY_UPDATE_ZIP, NULL };
+            char * updater_args[] = { UPDATE_BINARY, "2", "0", RECOVERY_UPDATE_ZIP, NULL };
 hijack_log("    exec(\"%s %s %s %s\") executing...", UPDATE_BINARY, "2", "0", RECOVERY_UPDATE_ZIP);
-                result = exec_and_wait(updater_args);
+            result = exec_and_wait(updater_args);
 hijack_log("      returned: %d", result);
 
-                return result;
+            return result;
 
-            } else {
+        } else {
 
 hijack_log("  Boot mode detected!");
 
 #ifdef LOG_ENABLE
-                // since we are in log mode we want to ensure we reboot to recovery in the event of failure
+            // since we are in log mode we want to ensure we reboot to recovery in the event of failure
 hijack_log("    mark_file(%s) executing...", RECOVERY_MODE_FILE);
-                result = mark_file(RECOVERY_MODE_FILE);
+            result = mark_file(RECOVERY_MODE_FILE);
 hijack_log("      returned: %d", result);
 #endif
 
 hijack_log("    remount_root(%s, %d) executing...", "/system/bin/hijack", 1);
-                result = remount_root("/system/bin/hijack", 1);
+            result = remount_root("/system/bin/hijack", 1);
 hijack_log("      returned: %d", result);
 
 hijack_log("    rename(%s, %s) executing...", "/sbin/adbd", "/sbin/adbd.old");
-                result = rename("/sbin/adbd", "/sbin/adbd.old");
+            result = rename("/sbin/adbd", "/sbin/adbd.old");
 hijack_log("      returned: %d", result);
 
 hijack_log("    property_set(%s, %s) executing...", "ctl.stop", "runtime");
-                result = property_set("ctl.stop", "runtime");
+            result = property_set("ctl.stop", "runtime");
 hijack_log("      returned: %d", result);
 
 hijack_log("    property_set(%s, %s) executing...", "ctl.stop", "zygote");
-                result = property_set("ctl.stop", "zygote");
+            result = property_set("ctl.stop", "zygote");
 hijack_log("      returned: %d", result);
 
 hijack_log("    property_set(%s, %s) executing...", "persist.service.adb.enable", "1");
-                result = property_set("persist.service.adb.enable", "1");
+            result = property_set("persist.service.adb.enable", "1");
 hijack_log("      returned: %d", result);
 
 hijack_log("    mkdir(%s, %d) executing...", "/newboot", S_IRWXU);
-                result = mkdir("/newboot", S_IRWXU);
+            result = mkdir("/newboot", S_IRWXU);
 hijack_log("      returned: %d", result);
 
 hijack_log("    mkdir(%s, %d) executing...", "/preinstall", S_IRWXU);
-                result = mkdir("/preinstall", S_IRWXU);
+            result = mkdir("/preinstall", S_IRWXU);
 hijack_log("      returned: %d", result);
 
-                // get access to our preinstall
-hijack_log(" hijack_mount(%s, %s, %s) executing...", "/system/bin/hijack", "/dev/block/preinstall", "/preinstall");
-                result = hijack_mount("/system/bin/hijack", "/dev/block/preinstall", "/preinstall");
-hijack_log(" returned: %d", result);
+            // get access to our preinstall
+hijack_log("    hijack_mount(%s, %s, %s) executing...", "/system/bin/hijack", "/dev/block/preinstall", "/preinstall");
+            result = hijack_mount("/system/bin/hijack", "/dev/block/preinstall", "/preinstall");
+hijack_log("      returned: %d", result);
 
-                // have updater unpack our boot partition (will create /newboot/sbin/hijack)
-                char * updater_args[] = { UPDATE_BINARY, "2", "0", BOOT_UPDATE_ZIP, NULL };
+            // have updater unpack our boot partition (will create /newboot/sbin/hijack)
+            char * updater_args[] = { UPDATE_BINARY, "2", "0", BOOT_UPDATE_ZIP, NULL };
 hijack_log("    exec(\"%s %s %s %s\") executing...", UPDATE_BINARY, "2", "0", BOOT_UPDATE_ZIP);
-                result = exec_and_wait(updater_args);
+            result = exec_and_wait(updater_args);
 hijack_log("      returned: %d", result);
 
-                // now copy everything to root
-                char * copy_args[] = { "/newboot/sbin/hijack", "cp", "-r", "/newboot/*", "/", NULL };
-hijack_log("    exec(\"%s %s %s %s %s\") executing...", "/newboot/sbin/hijack", "cp", "-r", "/newboot/*", "/");
-                result = exec_and_wait(copy_args);
+            // now copy everything to root
+            char * copy_args[] = { "/newboot/sbin/hijack", "cp", "-a", "/newboot/.", "/", NULL };
+hijack_log("    exec(\"%s %s %s %s %s\") executing...", "/newboot/sbin/hijack", "cp", "-r", "/newboot/.", "/");
+            result = exec_and_wait(copy_args);
 hijack_log("      returned: %d", result);
 
-                // wipe out /newboot
-                char * rm_args[] = { "/sbin/hijack", "rm", "-rf", "/newboot", NULL };
+            // wipe out /newboot
+            char * rm_args[] = { "/sbin/hijack", "rm", "-rf", "/newboot", NULL };
 hijack_log("    exec(\"%s %s %s %s\") executing...", "/sbin/hijack", "rm", "-rf", "/newboot");
-                result = exec_and_wait(rm_args);
+            result = exec_and_wait(rm_args);
 hijack_log("      returned: %d", result);
 
-                // since we have /sbin/hijack, we no longer need /system
+            // since we have /sbin/hijack, we no longer need /system
 hijack_log("    hijack_umount(%s, %s) executing...", "/sbin/hijack", "/system");
-                result = hijack_umount("/sbin/hijack", "/system");
+            result = hijack_umount("/sbin/hijack", "/system");
 hijack_log("      returned: %d", result);
 
-                // now we're done with /preinstall
+            // now we're done with /preinstall
 hijack_log("    hijack_umount(%s, %s) executing...", "/sbin/hijack", "/preinstall");
-                result = hijack_umount("/sbin/hijack", "/preinstall");
+            result = hijack_umount("/sbin/hijack", "/preinstall");
 hijack_log("      returned: %d", result);
 
-                // now we will attempt to kill EVERYTHING
-                char * hijack_killall_args[] = { "/sbin/hijack.killall", NULL };
+            // now we will attempt to kill EVERYTHING
+            char * hijack_killall_args[] = { "/sbin/hijack.killall", NULL };
 hijack_log("    exec(\"%s\")", "/sbin/hijack.killall");
-                result = exec_and_wait(hijack_killall_args);
+            result = exec_and_wait(hijack_killall_args);
 hijack_log("      returned: %d", result);
 
 #ifdef LOG_ENABLE
-                // one last filesystem accounting run
-                char * last_log_dump_args[] = { "/sbin/hijack.log_dump", LOG_PATH, NULL };
+            // one last filesystem accounting run
+            char * last_log_dump_args[] = { "/sbin/hijack.log_dump", LOG_PATH, NULL };
 hijack_log("    exec(\"%s %s\") executing...", "/sbin/hijack.log_dump", LOG_PATH);
-                result = exec_and_wait(last_log_dump_args);
+            result = exec_and_wait(last_log_dump_args);
 hijack_log("      returned: %d", result);
 #endif
 
-                // now we re-run init (this should restart /init)
-                char * init_args[] = { "/sbin/2nd-init", NULL };
+            // now we re-run init (this should restart /init)
+            char * init_args[] = { "/sbin/2nd-init", NULL };
 hijack_log("    exec(\"%s\") executing...", "/sbin/2nd-init");
-                result = exec_and_wait(init_args);
+            result = exec_and_wait(init_args);
 hijack_log("      returned: %d", result);
 
-                return result;
-            }
+            return result;
         }
     }
 

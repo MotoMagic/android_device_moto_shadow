@@ -29,19 +29,9 @@
 #define HIJACK_SLEEPWAIT_SEC UINT_MAX
 #endif
 
-// file that bypasses all hijacking
-#ifndef HIJACK_BYPASS_FILE
-#define HIJACK_BYPASS_FILE "/data/.hijack_bypass"
-#endif
-
 // file that throws us into recovery mode
 #ifndef RECOVERY_MODE_FILE
 #define RECOVERY_MODE_FILE "/data/.recovery_mode"
-#endif
-
-// file that throws us into charging mode
-#ifndef CHARGING_MODE_FILE
-#define CHARGING_MODE_FILE "/data/.charging_mode"
 #endif
 
 // if we enable logging...
@@ -84,12 +74,9 @@
 #endif
 
 // function prototypes! :D
-int exec_and_sleepwait(char ** argp, unsigned int seconds);
-int exec_and_go(char ** argp);
 int exec_and_wait(char ** argp);
 int remount_root(const char * hijack_exec, int rw);
 int hijack_mount(const char * hijack_exec, const char * dev, const char * mount_point);
-int hijack_mount_ex(const char * hijack_exec, const char * type, const char * options, const char * dev, const char * mount_point);
 int hijack_umount(const char * hijack_exec, const char * mount_point);
 void hijacK_log(char * format, ...);
 int mark_file(char * filename);
