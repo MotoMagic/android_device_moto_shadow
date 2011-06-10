@@ -1,7 +1,10 @@
 on post-fs
 
     mount yaffs2 mtd@system /system ro remount
-    mount ext3 mmc@system /system ro noatime nodiratime remount
+    mount ext3 /dev/block/mmcblkp21 /system ro noatime nodiratime remount
+
+    mount yaffs2 mtd@cache /cache 
+    mount ext3 /dev/block/mmcblkp22 /cache nosuid nodev noatime nodiratime
 
     mount rootfs rootfs / rw remount
 
@@ -56,7 +59,7 @@ on post-fs
     # We chown/chmod /pds again so because mount is run as root + defaults
     mount yaffs2 mtd@pds /pds nosuid nodev no-checkpoint
     #exec /system/bin/logwrapper /system/bin/mount_ext3.sh pds /pds
-    mount ext3 mmc@pds /pds nosuid nodev noatime nodiratime
+    mount ext3 /dev/block/mmcblk1p7 /pds nosuid nodev noatime nodiratime
     chown system system /pds
     chmod 0775 /pds
     mkdir /pds/public 0775 system shell
@@ -66,7 +69,7 @@ on post-fs
 # Mount preinstall partition
     mkdir /preinstall 0771 system system
     #exec /system/bin/logwrapper /system/bin/mount_ext3.sh preinstall /preinstall
-    mount ext3 mmc@preinstall /preinstall nosuid nodev noatime nodiratime
+    mount ext3 /dev/block/mmcblk1p23 /preinstall nosuid nodev noatime nodiratime
     chmod 0771 /preinstall
     chown system system /preinstall
 
