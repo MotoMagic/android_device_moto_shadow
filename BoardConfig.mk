@@ -88,6 +88,7 @@ TARGET_PREBUILT_KERNEL := device/motorola/shadow/kernel
 TARGET_PREBUILT_RECOVERY_KERNEL := device/motorola/shadow/kernel
 
 HARDWARE_OMX := true
+BOARD_USES_GPSSHIM := true
 
 ifndef SHADOW_DEV_PHONE
 TARGET_PROVIDES_RELEASETOOLS := true
