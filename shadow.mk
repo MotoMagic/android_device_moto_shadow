@@ -131,6 +131,7 @@ PRODUCT_LOCALES += hdpi
 
 PRODUCT_COPY_FILES += \
     device/motorola/shadow/DroidXBootstrap.cfg:system/etc/DroidXBootstrap.cfg \
+    device/motorola/shadow/Droid2Bootstrap.cfg:system/etc/Droid2Bootstrap.cfg \
     device/motorola/shadow/vold.fstab:system/etc/vold.fstab \
     device/motorola/shadow/apns-conf.xml:system/etc/apns-conf.xml \
     device/motorola/shadow/mount_ext3.sh:system/bin/mount_ext3.sh
