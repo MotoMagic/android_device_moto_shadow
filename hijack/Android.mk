@@ -5,13 +5,6 @@ ifeq ($(TARGET_BOOTLOADER_BOARD_NAME),shadow)
 ifeq ($(BOARD_HIJACK_ENABLE),true)
 
 include $(CLEAR_VARS)
-LOCAL_SRC_FILES:= logwrapper.c
-LOCAL_MODULE := logwrapper.bin
-LOCAL_OVERRIDES_PACKAGES := logwrapper
-LOCAL_STATIC_LIBRARIES := liblog
-include $(BUILD_EXECUTABLE)
-
-include $(CLEAR_VARS)
 LOCAL_SRC_FILES := hijack.c
 LOCAL_MODULE := hijack
 LOCAL_MODULE_TAGS := eng
@@ -33,12 +26,17 @@ endif
 
 include $(BUILD_EXECUTABLE)
 
-ALL_PREBUILT += $(TARGET_OUT)/bin/logwrapper
-$(TARGET_OUT)/bin/logwrapper : $(TARGET_OUT)/bin/hijack
-	@echo "Symlink: $@ -> hijack"
+# this is kind of ugly, but whatever...
+ALL_PREBUILT += $(TARGET_OUT)/bin/logwrapper.bin
+$(TARGET_OUT)/bin/logwrapper.bin : \
+		$(TARGET_OUT)/bin/hijack \
+		$(TARGET_OUT)/bin/logwrapper
 	@mkdir -p $(dir $@)
 	@rm -rf $@
-	$(hide) ln -sf hijack $@
+	@echo "Move: logwrapper -> logwrapper.bin"
+	@mv $(TARGET_OUT)/bin/logwrapper $@
+	@echo "Symlink: logwrapper -> hijack"
+	$(hide) ln -sf hijack $(TARGET_OUT)/bin/logwrapper
 
 ifeq ($(BOARD_HIJACK_LOG_ENABLE),true)
 include $(CLEAR_VARS)
