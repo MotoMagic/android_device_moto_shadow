@@ -97,5 +97,5 @@ TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := device/motorola/shadow/releasetools
 TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := device/motorola/shadow/releasetools/shadow_img_from_target_files
 
 BOARD_HIJACK_ENABLE := true
-BOARD_HIJACK_LOG_ENABLE := true
+#BOARD_HIJACK_LOG_ENABLE := true
 endif

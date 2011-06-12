@@ -86,7 +86,7 @@
          Wifi interfaces.  If the device doesn't want to support tethering over Wifi this
          should be empty.  An example would be "softap.*" -->
     <string-array translatable="false" name="config_tether_wifi_regexs">
-        <!-- Disabling this for now <item>tiwlan\\d</item> -->
+        <item>tiwlan\\d</item>
     </string-array>
 
     <!-- Dhcp range (min, max) to use for tethering purposes -->
