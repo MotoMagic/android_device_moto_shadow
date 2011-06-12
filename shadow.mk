@@ -120,7 +120,6 @@ PRODUCT_PACKAGES += \
     sensors.shadow \
     lights.shadow \
     libaudiopolicy \
-    libaudio \
     Usb
 
 # we have enough storage space to hold precise GC data
