@@ -1,10 +1,10 @@
 on post-fs
 
     mount yaffs2 mtd@system /system ro remount
-    mount ext3 /dev/block/mmcblkp21 /system ro noatime nodiratime remount
+    mount ext3 /dev/block/mmcblk1p21 /system ro noatime nodiratime remount
 
     mount yaffs2 mtd@cache /cache 
-    mount ext3 /dev/block/mmcblkp22 /cache nosuid nodev noatime nodiratime
+    mount ext3 /dev/block/mmcblk1p22 /cache nosuid nodev noatime nodiratime
 
     mount rootfs rootfs / rw remount
 
