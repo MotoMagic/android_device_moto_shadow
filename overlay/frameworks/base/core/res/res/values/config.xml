@@ -338,4 +338,6 @@
     <!-- 2 means give warning -->
     <integer name="config_datause_notification_type">2</integer>
 
+    <string name="config_rebootCustomCommand">/system/bin/reboot_alt</string>
+
 </resources>
