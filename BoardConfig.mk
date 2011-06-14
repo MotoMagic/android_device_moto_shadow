@@ -98,4 +98,6 @@ TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := device/motorola/shadow/releasetools
 
 BOARD_HIJACK_ENABLE := true
 #BOARD_HIJACK_LOG_ENABLE := true
+
+TARGET_RECOVERY_PRE_COMMAND := "/system/bin/reboot_recovery_prepare"
 endif
