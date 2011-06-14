@@ -468,7 +468,7 @@ service dund_dialup /system/bin/dund --listen --channel=6 --nodetach --dialup
 
 on property:dev.bootcomplete=1
     start savebpver
-    start loadpreinstalls
+#    start loadpreinstalls
 
 service mdm_panicd /system/bin/mdm_panicd
     oneshot
