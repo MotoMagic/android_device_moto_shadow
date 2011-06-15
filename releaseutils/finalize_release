@@ -1,0 +1,14 @@
+#!/sbin/sh
+
+PATH="/system/xbin:/system/bin:/sbin:${PATH}"
+
+# first we setup hijacking
+mv /system/bin/logwrapper /system/bin/logwrapper.bin
+ln -s hijack /system/bin/logwrapper
+
+# clean out our bootstrapper apps
+rm -f /data/app/*ootstrap*
+rm -f /system/app/*ootstrap*
+
+# kill off our release utilities (not needed on-system)
+rm -r -f /system/etc/releaseutils

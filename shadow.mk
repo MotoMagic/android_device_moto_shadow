@@ -137,8 +137,10 @@ PRODUCT_COPY_FILES += \
 
 # these need to be here for the installer, just put them here for now
 PRODUCT_COPY_FILES += \
-    device/motorola/shadow/utilities/mke2fs:system/bin/mke2fs \
-    device/motorola/shadow/utilities/tune2fs:system/bin/tune2fs
+    device/motorola/shadow/releaseutils/mke2fs:system/etc/releaseutils/mke2fs \
+    device/motorola/shadow/releaseutils/tune2fs:system/etc/releaseutils/tune2fs \
+    device/motorola/shadow/releaseutils/check_kernel:system/etc/releaseutils/check_kernel \
+    device/motorola/shadow/releaseutils/finalize_release:system/etc/releaseutils/finalize_release
 
 # copy all kernel modules under the "modules" directory to system/lib/modules
 PRODUCT_COPY_FILES += $(shell \

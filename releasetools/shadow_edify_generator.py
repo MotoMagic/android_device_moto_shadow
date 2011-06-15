@@ -101,6 +101,11 @@ class EdifyGenerator(object):
            ");")
     self.script.append(self._WordWrap(cmd))
 
+  def AssertKernelVersion(self):
+    self.script.append('package_extract_file("system/etc/releaseutils/check_kernel", "/tmp/check_kernel");')
+    self.script.append('set_perm(0, 0, 0777, "/tmp/check_kernel");')
+    self.script.append('assert(run_program("/tmp/check_kernel"));');
+
   def RunBackup(self, command):
     self.script.append('package_extract_file("system/bin/backuptool.sh", "/tmp/backuptool.sh");')
     self.script.append('set_perm(0, 0, 0777, "/tmp/backuptool.sh");')
@@ -118,9 +123,9 @@ class EdifyGenerator(object):
 
   def RunFormatAndTuneSystem(self):
     mount_point = "/system"
-    self.script.append('package_extract_file("system/bin/mke2fs", "/tmp/mke2fs");')
+    self.script.append('package_extract_file("system/etc/releaseutils/mke2fs", "/tmp/mke2fs");')
     self.script.append('set_perm(0, 0, 0777, "/tmp/mke2fs");')
-    self.script.append('package_extract_file("system/bin/tune2fs", "/tmp/tune2fs");')
+    self.script.append('package_extract_file("system/etc/releaseutils/tune2fs", "/tmp/tune2fs");')
     self.script.append('set_perm(0, 0, 0777, "/tmp/tune2fs");')
     self.script.append('unmount("%s");' % (mount_point))
     fstab = self.info.get("fstab", None)
@@ -139,6 +144,11 @@ class EdifyGenerator(object):
       self.script.append('run_program("/tmp/tune2fs", "-c", "0", "-i", "0", "%s");' %
                          (what))
       self.mounts.add(mount_point)
+
+  def RunFinalReleaseUtils(self):
+    self.script.append('package_extract_file("system/etc/releaseutils/finalize_release", "/tmp/finalize_release");')
+    self.script.append('set_perm(0, 0, 0777, "/tmp/finalize_release");')
+    self.script.append('run_program("/tmp/finalize_release");')
 
   def ShowProgress(self, frac, dur):
     """Update the progress bar, advancing it over 'frac' over the next
