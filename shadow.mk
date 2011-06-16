@@ -116,7 +116,6 @@ PRODUCT_PACKAGES += \
     libOMX.TI.Video.Decoder \
     libOMX.TI.Video.encoder \
     libVendor_ti_omx \
-    gps.shadow \
     sensors.shadow \
     lights.shadow \
     libaudiopolicy \

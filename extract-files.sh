@@ -119,7 +119,7 @@ adb pull /system/lib/egl/libGLESv2_POWERVR_SGX530_125.so ../../../vendor/motorol
 adb pull /system/lib/egl/libeglinfo.so ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/lib/egl/libgles1_texture_stream.so ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/lib/egl/libgles2_texture_stream.so ../../../vendor/motorola/$DEVICE/proprietary
-adb pull /system/lib/hw/gestures.shadow.so ../../../vendor/motorola/$DEVICE/proprietary
+adb pull /system/lib/hw/gps.shadow.so ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/lib/hw/gralloc.omap3.so ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/lib/libFMRadio.so ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/lib/libHPImgApi.so ../../../vendor/motorola/$DEVICE/proprietary
@@ -227,7 +227,6 @@ adb pull /system/lib/libcamera.so ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/lib/libnmea.so ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/lib/libril_rds.so ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/lib/librds_util.so ../../../vendor/motorola/$DEVICE/proprietary
-adb pull /system/lib/libgps_rds.so ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/lib/libsmiledetect.so ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/lib/libarcsoft.so ../../../vendor/motorola/$DEVICE/proprietary
 
@@ -253,7 +252,6 @@ PRODUCT_COPY_FILES := \\
     vendor/motorola/__DEVICE__/proprietary/libarcsoft.so:obj/lib/libarcsoft.so \\
     vendor/motorola/__DEVICE__/proprietary/libaudio.so:obj/lib/libaudio.so \\
     vendor/motorola/__DEVICE__/proprietary/libcamera.so:obj/lib/libcamera.so \\
-    vendor/motorola/__DEVICE__/proprietary/libgps_rds.so:obj/lib/libgps_rds.so \\
     vendor/motorola/__DEVICE__/proprietary/libnmea.so:obj/lib/libnmea.so \\
     vendor/motorola/__DEVICE__/proprietary/libril_rds.so:obj/lib/libril_rds.so \\
     vendor/motorola/__DEVICE__/proprietary/librds_util.so:obj/lib/librds_util.so \\
@@ -366,7 +364,7 @@ PRODUCT_COPY_FILES += \\
     vendor/motorola/__DEVICE__/proprietary/libeglinfo.so:/system/lib/egl/libeglinfo.so \\
     vendor/motorola/__DEVICE__/proprietary/libgles1_texture_stream.so:/system/lib/egl/libgles1_texture_stream.so \\
     vendor/motorola/__DEVICE__/proprietary/libgles2_texture_stream.so:/system/lib/egl/libgles2_texture_stream.so \\
-    vendor/motorola/__DEVICE__/proprietary/gestures.shadow.so:/system/lib/hw/gestures.shadow.so \\
+    vendor/motorola/__DEVICE__/proprietary/gps.shadow.so:/system/lib/hw/gps.shadow.so \\
     vendor/motorola/__DEVICE__/proprietary/gralloc.omap3.so:/system/lib/hw/gralloc.omap3.so \\
     vendor/motorola/__DEVICE__/proprietary/libFMRadio.so:/system/lib/libFMRadio.so \\
     vendor/motorola/__DEVICE__/proprietary/libHPImgApi.so:/system/lib/libHPImgApi.so \\
@@ -474,7 +472,6 @@ PRODUCT_COPY_FILES += \\
     vendor/motorola/__DEVICE__/proprietary/libnmea.so:/system/lib/libnmea.so \\
     vendor/motorola/__DEVICE__/proprietary/libril_rds.so:/system/lib/libril_rds.so \\
     vendor/motorola/__DEVICE__/proprietary/librds_util.so:/system/lib/librds_util.so \\
-    vendor/motorola/__DEVICE__/proprietary/libgps_rds.so:/system/lib/libgps_rds.so \\
     vendor/motorola/__DEVICE__/proprietary/libsmiledetect.so:/system/lib/libsmiledetect.so \\
     vendor/motorola/__DEVICE__/proprietary/libarcsoft.so:/system/lib/libarcsoft.so
 
