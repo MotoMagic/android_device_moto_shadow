@@ -77,8 +77,6 @@ BOARD_SYSTEMIMAGE_PARTITION_SIZE := 0x0bdfffff   # limited so we enforce room to
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 0x105c0000
 BOARD_FLASH_BLOCK_SIZE := 131072
 
-BOARD_HAS_SMALL_RECOVERY := true
-
 #TARGET_RECOVERY_UI_LIB := librecovery_ui_shadow librecovery_ui_generic
 
 #TARGET_RECOVERY_UPDATER_LIBS += librecovery_updater_generic
@@ -103,3 +101,4 @@ TARGET_RECOVERY_PRE_COMMAND_CLEAR_REASON := true
 endif
 
 BOARD_ALWAYS_INSECURE := true
+BOARD_HAS_LARGE_FILESYSTEM := true
