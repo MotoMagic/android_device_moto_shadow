@@ -8,5 +8,4 @@
 #/preinstall	ext3		/dev/block/mmcblk1p23
 /data		ext3		/dev/block/mmcblk1p24
 /pds		ext3		/dev/block/mmcblk1p7
-/recovery	mtd		recovery
 /sdcard		vfat		/dev/block/mmcblk0p1	/dev/block/mmcblk0
