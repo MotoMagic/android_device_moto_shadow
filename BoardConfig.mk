@@ -101,3 +101,5 @@ BOARD_HIJACK_ENABLE := true
 TARGET_RECOVERY_PRE_COMMAND := "echo 1 > /data/.recovery_mode; sync;"
 TARGET_RECOVERY_PRE_COMMAND_CLEAR_REASON := true
 endif
+
+BOARD_ALWAYS_INSECURE := true
