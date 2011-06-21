@@ -15,23 +15,23 @@
 #
 
 #
-# This is the product configuration for a generic GSM passion,
+# This is the product configuration for a generic CDMA shadow,
 # not specialized for any geography.
 #
 
 # The gps config appropriate for this device
 $(call inherit-product, device/common/gps/gps_us_supl.mk)
 
-## (1) First, the most specific values, i.e. the aspects that are specific to GSM
+## (1) First, the most specific values, i.e. the aspects that are specific to CDMA
 
 PRODUCT_COPY_FILES += \
     device/motorola/shadow/init.mapphone_cdma.rc:root/init.mapphone_cdma.rc \
     device/motorola/shadow/ueventd.mapphone_cdma.rc:root/ueventd.mapphone_cdma.rc
 
-## (2) Also get non-open-source GSM-specific aspects if available
+## (2) Also get non-open-source CDMA-specific aspects if available
 $(call inherit-product-if-exists, vendor/motorola/shadow/shadow-vendor.mk)
 
-## (3)  Finally, the least specific parts, i.e. the non-GSM-specific aspects
+## (3)  Finally, the least specific parts, i.e. the non-CDMA-specific aspects
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.kernel.android.ril=yes \
     persist.ril.mux.noofchannels=7 \
@@ -80,10 +80,12 @@ PRODUCT_PROPERTY_OVERRIDES += \
 #    debug.mot.extwmlog=1 \
 #    debug.mot.extamlog=1 \
 
+DEVICE_PACKAGE_OVERLAYS += device/motorola/shadow/overlay
+
 PRODUCT_COPY_FILES += \
     frameworks/base/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
     frameworks/base/data/etc/android.hardware.camera.flash-autofocus.xml:system/etc/permissions/android.hardware.camera.flash-autofocus.xml \
-    frameworks/base/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml \
+    frameworks/base/data/etc/android.hardware.telephony.cdma.xml:system/etc/permissions/android.hardware.telephony.cdma.xml \
     frameworks/base/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
     frameworks/base/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
     frameworks/base/data/etc/android.hardware.sensor.proximity.xml:system/etc/permissions/android.hardware.sensor.proximity.xml \
@@ -124,7 +126,7 @@ PRODUCT_PACKAGES += \
 # we have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
 
-# Passion uses high-density artwork where available
+# shadow uses high-density artwork where available
 PRODUCT_LOCALES += hdpi
 
 PRODUCT_COPY_FILES += \
