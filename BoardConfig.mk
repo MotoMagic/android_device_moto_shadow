@@ -33,6 +33,9 @@ USE_CAMERA_STUB := false
 BOARD_USE_USB_MASS_STORAGE_SWITCH := true
 BOARD_USE_FROYO_LIBCAMERA := true
 
+# use charge_counter for battery
+BOARD_USE_BATTERY_CHARGE_COUNTER := true
+
 TARGET_BOARD_PLATFORM := omap3
 
 TARGET_CPU_ABI := armeabi-v7a
