@@ -6,6 +6,10 @@ rild.libpath=/system/lib/libmoto_ril.so
 rild.libargs=-d /dev/ttyS0
 ro.sf.lcd_density=240
 ro.default_usb_mode=2
+
+#Use 1% battery increments
+ro.product.use_charge_counter=1
+
 # BEGIN Motorola, a18772, 05/19/2010, IKSHADOW-5584
 # Add 411 to DAN List for VZW.
 ro.mot.ril.danlist=611,*611,#611,411
