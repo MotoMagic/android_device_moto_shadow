@@ -98,6 +98,9 @@ TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := device/motorola/shadow/releasetools
 
 #BOARD_HIJACK_LOG_ENABLE := true
 
+# shadow requires the common boot hijack
+TARGET_NEEDS_MOTOROLA_HIJACK := true
+
 TARGET_RECOVERY_PRE_COMMAND := "echo 1 > /data/.recovery_mode; sync;"
 TARGET_RECOVERY_PRE_COMMAND_CLEAR_REASON := true
 endif
