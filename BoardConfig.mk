@@ -104,3 +104,4 @@ endif
 
 BOARD_ALWAYS_INSECURE := true
 BOARD_HAS_LARGE_FILESYSTEM := true
+BOARD_MKE2FS := device/motorola/shadow/mke2fs
