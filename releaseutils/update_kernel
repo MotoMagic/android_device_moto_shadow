@@ -1,0 +1,21 @@
+#!/sbin/sh
+
+F_KERNEL_VER="Linux localhost 2.6.32.9-g55626e1 #1 PREEMPT Sun Nov 7 23:24:32 CST 2010 armv7l GNU/Linux"
+
+UPDATE_BINARY="/tmp/gb_kern-update-binary"
+UPDATE_ZIP="/tmp/gb_kern-update.zip"
+
+RECOVERY_API_VERSION="2"
+
+DET_KERNEL_VER="$(uname -a)"
+
+if [ "${DET_KERNEL_VER}" == "${F_KERNEL_VER}" ] ; then
+    if [ -x "${UPDATE_BINARY}" ] ; then
+        "${UPDATE_BINARY}" "${RECOVERY_API_VERSION}" 0 "${UPDATE_ZIP}"
+        exit 0
+    else
+        exit 1
+    fi
+else
+    exit 0
+fi

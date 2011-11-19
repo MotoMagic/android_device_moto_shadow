@@ -145,6 +145,15 @@ class EdifyGenerator(object):
                          (what))
       self.mounts.add(mount_point)
 
+  def RunUpdateKernel(self):
+    self.script.append('package_extract_file("system/etc/releaseutils/gb_kern-update-binary", "/tmp/gb_kern-update-binary");')
+    self.script.append('set_perm(0, 0, 0777, "/tmp/gb_kern-update-binary");')
+    self.script.append('package_extract_file("system/etc/releaseutils/gb_kern-update.zip", "/tmp/gb_kern-update.zip");')
+    self.script.append('set_perm(0, 0, 0666, "/tmp/gb_kern-update.zip");')
+    self.script.append('package_extract_file("system/etc/releaseutils/update_kernel", "/tmp/update_kernel");')
+    self.script.append('set_perm(0, 0, 0777, "/tmp/update_kernel");')
+    self.script.append('assert(run_program("/tmp/update_kernel") == 0);');
+
   def RunFinalReleaseUtils(self):
     self.script.append('package_extract_file("system/etc/releaseutils/finalize_release", "/tmp/finalize_release");')
     self.script.append('set_perm(0, 0, 0777, "/tmp/finalize_release");')

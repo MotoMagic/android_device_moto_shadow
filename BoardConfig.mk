@@ -76,7 +76,7 @@ BOARD_EGL_CFG := device/motorola/shadow/egl.cfg
 
 BOARD_BOOTIMAGE_PARTITION_SIZE := 0x003fffff
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 0x004fffff
-BOARD_SYSTEMIMAGE_PARTITION_SIZE := 0x0bdfffff   # limited so we enforce room to grow
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 0x0cdfffff   # limited so we enforce room to grow
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 0x105c0000
 BOARD_FLASH_BLOCK_SIZE := 131072
 

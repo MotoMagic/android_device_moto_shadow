@@ -209,7 +209,7 @@ on boot
     chmod 0660 /sys/class/leds/torch-flash/flash_light
     chown system system /sys/class/leds/torch-flash/camera_strobe
     chown system system /sys/class/leds/torch-flash/flash_light
-    chown system system /sys/class/leds/spotlight/brightness
+    chown system camera /sys/class/leds/spotlight/brightness
     chmod 0660 /sys/class/backlight/adp8870_bl/brightness
     chown system system /sys/class/backlight/adp8870_bl/brightness
     chmod 0660 /sys/class/leds/adp8870-led7/brightness

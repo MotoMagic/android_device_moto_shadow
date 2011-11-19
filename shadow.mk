@@ -45,7 +45,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.product.max_num_touch=2 \
     ro.telephony.sms_segment_size=160 \
     ro.setupwizard.mode=OPTIONAL \
-    ro.com.google.gmsversion=2.2_r7 \
+    ro.com.google.gmsversion=2.3_r3 \
     ro.telephony.call_ring.multiple=false \
     ro.telephony.call_ring.delay=1000 \
     ro.url.safetylegal=http://www.motorola.com/staticfiles/Support/legal/?model=A855 \
@@ -73,9 +73,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.media.camera.distortion=0.0,0.0,0.0,0.0,0.0 \
     ro.media.camera.calresolution=3264,2448 \
     ro.mot.hw.uaprof=http://uaprof.motorola.com/phoneconfig/MotoMB200/profile/MotoMB200.rdf \
-    ro.build.version.full=Blur_Version.2.3.340.MB810.Verizon.en.US \
-    ro.build.config.version=GAS_NA_GCXSHAD00VZW_P022 \
-    ro.build.config.date=Sun_Nov_07_23:40:30_-0600_2010
+    ro.build.version.full=Blur_Version.4.5.602.MB810.Verizon.en.US
 #############################################################
 #    debug.mot.extwmlog=1 \
 #    debug.mot.extamlog=1 \
@@ -137,11 +135,14 @@ PRODUCT_COPY_FILES += \
     device/motorola/shadow/mount_ext3.sh:system/bin/mount_ext3.sh
 
 # these need to be here for the installer, just put them here for now
-PRODUCT_COPY_FILES += \
-    device/motorola/shadow/releaseutils/mke2fs:system/etc/releaseutils/mke2fs \
-    device/motorola/shadow/releaseutils/tune2fs:system/etc/releaseutils/tune2fs \
-    device/motorola/shadow/releaseutils/check_kernel:system/etc/releaseutils/check_kernel \
-    device/motorola/shadow/releaseutils/finalize_release:system/etc/releaseutils/finalize_release
+PRODUCT_PACKAGES += \
+    shadow_releaseutils-check_kernel \
+    shadow_releaseutils-finalize_release \
+    shadow_releaseutils-gb_kern-update-binary \
+    shadow_releaseutils-gb_kern-update.zip \
+    shadow_releaseutils-mke2fs \
+    shadow_releaseutils-tune2fs \
+    shadow_releaseutils-update_kernel
 
 # copy all kernel modules under the "modules" directory to system/lib/modules
 PRODUCT_COPY_FILES += $(shell \

@@ -26,7 +26,8 @@
 /dev/android_adb_enable   0660   adb        adb
 /dev/ttyGS0               0660   root       system
 /dev/ttyMSM0              0600   bluetooth  bluetooth
-/dev/ttyHS0               0660   mot_whisper mot_whisper
+/dev/ttyHS0               0660   system     system
+/dev/hidraw*              0660   root       system
 /dev/uinput               0660   system     bluetooth
 /dev/alarm                0664   system     radio
 /dev/tty0                 0660   root       system
@@ -194,3 +195,5 @@
 /sys/devices/virtual/input/input*   enable      0660  root   input
 /sys/devices/virtual/input/input*   poll_delay  0660  root   input
 
+# Motorola CedarPoint Baseband Logger
+/dev/bus/usb/002/123      0660   root       radio
