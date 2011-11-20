@@ -21,11 +21,12 @@
 LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
-
-file := $(TARGET_RECOVERY_ROOT_OUT)/sbin/postrecoveryboot.sh
-ALL_PREBUILT += $(file)
-$(file) : $(LOCAL_PATH)/postrecoveryboot.sh | $(ACP)
-	$(transform-prebuilt-to-target)
+LOCAL_MODULE := postrecoveryboot.sh
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_CLASS := EXECUTABLES
+LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/sbin
+LOCAL_SRC_FILES := postrecoveryboot.sh
+include $(BUILD_PREBUILT)
 
 # include the non-open-source counterpart to this file
 -include vendor/motorola/shadow/AndroidBoardVendor.mk

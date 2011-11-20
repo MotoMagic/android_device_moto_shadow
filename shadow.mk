@@ -119,7 +119,8 @@ PRODUCT_PACKAGES += \
     sensors.shadow \
     lights.shadow \
     libaudiopolicy \
-    Usb
+    Usb \
+    postrecoveryboot.sh
 
 # we have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
