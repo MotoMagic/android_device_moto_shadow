@@ -118,7 +118,7 @@ PRODUCT_PACKAGES += \
     libVendor_ti_omx \
     sensors.shadow \
     lights.shadow \
-    libaudiopolicy \
+    audio.primary.shadow \
     Usb \
     postrecoveryboot.sh
 
