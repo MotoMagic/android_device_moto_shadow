@@ -5,7 +5,8 @@
 rild.libpath=/system/lib/libmoto_ril.so
 rild.libargs=-d /dev/ttyS0
 ro.sf.lcd_density=240
-ro.default_usb_mode=2
+ro.default_usb_mode=4
+ro.usb.use_custom_service=1
 
 #Use 1% battery increments
 ro.product.use_charge_counter=1

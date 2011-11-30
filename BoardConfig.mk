@@ -74,6 +74,7 @@ BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_BCM := true
 
 BOARD_EGL_CFG := device/motorola/shadow/egl.cfg
+BOARD_USE_LEGACY_TOUCHSCREEN := true
 
 BOARD_BOOTIMAGE_PARTITION_SIZE := 0x003fffff
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 0x004fffff
@@ -95,7 +96,7 @@ HARDWARE_OMX := true
 ifndef SHADOW_DEV_PHONE
 TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := device/motorola/shadow/releasetools/shadow_ota_from_target_files
 
-#BOARD_HIJACK_LOG_ENABLE := true
+BOARD_HIJACK_LOG_ENABLE := true
 
 # shadow requires the common boot hijack
 TARGET_NEEDS_MOTOROLA_HIJACK := true
