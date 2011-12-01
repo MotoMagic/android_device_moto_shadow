@@ -96,7 +96,7 @@ HARDWARE_OMX := true
 ifndef SHADOW_DEV_PHONE
 TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := device/motorola/shadow/releasetools/shadow_ota_from_target_files
 
-BOARD_HIJACK_LOG_ENABLE := true
+#BOARD_HIJACK_LOG_ENABLE := true
 
 # shadow requires the common boot hijack
 TARGET_NEEDS_MOTOROLA_HIJACK := true
