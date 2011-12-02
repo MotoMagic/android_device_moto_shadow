@@ -43,6 +43,8 @@ TARGET_CPU_ABI2 := armeabi
 TARGET_ARCH_VARIANT := armv7-a-neon
 TARGET_GLOBAL_CFLAGS += -mtune=cortex-a8
 TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a8
+TARGET_ARCH_VARIANT_CPU := cortex-a8
+TARGET_ARCH_VARIENT_FPU := neon
 
 # this is so that we build the Shadow-specific hardware shit
 BOARD_GLOBAL_CFLAGS += -DSHADOW_HARDWARE
@@ -67,7 +69,7 @@ WIFI_DRIVER_FW_AP_PATH      := "/system/etc/wifi/fw_tiwlan_ap.bin"
 BOARD_USES_GENERIC_AUDIO := false
 BOARD_USES_AUDIO_LEGACY := true
 
-BOARD_KERNEL_CMDLINE := console=ttyS2,115200n8 rw mem=498M@0x80C00000 init=/init ip=off motobldlabel=none mmcparts=mmcblk1:p1(mbmloader),p2(mbm),p3(mbmbackup),p4(ebr),p5(bploader),p6(cdt.bin),p7(pds),p8(lbl),p9(lbl_backup),p10(logo.bin),p11(sp),p12(devtree),p13(devtree_backup),p14(bpsw),p15(boot),p16(recovery),p17(cdrom),p18(misc),p19(cid),p20(kpanic),p21(system),p22(cache),p23(preinstall),p24(userdata)
+BOARD_KERNEL_CMDLINE := console=ttyS2,115200n8 rw mem=498M@0x80C00000 vram=20M omapgpu.vram=0:4M,1:16M,2:16MT init=/init ip=off motobldlabel=none mmcparts=mmcblk1:p1(mbmloader),p2(mbm),p3(mbmbackup),p4(ebr),p5(bploader),p6(cdt.bin),p7(pds),p8(lbl),p9(lbl_backup),p10(logo.bin),p11(sp),p12(devtree),p13(devtree_backup),p14(bpsw),p15(boot),p16(recovery),p17(cdrom),p18(misc),p19(cid),p20(kpanic),p21(system),p22(cache),p23(preinstall),p24(userdata)
 BOARD_KERNEL_BASE := 0x10000000
 
 BOARD_HAVE_BLUETOOTH := true
@@ -91,7 +93,20 @@ TARGET_PREBUILT_KERNEL := device/motorola/shadow/kernel
 #TARGET_NO_RECOVERY := true
 TARGET_PREBUILT_RECOVERY_KERNEL := device/motorola/shadow/kernel
 
+# OMX
 HARDWARE_OMX := true
+ifdef HARDWARE_OMX
+OMX_VENDOR := ti
+OMX_VENDOR_WRAPPER := TI_OMX_Wrapper
+BOARD_OPENCORE_LIBRARIES := libOMX_Core
+BOARD_OPENCORE_FLAGS := -DHARDWARE_OMX=1
+endif
+
+# OMAP
+OMAP_ENHANCEMENT := true
+ifdef OMAP_ENHANCEMENT
+COMMON_GLOBAL_CFLAGS += -DOMAP_ENHANCEMENT -DTARGET_OMAP4
+endif
 
 ifndef SHADOW_DEV_PHONE
 TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := device/motorola/shadow/releasetools/shadow_ota_from_target_files

@@ -22,7 +22,7 @@
                          AudioDecoderCap)>
 <!ELEMENT CamcorderProfiles (EncoderProfile+, ImageEncoding+, ImageDecoding, Camera)>
 <!ELEMENT EncoderProfile (Video, Audio)>
-<!ATTLIST EncoderProfile quality (high|low) #REQUIRED>
+<!ATTLIST EncoderProfile quality (high|mid|low) #REQUIRED>
 <!ATTLIST EncoderProfile fileFormat (mp4|3gp) #REQUIRED>
 <!ATTLIST EncoderProfile duration (30|60) #REQUIRED>
 <!ELEMENT Video EMPTY>
@@ -78,8 +78,19 @@
 <MediaSettings>
     <!-- Each camcorder profile defines a set of predefined configuration parameters -->
     <CamcorderProfiles>
+       <!--  <EncoderProfile quality="hd" fileFormat="mp4" duration="60">
+            <Video codec="m4v"
+                   bitRate="10000000"
+                   width="1280"
+                   height="720"
+                   frameRate="30" />
 
-        <EncoderProfile quality="high" fileFormat="mp4" duration="60">
+            <Audio codec="aac"
+                   bitRate="96000"
+                   sampleRate="44100"
+                   channels="1" />
+        </EncoderProfile>  -->
+        <EncoderProfile quality="high" fileFormat="3gp" duration="30">
             <Video codec="m4v"
                    bitRate="10000000"
                    width="1280"
@@ -92,7 +103,7 @@
                    channels="2" />
         </EncoderProfile>
 
-        <EncoderProfile quality="low" fileFormat="mp4" duration="30">
+        <EncoderProfile quality="low" fileFormat="3gp" duration="30">
             <Video codec="m4v"
                    bitRate="200000"
                    width="320"
@@ -152,6 +163,11 @@
         minSampleRate="8000" maxSampleRate="8000"
         minChannels="1" maxChannels="1" />
 
+    <AudioEncoderCap name="amrwb" enabled="true"
+        minBitRate="6600" maxBitRate="23850"
+        minSampleRate="16000" maxSampleRate="16000"
+        minChannels="1" maxChannels="1" />
+
     <!--
         FIXME:
         We do not check decoder capabilities at present
@@ -161,4 +177,5 @@
     -->
     <VideoDecoderCap name="wmv" enabled="true"/>
     <AudioDecoderCap name="wma" enabled="true"/>
+
 </MediaSettings>

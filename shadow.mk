@@ -24,6 +24,9 @@ $(call inherit-product, device/common/gps/gps_us_supl.mk)
 
 ## (1) First, the most specific values, i.e. the aspects that are specific to CDMA
 
+PRODUCT_AAPT_CONFIG := normal hdpi
+PRODUCT_AAPT_PREF_CONFIG := hdpi
+
 PRODUCT_COPY_FILES += \
     device/motorola/shadow/init.mapphone_cdma.rc:root/init.mapphone_cdma.rc \
     device/motorola/shadow/ueventd.mapphone_cdma.rc:root/ueventd.mapphone_cdma.rc
@@ -61,6 +64,12 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.cdma.homesystem=64,65,76,77,78,79,80,81,82,83 \
     ro.cdma.data_retry_config=default_randomization=2000,0,0,120000,180000,540000,960000 \
     ro.com.motorola.smartsensor=true \
+    ro.media.camcorder.720p=3gp,m4v,30,10000000,aac,96000,44100,2 \
+    ro.media.camcorder.d1NTSC=3gp,h264,30,6000000,aac,96000,44100,2 \
+    ro.media.camcorder.vga=3gp,h264,30,4000000,aac,96000,44100,2 \
+    ro.media.camcorder.cif=3gp,h264,30,1500000,aac,96000,44100,2 \
+    ro.media.camcorder.qvga=3gp,h264,15,500000,aac,32000,16000,2 \
+    ro.media.camcorder.mms=3gp,h264,15,128000,amrnb,12200,8000,1 \
     ro.media.capture.maxres=8m \
     ro.media.capture.fast.fps=4 \
     ro.media.capture.slow.fps=60 \
@@ -72,6 +81,12 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.media.camera.skew=0.0 \
     ro.media.camera.distortion=0.0,0.0,0.0,0.0,0.0 \
     ro.media.camera.calresolution=3264,2448 \
+    ro.media.capture.shuttertone=1 \
+    ro.media.capture.torchIntensity=50 \
+    ro.media.sensor.orient=90 \
+    ro.media.panorama.defres=2048x1536 \
+    ro.media.panorama.frameres=1280x720 \
+    ro.media.capture.prevfps=28 \
     ro.mot.hw.uaprof=http://uaprof.motorola.com/phoneconfig/MotoMB200/profile/MotoMB200.rdf \
     ro.build.version.full=Blur_Version.4.5.602.MB810.Verizon.en.US
 #############################################################
@@ -93,7 +108,9 @@ PRODUCT_COPY_FILES += \
 
 # media config xml file
 PRODUCT_COPY_FILES += \
-    device/motorola/shadow/media_profiles.xml:system/etc/media_profiles.xml
+    device/motorola/shadow/media_profiles.xml:system/etc/media_profiles.xml \
+    device/motorola/shadow/01_Vendor_ti_omx.cfg:system/etc/01_Vendor_ti_omx.cfg
+
 
 PRODUCT_PACKAGES += \
     librs_jni \
@@ -126,7 +143,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_TAGS += dalvik.gc.type-precise
 
 # shadow uses high-density artwork where available
-PRODUCT_LOCALES += hdpi
+PRODUCT_LOCALES += en
 
 PRODUCT_COPY_FILES += \
     device/motorola/shadow/DroidXBootstrap.cfg:system/etc/DroidXBootstrap.cfg \
