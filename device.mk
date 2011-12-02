@@ -183,7 +183,3 @@ $(call inherit-product-if-exists, vendor/motorola/shadow/shadow-vendor.mk)
 $(call inherit-product, device/motorola/common/common_hijack.mk)
 
 $(call inherit-product, build/target/product/full_base.mk)
-
-
-PRODUCT_NAME := generic_shadow
-PRODUCT_DEVICE := shadow
