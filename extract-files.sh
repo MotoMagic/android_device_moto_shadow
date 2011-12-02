@@ -17,7 +17,6 @@
 DEVICE=shadow
 
 mkdir -p ../../../vendor/motorola/$DEVICE/proprietary
-mkdir -p ../../../vendor/motorola/$DEVICE/proprietary/app
 mkdir -p ../../../vendor/motorola/$DEVICE/proprietary/bin
 mkdir -p ../../../vendor/motorola/$DEVICE/proprietary/etc
 mkdir -p ../../../vendor/motorola/$DEVICE/proprietary/etc/firmware
