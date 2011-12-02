@@ -24,7 +24,7 @@ $(call inherit-product, device/common/gps/gps_us_supl.mk)
 
 ## (1) First, the most specific values, i.e. the aspects that are specific to CDMA
 
-PRODUCT_AAPT_CONFIG := normal hdpi
+PRODUCT_AAPT_CONFIG := normal hdpi xhdpi
 PRODUCT_AAPT_PREF_CONFIG := hdpi
 
 PRODUCT_COPY_FILES += \
@@ -141,9 +141,6 @@ PRODUCT_PACKAGES += \
 
 # we have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
-
-# shadow uses high-density artwork where available
-PRODUCT_LOCALES += en
 
 PRODUCT_COPY_FILES += \
     device/motorola/shadow/DroidXBootstrap.cfg:system/etc/DroidXBootstrap.cfg \
