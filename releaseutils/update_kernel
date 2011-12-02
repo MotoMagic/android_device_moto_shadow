@@ -11,7 +11,7 @@ DET_KERNEL_VER="$(uname -a)"
 
 if [ "${DET_KERNEL_VER}" == "${F_KERNEL_VER}" ] ; then
     if [ -x "${UPDATE_BINARY}" ] ; then
-        "${UPDATE_BINARY}" "${RECOVERY_API_VERSION}" 0 "${UPDATE_ZIP}" > /tmp/update_kernel.log
+        "${UPDATE_BINARY}" "${RECOVERY_API_VERSION}" 0 "${UPDATE_ZIP}" > /cache/update_kernel.log
         exit 0
     else
         exit 1
